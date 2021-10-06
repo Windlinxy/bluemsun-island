@@ -1,5 +1,7 @@
 package com.bluemsun.island.entity;
 
+import java.util.Date;
+
 /**
  * @program: BulemsunIsland
  * @description: 普通用户类
@@ -7,13 +9,18 @@ package com.bluemsun.island.entity;
  * @create: 2021-10-06 11:18
  **/
 public class User {
-    private long id;
+    //id
+    private int id;
     private String username;
     private String password;
     private String phoneNumber;
     private byte sex;
+    /**
+     * 0 1 -1
+     */
     private byte identifyId;
-
+    private String signature;
+    private Date birthday;
     public User() {
     }
 
@@ -23,12 +30,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(int id) {
+        this.id =  id;
     }
 
     public String getUsername() {
