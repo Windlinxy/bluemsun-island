@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="default">
+    <select id="findAll" resultType="User">
+        SELECT *
+        FROM tb_user;
+    </select>
+
+    <insert id="insert" parameterType="User">
+        INSERT INTO tb_user
+            (username,password,phone_number,sex,`identify`)
+        VALUES (#{username},#{password},#{phoneNumber},#{sex},#{identify});
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM tb_user
+        WHERE user_id = #{userID};
+    </delete>
+</mapper>
