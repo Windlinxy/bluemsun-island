@@ -21,6 +21,23 @@ public class User {
     private byte identifyId;
     private String signature;
     private Date birthday;
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     public User() {
     }
 
