@@ -6,12 +6,12 @@
 
     <context:property-placeholder location="/jdbc-druid-config.properties"/>
 
-
-
     <!-- 数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <!-- 基本属性 url、user、password -->
+        <!--驱动可以不写，druid会根据url自动找到-->
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
+
+        <!-- 基本属性 url、user、password -->
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
@@ -42,14 +42,6 @@
         <!-- 配置监控统计拦截的filters -->
         <property name="filters" value="${druid.filters}"/>
 
-        <!--Start 慢sql监控及log4j设置-->
-        <property name="proxyFilters">
-            <list>
-                <ref bean="stat-filter"/>
-                <ref bean="log-filter"/>
-            </list>
-        </property>
-        <!--End 慢sql监控及log4j设置,不想监控的话将proxyFilters属性删除即可 -->
     </bean>
     <!--  mybatis核心配置  -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -57,16 +49,4 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- 慢SQL记录 -->
-    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-        <property name="mergeSql" value="true"/>
-        <!-- 慢sql时间设置,即执行时间大于200毫秒的都是慢sql -->
-        <property name="slowSqlMillis" value="200"/>
-        <property name="logSlowSql" value="true"/>
-    </bean>
-
-    <bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4jFilter">
-        <property name="dataSourceLogEnabled" value="true" />
-        <property name="statementExecutableSqlLogEnable" value="true" />
-    </bean>
 </beans>
