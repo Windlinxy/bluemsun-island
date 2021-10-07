@@ -15,12 +15,18 @@ public class User {
     private String password;
     private String phoneNumber;
     private byte sex;
-    /**
-     * 0 1 -1
-     */
     private byte identifyId;
     private String signature;
     private Date birthday;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getSignature() {
         return signature;
