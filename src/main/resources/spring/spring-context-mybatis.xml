@@ -3,7 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
     <context:property-placeholder location="/jdbc-druid-config.properties"/>
 
     <!-- 数据源 -->
@@ -38,15 +37,17 @@
         <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}"/>
         <property name="maxPoolPreparedStatementPerConnectionSize"
                   value="${druid.maxPoolPreparedStatementPerConnectionSize}"/>
-
-        <!-- 配置监控统计拦截的filters -->
-        <property name="filters" value="${druid.filters}"/>
-
     </bean>
+
     <!--  mybatis核心配置  -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--数据库连接池-->
         <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="mapper/*"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.bluemsun.island.dao" />
     </bean>
 
 </beans>

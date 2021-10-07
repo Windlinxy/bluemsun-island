@@ -1,5 +1,6 @@
 package com.bluemsun.island.service.impl;
 
+import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.UserService;
 
 /**
@@ -9,5 +10,8 @@ import com.bluemsun.island.service.UserService;
  * @create: 2021-10-05 11:32
  **/
 public class UserServiceImpl implements UserService {
-
+    @Override
+    public int addUser(User user) {
+        return 0;
+    }
 }

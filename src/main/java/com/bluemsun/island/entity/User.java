@@ -9,7 +9,6 @@ import java.util.Date;
  * @create: 2021-10-06 11:18
  **/
 public class User {
-    //id
     private int id;
     private String username;
     private String password;

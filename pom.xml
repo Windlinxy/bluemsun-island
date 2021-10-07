@@ -157,10 +157,11 @@
       <resource>
         <!--directory: 资源所在的位置 -->
         <directory>src/main/resources</directory>
-        <!--filtering: 是否替换资源中的属性placehold -->
+        <!--filtering: 是否替换资源中的属性placeholder -->
         <filtering>true</filtering>
       </resource>
     </resources>
+
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>

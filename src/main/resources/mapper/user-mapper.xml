@@ -2,8 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.island.dao.UserDao">
 
-<mapper namespace="default">
+    <resultMap type="User" id="UserResult">
+        <result property="id" column="id"/>
+        <result property="identifyId" column="identify_id" />
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="phoneNumber" column="phone_number"/>
+        <result property="sex" column="sex" />
+        <result property="signature" column="signature" />
+        <result property="birthday" column="birthday" />
+        <result property="imageUrl" column="image_url" />
+    </resultMap>
+
     <select id="findAll" resultType="User">
         SELECT *
         FROM tb_user;
@@ -11,12 +23,12 @@
 
     <insert id="insert" parameterType="User">
         INSERT INTO tb_user
-            (username,password,phone_number,sex,`identify`)
-        VALUES (#{username},#{password},#{phoneNumber},#{sex},#{identify});
+            (username,password,phone_number,`identify`)
+        VALUES (#{username},#{password},#{phoneNumber},#{identifyId});
     </insert>
 
     <delete id="delete" parameterType="int">
         DELETE FROM tb_user
-        WHERE user_id = #{userID};
+        WHERE user_id = #{id};
     </delete>
 </mapper>
