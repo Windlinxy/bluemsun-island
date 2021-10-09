@@ -2,26 +2,21 @@ package com.bluemsun.island.enums;
 
 /**
  * @program: BulemsunIsland
- * @description: 响应码
+ * @description: 用户角色
  * @author: Windlinxy
- * @create: 2021-10-06 14:10
+ * @create: 2021-10-08 14:22
  **/
-public enum ReturnCode {
+public enum Role {
     //请求处理成功
-    SUCCESS(1, "成功！"),
+    USER(0, "用户"),
     //
-    ERROR_NO_LOGIN(-1, "未登录！"),
-    FAILED(0, "失败！"),
-    ERROR_NO_AUTHORITY(-2,"没有权限操作！");
-
-    public static final int OP_SUCCESS = 1;
-
-    public static final int OP_FAILED = 0;
+    ADMIN(-1, "管理员"),
+    MASTER(1, "版主");
 
     private final Integer code;
     private final String message;
 
-    ReturnCode(Integer code, String message) {
+    Role(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -33,4 +28,6 @@ public enum ReturnCode {
     public String getMessage() {
         return this.message;
     }
+
+
 }

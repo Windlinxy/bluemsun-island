@@ -18,7 +18,7 @@
       <!-- contextConfigLocation为固定值 -->
       <param-name>contextConfigLocation</param-name>
       <!-- 使用classpath:表示从类路径查找配置文件，例如maven工程中的src/main/resources -->
-      <param-value>classpath:spring/spring-mvc.xml</param-value>
+      <param-value>classpath:spring/application.xml</param-value>
     </init-param>
     <!--
          作为框架的核心组件，在启动过程中有大量的初始化操作要做

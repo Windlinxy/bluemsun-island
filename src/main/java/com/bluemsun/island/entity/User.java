@@ -19,6 +19,15 @@ public class User {
     private Date birthday;
     private String imageUrl;
 
+    public User() {
+    }
+
+    public User(String username, String password, String phoneNumber) {
+        this.username = username;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -41,15 +50,6 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public User() {
-    }
-
-    public User(String username, String password, String phoneNumber) {
-        this.username = username;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
     }
 
     public int getId() {
@@ -109,6 +109,9 @@ public class User {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", sex=" + sex +
                 ", identifyId=" + identifyId +
+                ", signature='" + signature + '\'' +
+                ", birthday=" + birthday +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }
