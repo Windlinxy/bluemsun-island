@@ -3,7 +3,6 @@ package com.bluemsun.island.dao;
 import com.bluemsun.island.entity.User;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: BulemsunIsland

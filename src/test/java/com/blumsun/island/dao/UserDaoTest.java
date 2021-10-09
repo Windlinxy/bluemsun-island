@@ -4,6 +4,7 @@ import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.dao.impl.UserDaoImpl;
 import com.bluemsun.island.entity.User;
 import org.junit.Test;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

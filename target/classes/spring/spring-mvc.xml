@@ -65,9 +65,9 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-<!--    <bean id="userDao" class="com.bluemsun.island.dao.impl.UserDaoImpl">-->
-<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-<!--    </bean>-->
+    <bean id="userDao" class="com.bluemsun.island.dao.impl.UserDaoImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
 
     <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl"/>
 </beans>
