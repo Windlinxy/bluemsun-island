@@ -4,7 +4,6 @@ import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @program: BulemsunIsland
@@ -13,14 +12,17 @@ import org.springframework.stereotype.Service;
  * @create: 2021-10-05 11:32
  **/
 public class UserServiceImpl implements UserService {
-    private int optionCode = 0;
+    private int operationJudCode = 0;
     @Autowired
     private UserDao userDao;
 
     @Override
     public int addUser(User user) {
-        optionCode =  userDao.insertUser(user);
-        return optionCode;
+        try {
+            operationJudCode = userDao.insertUser(user);
+        } catch (RuntimeException ignore) {
+        }
+        return operationJudCode;
     }
 
 

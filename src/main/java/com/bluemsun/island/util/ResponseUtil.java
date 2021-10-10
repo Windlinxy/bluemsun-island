@@ -22,4 +22,10 @@ public class ResponseUtil {
         map.put("status", ReturnCode.SUCCESS.getCode());
         return map;
     }
+
+    public static Map<String,Object> returnUnknownError(Map<String,Object> map) {
+        map.put("message", ReturnCode.SUCCESS.getMessage());
+        map.put("status", ReturnCode.SUCCESS.getCode());
+        return map;
+    }
 }

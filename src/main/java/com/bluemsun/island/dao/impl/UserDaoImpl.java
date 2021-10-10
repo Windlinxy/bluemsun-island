@@ -5,6 +5,7 @@ import com.bluemsun.island.dao.mapper.UserMapper;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @create: 2021-10-07 20:18
  **/
 public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
-    private int optionCode = 0;
+    private int operationCode = 0;
 
     private <T> T getMapper(Class<T> mapperClass) {
         return getSqlSession().getMapper(mapperClass);
@@ -24,17 +25,15 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     @Override
     public int insertUser(User user) {
         try {
-            int rowsAffected = getMapper(UserMapper.class).insert(user);
-            if (rowsAffected == 1) {
-                optionCode = ReturnCode.OP_SUCCESS;
-            } else {
-                optionCode = ReturnCode.OP_FAILED;
-            }
+            getMapper(UserMapper.class).insert(user);
+            operationCode = ReturnCode.OP_SUCCESS;
+        } catch (DuplicateKeyException e) {
+            operationCode = ReturnCode.OP_FAILED;
         } catch (Exception e) {
-            optionCode = ReturnCode.OP_FAILED;
+            operationCode = ReturnCode.OP_UNKNOWN_ERROR;
             throw new RuntimeException(e);
         }
-        return optionCode;
+        return operationCode;
     }
 
     @Override
@@ -54,15 +53,15 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
         try {
             int rowsAffected = getMapper(UserMapper.class).deleteById(id);
             if (rowsAffected == 1) {
-                optionCode = ReturnCode.OP_SUCCESS;
+                operationCode = ReturnCode.OP_SUCCESS;
             } else {
-                optionCode = ReturnCode.OP_FAILED;
+                operationCode = ReturnCode.OP_FAILED;
             }
         } catch (Exception e) {
-            optionCode = ReturnCode.OP_FAILED;
+            operationCode = ReturnCode.OP_FAILED;
             throw new RuntimeException(e);
         }
-        return optionCode;
+        return operationCode;
     }
 
 

@@ -20,24 +20,28 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    private int jud = 0;
     private final int hashMapCapacity = (int)(6*0.75+1.0);
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(
-            method = RequestMethod.POST
+    @PostMapping(
+            consumes = "application/json",
+            produces = "application/json"
     )
     public Map<String, Object> register(@RequestBody User user) {
         Map<String,Object> map = new HashMap<>(hashMapCapacity);
-
-        if(userService.addUser(user) == ReturnCode.OP_SUCCESS){
+        jud = userService.addUser(user);
+        if( jud == ReturnCode.OP_SUCCESS){
             user.setPassword(null);
             user.setPhoneNumber(null);
             map.put("user",user);
             ResponseUtil.returnSuccess(map);
-        }else if (userService.addUser(user) == ReturnCode.OP_FAILED){
+        }else if (jud == ReturnCode.OP_FAILED){
             ResponseUtil.returnFailed(map);
+        }else if(jud == ReturnCode.OP_UNKNOWN_ERROR){
+            ResponseUtil.returnUnknownError(map);
         }
         return map;
     }
