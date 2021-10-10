@@ -1,11 +1,9 @@
 package com.bluemsun.island.service.impl;
 
-import com.bluemsun.island.dao.impl.UserDaoImpl;
+import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.entity.User;
-import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @program: BulemsunIsland
@@ -14,13 +12,14 @@ import org.springframework.stereotype.Service;
  * @create: 2021-10-05 11:32
  **/
 public class UserServiceImpl implements UserService {
+    private int optionCode = 0;
     @Autowired
-    private UserDaoImpl userDao;
+    private UserDao userDao;
 
     @Override
     public int addUser(User user) {
-        userDao.insert(user);
-        return ReturnCode.OP_SUCCESS;
+        optionCode =  userDao.insertUser(user);
+        return optionCode;
     }
 
 

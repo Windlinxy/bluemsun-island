@@ -3,9 +3,11 @@ package com.bluemsun.island.dao.impl;
 import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.dao.mapper.UserMapper;
 import com.bluemsun.island.entity.User;
+import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,27 +17,57 @@ import java.util.List;
  * @create: 2021-10-07 20:18
  **/
 @Repository("userDao")
+@Resource(name = "sqlSessionFactory")
 public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
+    private int optionCode = 0;
 
-
-    private <T> T getMapper(Class<T> T){
-        return (T) getSqlSession().getMapper(T);
+    private <T> T getMapper(Class<T> mapperClass) {
+        return (T) getSqlSession().getMapper(mapperClass);
     }
 
     @Override
-    public int insert(User user) {
-        int rowsAffected = getMapper(UserMapper.class).insert(user);
-        return 0;
+    public int insertUser(User user) {
+        try {
+            int rowsAffected = getMapper(UserMapper.class).insert(user);
+            if (rowsAffected == 1) {
+                optionCode = ReturnCode.OP_SUCCESS;
+            } else {
+                optionCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            optionCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
+        return optionCode;
     }
 
     @Override
-    public List<User> select() {
+    public List<User> selectAllUsers() {
+        List<User> userList;
 
-        return null;
+        try {
+            userList = getMapper(UserMapper.class).select();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
     }
 
     @Override
-    public int delete(int id) {
-        return 0;
+    public int deleteUserById(int id) {
+        try {
+            int rowsAffected = getMapper(UserMapper.class).deleteById(id);
+            if (rowsAffected == 1) {
+                optionCode = ReturnCode.OP_SUCCESS;
+            } else {
+                optionCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            optionCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
+        return optionCode;
     }
+
+
 }

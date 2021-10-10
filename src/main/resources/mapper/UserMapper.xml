@@ -8,7 +8,6 @@
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="identifyId" column="identify_id" jdbcType="TINYINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
-        <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
         <result property="sex" column="sex" jdbcType="TINYINT"/>
         <result property="signature" column="signature" jdbcType="VARCHAR"/>
@@ -30,16 +29,23 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-    <delete id="delete" parameterType="java.lang.Long">
+    <delete id="deleteById" parameterType="java.lang.Long">
         delete
         from tb_user
         where id = #{id,jdbcType=INTEGER}
     </delete>
 
     <insert id="insert"  parameterType="User">
-        INSERT INTO tb_user
+        insert into tb_user
             (username,password,phone_number)
-        VALUES (#{username},#{password},#{phoneNumber});
+        values (#{username},#{password},#{phoneNumber});
     </insert>
+
+    <select id="queryOneByPhoneNumberAndPassword" parameterType="java.lang.String" resultType="User">
+        select
+            <include refid="Base_Column_List"/>
+        from bluemsun_island.tb_user
+        where phone_number = #{phoneNumber} and password = #{password};
+    </select>
 
 </mapper>

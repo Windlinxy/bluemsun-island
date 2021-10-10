@@ -32,7 +32,7 @@ class Thread extends java.lang.Thread{
     public void run() {
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/application.xml");
         UserDao userDao = context.getBean("userDao", UserDaoImpl.class);
-        userDao.insert(new User("u56","sad546677","624556789102"));
+        userDao.insertUser(new User("u56","sad546677","624556789102"));
         System.out.println(1);
     }
 }
