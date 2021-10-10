@@ -2,10 +2,10 @@ package com.bluemsun.island.util;
 
 /**
  * @program: BulemsunIsland
- * @description: json工具类
+ * @description: 测试工具类
  * @author: Windlinxy
- * @create: 2021-10-08 17:02
+ * @create: 2021-10-10 14:32
  **/
-public class JSONUtil {
+public class MyUtil {
 
 }
