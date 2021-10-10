@@ -14,11 +14,11 @@ import java.util.List;
  * @author: Windlinxy
  * @create: 2021-10-07 20:18
  **/
+@Repository("userDao")
 public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
 
 
     private <T> T getMapper(Class<T> T){
-        System.out.println(getSqlSession().hashCode());
         return (T) getSqlSession().getMapper(T);
     }
 

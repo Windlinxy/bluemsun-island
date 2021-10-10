@@ -24,6 +24,7 @@
 
     <select id="select" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
+#                *
         <include refid="Base_Column_List"/>
         from tb_user
         where id = #{id,jdbcType=INTEGER}
