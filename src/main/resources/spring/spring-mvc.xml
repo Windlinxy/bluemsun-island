@@ -9,8 +9,6 @@
 
     <!-- 自动扫描包 -->
     <context:component-scan base-package="com.bluemsun.island.controller"/>
-    <context:component-scan base-package="com.bluemsun.island.service"/>
-    <context:component-scan base-package="com.bluemsun.island.dao"/>
 
     <!-- 配置Thymeleaf视图解析器 -->
     <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
@@ -65,9 +63,9 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-<!--    <bean id="userDao" class="com.bluemsun.island.dao.impl.UserDaoImpl">-->
-<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-<!--    </bean>-->
+    <bean id="userDao" class="com.bluemsun.island.dao.impl.UserDaoImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
 
     <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl"/>
 </beans>

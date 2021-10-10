@@ -5,9 +5,7 @@ import com.bluemsun.island.dao.mapper.UserMapper;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,13 +14,11 @@ import java.util.List;
  * @author: Windlinxy
  * @create: 2021-10-07 20:18
  **/
-@Repository("userDao")
-@Resource(name = "sqlSessionFactory")
 public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     private int optionCode = 0;
 
     private <T> T getMapper(Class<T> mapperClass) {
-        return (T) getSqlSession().getMapper(mapperClass);
+        return getSqlSession().getMapper(mapperClass);
     }
 
     @Override

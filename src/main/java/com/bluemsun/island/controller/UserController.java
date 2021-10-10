@@ -20,7 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final int hashMapCapacity = (int)(3*0.75+1.0);
+    private final int hashMapCapacity = (int)(6*0.75+1.0);
 
     @Autowired
     private UserService userService;
