@@ -5,6 +5,7 @@ import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -44,6 +45,22 @@ public class UserController {
             ResponseUtil.returnUnknownError(map);
         }
         return map;
+    }
+
+
+    public Map<String, Object> login(@RequestBody User user) {
+        Map<String,Object> map = new HashMap<>(hashMapCapacity);
+        User userInfo = userService.isUser(user);
+        if( userInfo != null){
+            user.setPassword(null);
+            user.setPhoneNumber(null);
+            map.put("user",userInfo);
+            ResponseUtil.returnSuccess(map);
+        }else {
+            ResponseUtil.returnFailed(map);
+        }
+        return map;
+//        return new ResponseEntity<>()
     }
 
     @RequestMapping(

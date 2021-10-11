@@ -39,7 +39,6 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     @Override
     public List<User> selectAllUsers() {
         List<User> userList;
-
         try {
             userList = getMapper(UserMapper.class).select();
         } catch (Exception e) {
@@ -64,5 +63,14 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
         return operationCode;
     }
 
-
+    @Override
+    public User queryOneUser(User user) {
+        try {
+            user = getMapper(UserMapper.class).queryOneByPhoneNumberAndPassword(user);
+            System.out.println(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
 }

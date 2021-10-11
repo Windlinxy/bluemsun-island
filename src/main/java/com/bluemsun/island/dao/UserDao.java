@@ -39,4 +39,6 @@ public interface UserDao {
      **/
     int deleteUserById(int id);
 
+    User queryOneUser(User user);
+
 }

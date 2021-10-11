@@ -17,4 +17,7 @@ public interface UserService {
      * @return      返回状态码
      */
     int addUser(User user);
+
+    User isUser(User user);
+
 }

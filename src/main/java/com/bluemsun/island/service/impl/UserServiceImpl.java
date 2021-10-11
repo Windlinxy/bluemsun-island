@@ -5,6 +5,8 @@ import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.SQLException;
+
 /**
  * @program: BulemsunIsland
  * @description: 用户服务接口实现类
@@ -18,11 +20,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int addUser(User user) {
-        try {
-            operationJudCode = userDao.insertUser(user);
-        } catch (RuntimeException ignore) {
-        }
+        operationJudCode = userDao.insertUser(user);
         return operationJudCode;
+    }
+
+    @Override
+    public User isUser(User user) {
+        User userInDatabase;
+        userInDatabase = userDao.queryOneUser(user);
+        return userInDatabase;
     }
 
 
