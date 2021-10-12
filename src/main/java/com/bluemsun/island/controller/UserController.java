@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/users")
 public class UserController {
     private int jud = 0;
-    private final int hashMapCapacity = (int)(6*0.75+1.0);
+    private final int hashMapCapacity = (int) (6 * 0.75 + 1.0);
 
     @Autowired
     private UserService userService;
@@ -32,35 +32,37 @@ public class UserController {
     )
     public Map<String, Object> register(@RequestBody User user) {
 
-        Map<String,Object> map = new HashMap<>(hashMapCapacity);
+        Map<String, Object> map = new HashMap<>(hashMapCapacity);
         jud = userService.addUser(user);
-        if( jud == ReturnCode.OP_SUCCESS){
+        if (jud == ReturnCode.OP_SUCCESS) {
             user.setPassword(null);
             user.setPhoneNumber(null);
-            map.put("user",user);
+            map.put("user", user);
             ResponseUtil.returnSuccess(map);
-        }else if (jud == ReturnCode.OP_FAILED){
+        } else if (jud == ReturnCode.OP_FAILED) {
             ResponseUtil.returnFailed(map);
-        }else if(jud == ReturnCode.OP_UNKNOWN_ERROR){
+        } else if (jud == ReturnCode.OP_UNKNOWN_ERROR) {
             ResponseUtil.returnUnknownError(map);
         }
         return map;
     }
 
-
+    @PostMapping(
+            value = "/token",
+            consumes = "application/json"
+    )
     public Map<String, Object> login(@RequestBody User user) {
-        Map<String,Object> map = new HashMap<>(hashMapCapacity);
+        Map<String, Object> map = new HashMap<>(hashMapCapacity);
         User userInfo = userService.isUser(user);
-        if( userInfo != null){
+        if (userInfo != null) {
             user.setPassword(null);
             user.setPhoneNumber(null);
-            map.put("user",userInfo);
+            map.put("user", userInfo);
             ResponseUtil.returnSuccess(map);
-        }else {
+        } else {
             ResponseUtil.returnFailed(map);
         }
         return map;
-//        return new ResponseEntity<>()
     }
 
     @RequestMapping(
