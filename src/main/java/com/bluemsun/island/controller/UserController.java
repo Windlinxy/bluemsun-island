@@ -5,7 +5,6 @@ import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -32,6 +31,7 @@ public class UserController {
             produces = "application/json"
     )
     public Map<String, Object> register(@RequestBody User user) {
+
         Map<String,Object> map = new HashMap<>(hashMapCapacity);
         jud = userService.addUser(user);
         if( jud == ReturnCode.OP_SUCCESS){
@@ -68,6 +68,5 @@ public class UserController {
     )
     public void test(@RequestParam("test") String test) {
         System.out.println(test);
-
     }
 }
