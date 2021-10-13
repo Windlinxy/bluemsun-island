@@ -49,7 +49,8 @@ public class UserController {
 
     @PostMapping(
             value = "/token",
-            consumes = "application/json"
+            consumes = "application/json",
+            produces = "application/json"
     )
     public Map<String, Object> login(@RequestBody User user) {
         Map<String, Object> map = new HashMap<>(hashMapCapacity);

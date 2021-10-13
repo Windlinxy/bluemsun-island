@@ -1,5 +1,7 @@
 package com.bluemsun.island.util;
 
+import com.alibaba.druid.support.json.JSONParser;
+import com.google.gson.Gson;
 import org.springframework.data.redis.connection.RedisConnection;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
@@ -14,7 +16,7 @@ import java.util.Set;
  **/
 public class RedisUtil{
 
-    private static Jedis jedis = getJedis();
+    private static final Jedis jedis = getJedis();
 
     private static Jedis getJedis(){
         JedisShardInfo shardInfo = new JedisShardInfo("59.110.24.11");
@@ -29,6 +31,11 @@ public class RedisUtil{
 
     public static void set(String key,String value){
         jedis.set(key,value);
+    }
+
+    public static void set(String key,Object obj){
+        Gson gson = new Gson();
+        jedis.set(key,gson.toJson(obj));
     }
 
     public static String get(String key){

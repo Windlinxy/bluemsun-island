@@ -15,7 +15,8 @@ import redis.clients.jedis.Jedis;
 public class Test {
     @org.junit.Test
     public void test(){
-        System.out.println(RedisUtil.getZ("key1"));
+        RedisUtil.set("user",new User("123","123","123"));
+        System.out.println(RedisUtil.get("user"));
     }
 }
 
