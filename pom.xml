@@ -193,30 +193,20 @@
       <version>1.7.2.RELEASE</version>
     </dependency>
 
-    <!--  开源项目生成jwt  -->
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-api</artifactId>
-      <version>0.10.7</version>
+      <artifactId>jjwt</artifactId>
+      <version>0.9.1</version>
     </dependency>
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-impl</artifactId>
-      <version>0.10.7</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-jackson</artifactId>
-      <version>0.10.7</version>
-      <scope>runtime</scope>
-    </dependency>
-      <!--jwt-->
+
+
+    <!-- 引入jwt -->
     <dependency>
       <groupId>com.auth0</groupId>
       <artifactId>java-jwt</artifactId>
-      <version>3.4.0</version>
+      <version>3.8.2</version>
     </dependency>
+
 
   </dependencies>
 

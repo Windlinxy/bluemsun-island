@@ -1,9 +1,7 @@
 package com.blumsun.island.util;
 
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import com.bluemsun.island.util.JwtUtil;
 import org.junit.Test;
-import com.bluemsun.island.util.TokenUtil;
 
 /**
  * @program: BulemsunIsland
@@ -14,7 +12,8 @@ import com.bluemsun.island.util.TokenUtil;
 public class TokenUtilTest {
     @Test
     public void KeyTest(){
-        TokenUtil.encyJWT();
-
+        String token = JwtUtil.sign(2);
+        System.out.println(token);
+        System.out.println(JwtUtil.verify(token,1));
     }
 }
