@@ -12,8 +12,8 @@ import org.junit.Test;
 public class TokenUtilTest {
     @Test
     public void KeyTest(){
-        String token = JwtUtil.sign(2);
-        System.out.println(token);
-        System.out.println(JwtUtil.verify(token,1));
+//        String token = JwtUtil.sign(2);
+//        System.out.println(token);
+        System.out.println(JwtUtil.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjM0MjI0NTY0LCJ1c2VySWQiOjF9.erIsAj704vzKDvUyfdPCR7qOkF_S4eu9y6aRwb9mZjs"));
     }
 }

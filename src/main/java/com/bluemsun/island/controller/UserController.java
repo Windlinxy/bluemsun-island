@@ -3,6 +3,8 @@ package com.bluemsun.island.controller;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.UserService;
+import com.bluemsun.island.util.JwtUtil;
+import com.bluemsun.island.util.RedisUtil;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +61,8 @@ public class UserController {
             user.setPassword(null);
             user.setPhoneNumber(null);
             map.put("user", userInfo);
+            map.put("token",JwtUtil.sign(userInfo.getId()));
+            RedisUtil.set("user"+userInfo.getId(),userInfo);
             ResponseUtil.returnSuccess(map);
         } else {
             ResponseUtil.returnFailed(map);

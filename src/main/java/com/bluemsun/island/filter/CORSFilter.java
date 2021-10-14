@@ -1,10 +1,11 @@
 package com.bluemsun.island.filter;
 
+import org.springframework.context.annotation.ComponentScan;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 public class CORSFilter implements Filter {
     @Override
     public void init(FilterConfig config) throws ServletException {

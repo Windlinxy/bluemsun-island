@@ -43,11 +43,9 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC256(SECRET));
     }
 
-    public static boolean verify(String token, long userId) {
+    public static boolean verify(String token) {
         try {
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET))
-                    .withClaim("userId", userId)
-                    .build();
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
             // 效验TOKEN
             DecodedJWT jwt = verifier.verify(token);
             return true;
