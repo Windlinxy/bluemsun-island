@@ -18,6 +18,13 @@ public interface UserService {
      */
     int addUser(User user);
 
+    /**
+     * 判断是否是已注册用户
+     *
+     * @date 17:56 2021/10/17
+     * @param user 用户（手机号，密码）
+     * @return com.bluemsun.island.entity.User 用户信息
+     **/
     User isUser(User user);
 
 }

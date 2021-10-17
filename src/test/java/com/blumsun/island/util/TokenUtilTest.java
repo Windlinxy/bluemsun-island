@@ -16,4 +16,9 @@ public class TokenUtilTest {
 //        System.out.println(token);
         System.out.println(JwtUtil.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjM0MjI0NTY0LCJ1c2VySWQiOjF9.erIsAj704vzKDvUyfdPCR7qOkF_S4eu9y6aRwb9mZjs"));
     }
+
+    @Test
+    public void RoleTest(){
+        System.out.println(JwtUtil.getRole("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxIiwicm9sZSI6MCwiZXhwIjoxNjM0NDY0NzYxLCJ1c2VySWQiOjF9.Dza5sCoCM6826jVVQraPCvwi2MwTaIpARIOCrwyYvfo"));
+    }
 }

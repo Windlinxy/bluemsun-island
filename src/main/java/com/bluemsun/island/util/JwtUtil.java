@@ -29,7 +29,7 @@ public class JwtUtil {
     private static final long EXPIRE_TIME = 3600000L;
 
 
-    public static String sign(long userId) {
+    public static String sign(long userId, int role) {
         Map<String, Object> map = new HashMap<>(4);
         map.put("alg", "HS256");
         map.put("typ", "JWT");
@@ -39,6 +39,7 @@ public class JwtUtil {
                 .withHeader(map)
                 .withAudience(String.valueOf(userId))
                 .withClaim("userId", userId)
+                .withClaim("role", role)
                 .withExpiresAt(date)
                 .sign(Algorithm.HMAC256(SECRET));
     }
@@ -52,6 +53,12 @@ public class JwtUtil {
         } catch (Exception exception) {
             return false;
         }
+    }
+
+    public static int getRole(String token){
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
+        DecodedJWT jwt = verifier.verify(token);
+        return jwt.getClaim("role").asInt();
     }
 
 }

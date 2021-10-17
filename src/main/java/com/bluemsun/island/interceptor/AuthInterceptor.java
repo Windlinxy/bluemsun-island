@@ -33,9 +33,12 @@ public class AuthInterceptor implements HandlerInterceptor {
                 || "/".equals(uri);
         if(jud){
             return true;
-        }else if(!JwtUtil.verify(token)){
-            returnCode(ReturnCode.ERROR_NO_LOGIN,response);
+        }else if(!JwtUtil.verify(token)) {
+            returnCode(ReturnCode.ERROR_NO_LOGIN, response);
             return false;
+//        }else if(JwtUtil.getRole(token)==0){
+//            if(uri.contains("/"))
+//        }
         }else {
             return true;
         }
