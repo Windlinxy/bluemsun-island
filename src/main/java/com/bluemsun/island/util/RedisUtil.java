@@ -1,11 +1,8 @@
 package com.bluemsun.island.util;
 
-import com.alibaba.druid.support.json.JSONParser;
 import com.bluemsun.island.entity.User;
 import com.google.gson.Gson;
-import org.springframework.data.redis.connection.RedisConnection;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisShardInfo;
 
 import java.util.Set;
 
@@ -17,13 +14,8 @@ import java.util.Set;
  **/
 public class RedisUtil{
 
-    private static final Jedis jedis = getJedis();
+    private static final Jedis jedis = RedisUtilT.getJedis();
 
-    private static Jedis getJedis(){
-        JedisShardInfo shardInfo = new JedisShardInfo("localhost");
-        shardInfo.setPassword("windlinxy");
-        return new Jedis(shardInfo);
-    }
 
     public static void test(){
         jedis.set("addr","北京");

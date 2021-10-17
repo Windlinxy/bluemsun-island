@@ -20,6 +20,7 @@ public class CORSFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
+        String uri = request.getRequestURI();
         //允许跨域的域名。单个域名、*(匹配所有域名)
         //request.getHeader("Origin") 即直接获取请求头的origin的值，即请求方的域名
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
@@ -60,6 +61,5 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
 
         chain.doFilter(request, response);
-
     }
 }
