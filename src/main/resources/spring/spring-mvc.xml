@@ -6,7 +6,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 
-
     <!-- 自动扫描包 -->
     <context:component-scan base-package="com.bluemsun.island.controller"/>
 
@@ -25,7 +24,7 @@
                         <!-- 视图后缀 -->
                         <property name="suffix" value=".html"/>
                         <property name="templateMode" value="HTML5"/>
-                        <property name="characterEncoding" value="UTF-8" />
+                        <property name="characterEncoding" value="UTF-8"/>
                     </bean>
                 </property>
             </bean>
@@ -44,7 +43,7 @@
         <mvc:message-converters>
             <!-- 处理响应中文内容乱码 -->
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-                <property name="defaultCharset" value="UTF-8" />
+                <property name="defaultCharset" value="UTF-8"/>
                 <property name="supportedMediaTypes">
                     <list>
                         <value>text/html</value>
@@ -52,7 +51,8 @@
                     </list>
                 </property>
             </bean>
-            <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+            <bean id="mappingJackson2HttpMessageConverter"
+                  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
                         <value>text/html;charset=UTF-8</value>
@@ -69,14 +69,23 @@
             <mvc:mapping path="/**"/>
             <!-- mvc:exclude-mapping是另外一种拦截，它可以在你后来的测试中对某个页面进行不拦截，这样就不用在
                 LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) -->
-<!--            <mvc:exclude-mapping path="/" />-->
+            <!--            <mvc:exclude-mapping path="/" />-->
             <bean class="com.bluemsun.island.interceptor.AuthInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
+    <!-- 文件上传 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/><!-- 默认编码ISO-8859-1 -->
+        <property name="maxInMemorySize" value="102400"/><!-- 最大内存 10M -->
+        <property name="uploadTempDir" value="/images/"/><!-- 上传的文件名字 -->
+        <property name="maxUploadSize" value="-1"/><!-- 最大文件，-1不限制 -->
+    </bean>
+
 
     <bean id="userDao" class="com.bluemsun.island.dao.impl.UserDaoImpl">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
     <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl"/>

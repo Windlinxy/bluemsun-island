@@ -8,7 +8,11 @@ import com.bluemsun.island.util.RedisUtil;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,10 +94,25 @@ public class UserController {
      * @date 17:40 2021/10/17
      * @param test 测试参数
      **/
-    @RequestMapping(
-            method = RequestMethod.GET
-    )
+    @GetMapping
     public void test(@RequestParam("test") String test) {
         System.out.println(test);
     }
+
+    @PostMapping("/image")
+    public Map<String,Object> uploadHeadPortrait(HttpServletRequest request, MultipartFile file) throws ServletException, IOException {
+        Map<String, Object> map = new HashMap<>();
+        String folderString = "images";
+        String serverPath = request.getServletContext().getRealPath(folderString);
+        System.out.println(serverPath);
+        System.out.println(file.isEmpty());
+        String filename = userService.fileStore(file, serverPath);
+        String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
+                + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
+                + filename;
+        map.put("status", ReturnCode.SUCCESS.getCode());
+        map.put("imageUrl",projectServerPath);
+        return map;
+    }
+
 }

@@ -1,6 +1,9 @@
 package com.bluemsun.island.service;
 
 import com.bluemsun.island.entity.User;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.Part;
 
 /**
  * 用户服务借口
@@ -28,4 +31,12 @@ public interface UserService {
      **/
     User isUser(User user);
 
+    /**
+     * 文件存储服务
+     *
+     * @date 20:11 2021/10/17
+     * @param serverPath 绝对路径
+     * @return java.lang.String 文件web中路径
+     **/
+    public String fileStore(MultipartFile file, String serverPath);
 }

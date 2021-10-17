@@ -2,7 +2,6 @@ package com.bluemsun.island.interceptor;
 
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.util.JwtUtil;
-import com.bluemsun.island.util.ResponseUtil;
 import com.google.gson.Gson;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -27,11 +26,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
         System.out.println(uri);
         String token = request.getHeader("token");
-        boolean jud = uri.contains("/users") &&  "POST".equals(request.getMethod())
+        boolean jud = "/bluemsun_island/users".contains(uri) &&  "POST".equals(request.getMethod())
                 || uri.contains("/token")
-                || uri.contains("/images")
-                || "/bluemsun_island/".equals(uri)
-                || "/".equals(uri);
+                || uri.contains("/images")&&  "GET".equals(request.getMethod())
+                || uri.contains("/image")
+                || "/bluemsun_island/".equals(uri);
         if(jud){
             return true;
         }else if(!JwtUtil.verify(token)) {
