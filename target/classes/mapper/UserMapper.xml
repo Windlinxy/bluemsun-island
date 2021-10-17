@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.island.dao.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="identifyId" column="identify_id" jdbcType="TINYINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="phoneNumber" column="phone_number" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="TINYINT"/>
+        <result property="signature" column="signature" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="DATE"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,identify_id,username,
+        `password`,`phone_number`,sex,
+        signature,birthday,image_url
+    </sql>
+
+    <select id="select" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+#                *
+        <include refid="Base_Column_List"/>
+        from tb_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete
+        from tb_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert"  parameterType="User">
+        insert into tb_user
+            (username,password,phone_number)
+        values (#{username},#{password},#{phoneNumber});
+    </insert>
+
+    <select id="queryOneByPhoneNumberAndPassword" parameterType="User" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from tb_user
+        where phone_number = #{phoneNumber,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR};
+    </select>
+
+</mapper>
