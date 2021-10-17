@@ -28,6 +28,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 用户登录接口
+     *
+     * @date 17:39 2021/10/17
+     * @param user 用户（手机号，密码，昵称）
+     * @return java.util.Map<java.lang.String,java.lang.Object> 响应数据
+     **/
     @PostMapping(
             consumes = "application/json",
             produces = "application/json"
@@ -49,6 +56,13 @@ public class UserController {
         return map;
     }
 
+    /**
+     * 用户登录方法
+     *
+     * @date 17:40 2021/10/17
+     * @param user 用户（手机号，密码）
+     * @return java.util.Map<java.lang.String,java.lang.Object> 响应数据
+     **/
     @PostMapping(
             value = "/token",
             consumes = "application/json",
@@ -58,11 +72,10 @@ public class UserController {
         Map<String, Object> map = new HashMap<>(hashMapCapacity);
         User userInfo = userService.isUser(user);
         if (userInfo != null) {
-            user.setPassword(null);
-            user.setPhoneNumber(null);
-            map.put("user", userInfo);
-            map.put("token",JwtUtil.sign(userInfo.getId()));
             RedisUtil.set("user"+userInfo.getId(),userInfo);
+            userInfo.setPassword(null);
+            map.put("user", userInfo);
+            map.put("token",JwtUtil.sign(userInfo.getId(),userInfo.getIdentifyId()));
             ResponseUtil.returnSuccess(map);
         } else {
             ResponseUtil.returnFailed(map);
@@ -70,6 +83,12 @@ public class UserController {
         return map;
     }
 
+    /**
+     * 测试接口
+     *
+     * @date 17:40 2021/10/17
+     * @param test 测试参数
+     **/
     @RequestMapping(
             method = RequestMethod.GET
     )

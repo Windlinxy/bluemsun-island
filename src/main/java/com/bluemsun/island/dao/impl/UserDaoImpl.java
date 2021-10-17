@@ -66,8 +66,9 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     @Override
     public User queryOneUser(User user) {
         try {
+            //System.out.println(user);
             user = getMapper(UserMapper.class).queryOneByPhoneNumberAndPassword(user);
-            System.out.println(user);
+            //System.out.println(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

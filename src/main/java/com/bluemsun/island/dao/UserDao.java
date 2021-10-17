@@ -1,11 +1,12 @@
 package com.bluemsun.island.dao;
 
 import com.bluemsun.island.entity.User;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
+ * 用户数据持久层
+ *
  * @program: BulemsunIsland
  * @description: 用户数据持久层
  * @author: Windlinxy
@@ -39,6 +40,13 @@ public interface UserDao {
      **/
     int deleteUserById(int id);
 
+    /**
+     * 根据电话号码与密码查询用户
+     *
+     * @date 17:41 2021/10/17
+     * @param user 用户（手机号，密码）
+     * @return com.bluemsun.island.entity.User 完整用户信息
+     **/
     User queryOneUser(User user);
 
 }
