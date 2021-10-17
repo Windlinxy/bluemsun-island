@@ -1,5 +1,6 @@
 package com.bluemsun.island.filter;
 
+import com.bluemsun.island.util.RedisUtil;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.servlet.*;
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 public class CORSFilter implements Filter {
     @Override
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) {
 //        System.out.println("CORS init()");;
     }
 
@@ -60,6 +61,19 @@ public class CORSFilter implements Filter {
         //设置除了简单响应首部以外，需要暴露给外部的其他首部
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
 
+        countRequest();
+
         chain.doFilter(request, response);
+    }
+
+    /**
+     * 请求计数
+     *
+     * @date 17:47 2021/10/17
+     **/
+    private void countRequest(){
+        long count = Long.parseLong(RedisUtil.getString("requestNumber"));
+        count++;
+        RedisUtil.set("requestNumber",String.valueOf(count));
     }
 }
