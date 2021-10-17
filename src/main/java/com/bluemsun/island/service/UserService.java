@@ -3,6 +3,7 @@ package com.bluemsun.island.service;
 import com.bluemsun.island.entity.User;
 
 /**
+ * 用户服务借口
  * @program: BulemsunIsland
  * @description: 用户服务
  * @author: Windlinxy

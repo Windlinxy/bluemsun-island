@@ -9,6 +9,8 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.Set;
 
 /**
+ * redis工具类
+ *
  * @program: BulemsunIsland
  * @description: redis工具类
  * @author: Windlinxy
@@ -36,8 +38,12 @@ public class RedisUtil {
         POOL = new JedisPool(config, ip, port, timeout, AUTH);
     }
 
-    //得到redis连接
 
+    /**
+     * 获得redis连接
+     *
+     * @return redis.clients.jedis.Jedis redis连接（jedis）
+     **/
     public synchronized static Jedis getJedis() {
         return POOL.getResource();
     }
@@ -56,12 +62,26 @@ public class RedisUtil {
         close(jedis);
     }
 
+    /**
+     * 设置键值对
+     *
+     * @date 19:12 2021/10/17
+     * @param key   键
+     * @param   value   值
+     **/
     public static void set(String key, String value) {
         Jedis jedis = getJedis();
         jedis.set(key, value);
         close(jedis);
     }
 
+    /**
+     * 将对象以键值对的形式存储
+     *
+     * @date 19:10 2021/10/17
+     * @param key   键
+     * @param obj   对象
+     **/
     public static void set(String key, Object obj) {
         Jedis jedis = getJedis();
         Gson gson = new Gson();
@@ -69,6 +89,13 @@ public class RedisUtil {
         close(jedis);
     }
 
+    /**
+     * 获得key的value（字符串）
+     *
+     * @date 19:09 2021/10/15
+     * @param key 减
+     * @return java.lang.String 值
+     **/
     public static String getString(String key) {
         Jedis jedis = getJedis();
         String value = jedis.get(key);
@@ -76,11 +103,26 @@ public class RedisUtil {
         return value;
     }
 
+    /**
+     * 根据用户id获得用户
+     *
+     * @date 19:09 2021/10/17
+     * @param userId 用户id
+     * @return com.bluemsun.island.entity.User 用户详细信息
+     **/
     public static User getUser(long userId) {
         Gson gson = new Gson();
         return gson.fromJson(getString("user" + userId), User.class);
     }
 
+    /**
+     * 添加集合（无序）
+     * 
+     * @date 19:07 2021/10/15
+     * @param key 集合名
+     * @param members 成员（多个）
+     * @return long 
+     **/
     public static long addSet(String key, String... members) {
         Jedis jedis = getJedis();
         long reply=jedis.sadd(key, members);
@@ -88,6 +130,13 @@ public class RedisUtil {
         return reply;
     }
 
+    /**
+     *
+     *
+     * @date 19:05 2021/10/15
+     * @param key 获得有序集合成员
+     * @return java.lang.String
+     **/
     public static String getZ(String key) {
         Jedis jedis = getJedis();
         Set<String> set = jedis.smembers(key);

@@ -1,6 +1,7 @@
 package com.bluemsun.island.util;
 
 /**
+ * 我的工具类
  * @program: BulemsunIsland
  * @description: 测试工具类
  * @author: Windlinxy

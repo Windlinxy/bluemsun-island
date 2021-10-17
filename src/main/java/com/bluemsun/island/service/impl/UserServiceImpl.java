@@ -5,9 +5,8 @@ import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.SQLException;
-
 /**
+ * 用户服务接口实现类
  * @program: BulemsunIsland
  * @description: 用户服务接口实现类
  * @author: Windlinxy

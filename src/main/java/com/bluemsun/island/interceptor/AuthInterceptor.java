@@ -14,8 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 登录验证拦截器
  * @program: BulemsunIsland
- * @description: 登录验证
+ * @description: 登录验证拦截器
  * @author: Windlinxy
  * @create: 2021-10-14 22:32
  **/

@@ -5,6 +5,7 @@ import com.bluemsun.island.entity.User;
 import java.util.List;
 
 /**
+ * 用户映射
  * @program: BulemsunIsland
  * @description: 用户映射
  * @author: Windlinxy

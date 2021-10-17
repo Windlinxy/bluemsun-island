@@ -5,6 +5,8 @@ import com.bluemsun.island.enums.ReturnCode;
 import java.util.Map;
 
 /**
+ * 响应工具类
+ *
  * @program: BulemsunIsland
  * @description: 响应数据类
  * @author: Windlinxy

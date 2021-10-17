@@ -3,6 +3,7 @@ package com.bluemsun.island.entity;
 import java.util.Date;
 
 /**
+ * 普通用户类
  * @program: BulemsunIsland
  * @description: 普通用户类
  * @author: Windlinxy

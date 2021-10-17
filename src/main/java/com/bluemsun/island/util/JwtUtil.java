@@ -12,10 +12,9 @@ import java.util.Map;
 /**
  * Jwt工具类，生成JWT和认证
  *
- * @author dongk
- * @date 2021-02-05 11:10:08
+ * @author windlinxy
+ * @date 2021-10-05 11:10:08
  */
-
 public class JwtUtil {
 
     /**

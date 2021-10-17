@@ -1,8 +1,9 @@
 package com.bluemsun.island.enums;
 
 /**
+ * 响应码枚举类
  * @program: BulemsunIsland
- * @description: 响应码
+ * @description: 响应码枚举类
  * @author: Windlinxy
  * @create: 2021-10-06 14:10
  **/

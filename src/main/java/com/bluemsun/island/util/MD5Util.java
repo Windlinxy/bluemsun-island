@@ -2,6 +2,8 @@ package com.bluemsun.island.util;
 
 import java.security.MessageDigest;
 /**
+ * md5加密类
+ *
  * @program: BulemsunIsland
  * @description: md5加密工具类
  * @author: Windlinxy
@@ -32,7 +34,7 @@ public class MD5Util {
     }
 
     public static String MD5Encode(String origin, String charsetname) {
-        String resultString = "";
+        String resultString;
         try {
             resultString = origin;
             MessageDigest md = MessageDigest.getInstance("MD5");
