@@ -4,7 +4,6 @@ import com.bluemsun.island.entity.User;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.JwtUtil;
-import com.bluemsun.island.util.RedisUtil;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -76,7 +75,6 @@ public class UserController {
         Map<String, Object> map = new HashMap<>(hashMapCapacity);
         User userInfo = userService.isUser(user);
         if (userInfo != null) {
-            RedisUtil.set("user" + userInfo.getId(), userInfo);
             userInfo.setPassword(null);
             map.put("user", userInfo);
             map.put("token", JwtUtil.sign(userInfo.getId(), userInfo.getIdentifyId()));
@@ -98,6 +96,12 @@ public class UserController {
         System.out.println(test);
     }
 
+    /**
+     * 用户上传头像接口
+     *
+     * @date 20:23 2021/10/19
+     * @return java.util.Map<java.lang.String,java.lang.Object> User
+     **/
     @PostMapping("/users/image")
     public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
@@ -114,4 +118,18 @@ public class UserController {
         return map;
     }
 
+    @GetMapping("/user")
+    public Map<String,Object> getUserInfo(HttpServletRequest request){
+        Map<String, Object> map = new HashMap<>(5);
+        String token = request.getHeader("token");
+        if(token ==null){
+            ResponseUtil.returnFailed(map);
+        }else {
+            int id = JwtUtil.getUserId(token);
+            User userInCache = userService.getUserInCache(id);
+            map.put("user",userInCache);
+            ResponseUtil.returnSuccess(map);
+        }
+        return map;
+    }
 }

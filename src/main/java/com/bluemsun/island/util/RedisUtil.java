@@ -78,11 +78,25 @@ public class RedisUtil {
     /**
      * 将对象以键值对的形式存储
      *
-     * @param key 键
+     * @param id  userId
      * @param obj 对象
      * @date 19:10 2021/10/17
      **/
-    public static void set(String key, Object obj) {
+    public static void setUser(int id, Object obj) {
+        Jedis jedis = getJedis();
+        Gson gson = new Gson();
+        jedis.set("user" + id, gson.toJson(obj));
+        close(jedis);
+    }
+
+    /**
+     * 将对象存进缓存
+     *
+     * @param key 键
+     * @param obj 对象
+     * @date 20:40 2021/10/19
+     **/
+    public static void setObject(String key, Object obj) {
         Jedis jedis = getJedis();
         Gson gson = new Gson();
         jedis.set(key, gson.toJson(obj));
@@ -110,7 +124,7 @@ public class RedisUtil {
      * @return com.bluemsun.island.entity.User 用户详细信息
      * @date 19:09 2021/10/17
      **/
-    public static User getUser(long userId) {
+    public static User getUser(int userId) {
         Gson gson = new Gson();
         return gson.fromJson(getString("user" + userId), User.class);
     }

@@ -24,7 +24,7 @@
 
     <update id="updateImageUrl" parameterType="user">
         update bluemsun_island.tb_user
-        set image_url = ${imageUrl}
+        set image_url = '${imageUrl}'
         where id = ${id}
     </update>
 

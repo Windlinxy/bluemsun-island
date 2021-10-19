@@ -48,4 +48,13 @@ public interface UserService {
      * @date 18:03 2021/10/19
      **/
     int changeImageUrl(String token, String imageUrl);
+
+    /**
+     * 获取缓存中的用户
+     *
+     * @date 20:51 2021/10/19
+     * @param id 用户id
+     * @return com.bluemsun.island.entity.User 用户
+     **/
+    User getUserInCache(int id);
 }

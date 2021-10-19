@@ -4,6 +4,7 @@ import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.JwtUtil;
+import com.bluemsun.island.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,9 @@ public class UserServiceImpl implements UserService {
     public User isUser(User user) {
         User userInDatabase;
         userInDatabase = userDao.queryOneUser(user);
+
+        //将用户信息写进缓存
+        RedisUtil.setUser(userInDatabase.getId(), userInDatabase);
         return userInDatabase;
     }
 
@@ -41,10 +45,19 @@ public class UserServiceImpl implements UserService {
     public String fileStore(MultipartFile file, String serverPath) {
         String fileParts;
         String permanentFileParts;
+        String separator = "/";
+        String windowsProjectName = "\\bluemsun_island";
+        String linuxProjectName = "/bluemsun_island";
         // 获取上传的文件名扩展名
         String disposition = file.getOriginalFilename();
         System.out.println(disposition);
-        String suffix = disposition.substring(disposition.lastIndexOf("."));
+        String suffix;
+        if (disposition != null) {
+            suffix = disposition.substring(disposition.lastIndexOf("."));
+        } else {
+            suffix = "";
+        }
+
 
         // 随机的生成uuid，作为文件名的一部分。 加上刚才获取到的后缀作为最终文件名。
         String uuid = UUID.randomUUID() + "";
@@ -54,21 +67,16 @@ public class UserServiceImpl implements UserService {
         System.out.println("文件绝对路径： " + serverPath);
         System.out.println("______________________________________");
 
-        //不存在文件夹则新建一个
-        File fileDisk = new File(serverPath);
-        if (!fileDisk.exists()) {
-            fileDisk.mkdir();
-        }
         //处理windows与linux路径'\''/'问题
-        if (serverPath.contains("/")) {
+        if (serverPath.contains(separator)) {
             fileParts = serverPath + "/" + filename;
         } else {
             fileParts = serverPath + "\\" + filename;
         }
-        if (fileParts.contains("/bluemsun_island")) {
-            permanentFileParts = fileParts.replace("/bluemsun_island", "");
-        } else if (fileParts.contains("\\bluemsun_island")) {
-            permanentFileParts = fileParts.replace("\\bluemsun_island", "");
+        if (fileParts.contains(windowsProjectName)) {
+            permanentFileParts = fileParts.replace(windowsProjectName, "");
+        } else if (fileParts.contains(linuxProjectName)) {
+            permanentFileParts = fileParts.replace(linuxProjectName, "");
         } else {
             permanentFileParts = "";
         }
@@ -87,7 +95,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public int changeImageUrl(String token, String imageUrl) {
         int id = JwtUtil.getUserId(token);
-        operationJudCode = userDao.updateImageUrl(new User(id, imageUrl));
+        User userInCache = RedisUtil.getUser(id);
+        userInCache.setImageUrl(imageUrl);
+        RedisUtil.setUser(id, userInCache);
+        operationJudCode = userDao.updateImageUrl(userInCache);
         return operationJudCode;
+    }
+
+    @Override
+    public User getUserInCache(int id) {
+        return RedisUtil.getUser(id);
     }
 }

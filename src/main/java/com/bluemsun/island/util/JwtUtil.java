@@ -92,7 +92,7 @@ public class JwtUtil {
     public static int getUserId(String token) {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
         DecodedJWT jwt = verifier.verify(token);
-        return jwt.getClaim("id").asInt();
+        return jwt.getClaim("userId").asInt();
     }
 }
 
