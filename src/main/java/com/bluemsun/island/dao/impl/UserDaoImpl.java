@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 用户接口实现类
+ *
  * @program: BulemsunIsland
  * @description: UserDao接口实现类
  * @author: Windlinxy
@@ -72,5 +73,21 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
             throw new RuntimeException(e);
         }
         return user;
+    }
+
+    @Override
+    public int updateImageUrl(User user) {
+        try {
+            int rowsAffected = getMapper(UserMapper.class).updateImageUrl(user);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
+        return operationCode;
     }
 }

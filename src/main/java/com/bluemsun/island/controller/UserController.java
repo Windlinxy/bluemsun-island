@@ -10,14 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 用户控制器
+ *
  * @program: BulemsunIsland
  * @description: 用户控制器
  * @author: Windlinxy
@@ -25,7 +24,6 @@ import java.util.Map;
  **/
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
     private int jud = 0;
     private final int hashMapCapacity = (int) (6 * 0.75 + 1.0);
@@ -36,11 +34,12 @@ public class UserController {
     /**
      * 用户登录接口
      *
-     * @date 17:39 2021/10/17
      * @param user 用户（手机号，密码，昵称）
-     * @return java.util.Map<java.lang.String,java.lang.Object> 响应数据
+     * @return java.util.Map<java.lang.String, java.lang.Object> 响应数据
+     * @date 17:39 2021/10/17
      **/
     @PostMapping(
+            value = "/users",
             consumes = "application/json",
             produces = "application/json"
     )
@@ -64,12 +63,12 @@ public class UserController {
     /**
      * 用户登录方法
      *
-     * @date 17:40 2021/10/17
      * @param user 用户（手机号，密码）
-     * @return java.util.Map<java.lang.String,java.lang.Object> 响应数据
+     * @return java.util.Map<java.lang.String, java.lang.Object> 响应数据
+     * @date 17:40 2021/10/17
      **/
     @PostMapping(
-            value = "/token",
+            value = "/users/token",
             consumes = "application/json",
             produces = "application/json"
     )
@@ -77,10 +76,10 @@ public class UserController {
         Map<String, Object> map = new HashMap<>(hashMapCapacity);
         User userInfo = userService.isUser(user);
         if (userInfo != null) {
-            RedisUtil.set("user"+userInfo.getId(),userInfo);
+            RedisUtil.set("user" + userInfo.getId(), userInfo);
             userInfo.setPassword(null);
             map.put("user", userInfo);
-            map.put("token",JwtUtil.sign(userInfo.getId(),userInfo.getIdentifyId()));
+            map.put("token", JwtUtil.sign(userInfo.getId(), userInfo.getIdentifyId()));
             ResponseUtil.returnSuccess(map);
         } else {
             ResponseUtil.returnFailed(map);
@@ -91,27 +90,27 @@ public class UserController {
     /**
      * 测试接口
      *
-     * @date 17:40 2021/10/17
      * @param test 测试参数
+     * @date 17:40 2021/10/17
      **/
     @GetMapping
     public void test(@RequestParam("test") String test) {
         System.out.println(test);
     }
 
-    @PostMapping("/image")
-    public Map<String,Object> uploadHeadPortrait(HttpServletRequest request, MultipartFile file) throws ServletException, IOException {
-        Map<String, Object> map = new HashMap<>();
+    @PostMapping("/users/image")
+    public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
+        Map<String, Object> map = new HashMap<>(4);
         String folderString = "images";
         String serverPath = request.getServletContext().getRealPath(folderString);
-        System.out.println(serverPath);
-        System.out.println(file.isEmpty());
         String filename = userService.fileStore(file, serverPath);
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
+        projectServerPath = projectServerPath.replace("/bluemsun_island", "");
+        userService.changeImageUrl(request.getHeader("token"), projectServerPath);
         map.put("status", ReturnCode.SUCCESS.getCode());
-        map.put("imageUrl",projectServerPath);
+        map.put("imageUrl", projectServerPath);
         return map;
     }
 

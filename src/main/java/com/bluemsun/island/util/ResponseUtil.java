@@ -13,17 +13,17 @@ import java.util.Map;
  * @create: 2021-10-10 11:13
  **/
 public class ResponseUtil {
-    public static void returnFailed(Map<String,Object> map){
-        map.put("message",ReturnCode.FAILED.getMessage());
-        map.put("status",ReturnCode.FAILED.getCode());
+    public static void returnFailed(Map<String, Object> map) {
+        map.put("message", ReturnCode.FAILED.getMessage());
+        map.put("status", ReturnCode.FAILED.getCode());
     }
 
-    public static void returnSuccess(Map<String,Object> map) {
+    public static void returnSuccess(Map<String, Object> map) {
         map.put("message", ReturnCode.SUCCESS.getMessage());
         map.put("status", ReturnCode.SUCCESS.getCode());
     }
 
-    public static void returnUnknownError(Map<String,Object> map) {
+    public static void returnUnknownError(Map<String, Object> map) {
         map.put("message", ReturnCode.SUCCESS.getMessage());
         map.put("status", ReturnCode.SUCCESS.getCode());
     }

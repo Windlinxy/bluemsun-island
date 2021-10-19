@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * 普通用户类
+ *
  * @program: BulemsunIsland
  * @description: 普通用户类
  * @author: Windlinxy
@@ -27,6 +28,11 @@ public class User {
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
+    }
+
+    public User(int id, String imageUrl) {
+        this.id = id;
+        this.imageUrl = imageUrl;
     }
 
     public String getImageUrl() {
@@ -58,7 +64,7 @@ public class User {
     }
 
     public void setId(int id) {
-        this.id =  id;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -100,7 +106,6 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 
 
     @Override

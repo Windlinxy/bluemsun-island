@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * 登录验证拦截器
+ *
  * @program: BulemsunIsland
  * @description: 登录验证拦截器
  * @author: Windlinxy
@@ -26,27 +27,27 @@ public class AuthInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
         System.out.println(uri);
         String token = request.getHeader("token");
-        boolean jud = "/bluemsun_island/users".contains(uri) &&  "POST".equals(request.getMethod())
+        boolean jud = "/bluemsun_island/users".contains(uri) && "POST".equals(request.getMethod())
                 || uri.contains("/token")
-                || uri.contains("/images")&&  "GET".equals(request.getMethod())
+                || uri.contains("/images") && "GET".equals(request.getMethod())
                 || uri.contains("/image")
                 || "/bluemsun_island/".equals(uri);
-        if(jud){
+        if (jud) {
             return true;
-        }else if(!JwtUtil.verify(token)) {
+        } else if (!JwtUtil.verify(token)) {
             returnCode(ReturnCode.ERROR_NO_LOGIN, response);
             return false;
 //        }else if(JwtUtil.getRole(token)==0){
 //            if(uri.contains("/"))
 //        }
-        }else {
+        } else {
             return true;
         }
 
     }
 
 
-    private void returnCode(ReturnCode status,HttpServletResponse response) throws IOException {
+    private void returnCode(ReturnCode status, HttpServletResponse response) throws IOException {
 
         Map<String, Object> map = new HashMap<>(4);
         response.setCharacterEncoding("utf-8");

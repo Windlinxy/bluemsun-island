@@ -65,9 +65,9 @@ public class RedisUtil {
     /**
      * 设置键值对
      *
-     * @date 19:12 2021/10/17
      * @param key   键
-     * @param   value   值
+     * @param value 值
+     * @date 19:12 2021/10/17
      **/
     public static void set(String key, String value) {
         Jedis jedis = getJedis();
@@ -78,9 +78,9 @@ public class RedisUtil {
     /**
      * 将对象以键值对的形式存储
      *
+     * @param key 键
+     * @param obj 对象
      * @date 19:10 2021/10/17
-     * @param key   键
-     * @param obj   对象
      **/
     public static void set(String key, Object obj) {
         Jedis jedis = getJedis();
@@ -92,9 +92,9 @@ public class RedisUtil {
     /**
      * 获得key的value（字符串）
      *
-     * @date 19:09 2021/10/15
      * @param key 减
      * @return java.lang.String 值
+     * @date 19:09 2021/10/15
      **/
     public static String getString(String key) {
         Jedis jedis = getJedis();
@@ -106,9 +106,9 @@ public class RedisUtil {
     /**
      * 根据用户id获得用户
      *
-     * @date 19:09 2021/10/17
      * @param userId 用户id
      * @return com.bluemsun.island.entity.User 用户详细信息
+     * @date 19:09 2021/10/17
      **/
     public static User getUser(long userId) {
         Gson gson = new Gson();
@@ -117,25 +117,23 @@ public class RedisUtil {
 
     /**
      * 添加集合（无序）
-     * 
-     * @date 19:07 2021/10/15
-     * @param key 集合名
+     *
+     * @param key     集合名
      * @param members 成员（多个）
-     * @return long 
+     * @return long
+     * @date 19:07 2021/10/15
      **/
     public static long addSet(String key, String... members) {
         Jedis jedis = getJedis();
-        long reply=jedis.sadd(key, members);
+        long reply = jedis.sadd(key, members);
         close(jedis);
         return reply;
     }
 
     /**
-     *
-     *
-     * @date 19:05 2021/10/15
      * @param key 获得有序集合成员
      * @return java.lang.String
+     * @date 19:05 2021/10/15
      **/
     public static String getZ(String key) {
         Jedis jedis = getJedis();

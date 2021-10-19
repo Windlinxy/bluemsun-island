@@ -3,17 +3,17 @@ package com.bluemsun.island.service.impl;
 import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.UserService;
+import com.bluemsun.island.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Part;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.UUID;
 
 /**
  * 用户服务接口实现类
+ *
  * @program: BulemsunIsland
  * @description: 用户服务接口实现类
  * @author: Windlinxy
@@ -39,6 +39,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String fileStore(MultipartFile file, String serverPath) {
+        String fileParts;
+        String permanentFileParts;
         // 获取上传的文件名扩展名
         String disposition = file.getOriginalFilename();
         System.out.println(disposition);
@@ -57,16 +59,35 @@ public class UserServiceImpl implements UserService {
         if (!fileDisk.exists()) {
             fileDisk.mkdir();
         }
-
-        String fileParts = serverPath + "/" + filename;
+        //处理windows与linux路径'\''/'问题
+        if (serverPath.contains("/")) {
+            fileParts = serverPath + "/" + filename;
+        } else {
+            fileParts = serverPath + "\\" + filename;
+        }
+        if (fileParts.contains("/bluemsun_island")) {
+            permanentFileParts = fileParts.replace("/bluemsun_island", "");
+        } else if (fileParts.contains("\\bluemsun_island")) {
+            permanentFileParts = fileParts.replace("\\bluemsun_island", "");
+        } else {
+            permanentFileParts = "";
+        }
+        System.out.println("存储路径：" + fileParts);
+        System.out.println("存储永久路径：" + permanentFileParts);
 
         try {
             file.transferTo(new File(fileParts));
+            file.transferTo(new File(permanentFileParts));
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException();
         }
         return filename;
-        //return disposition;
+    }
+
+    @Override
+    public int changeImageUrl(String token, String imageUrl) {
+        int id = JwtUtil.getUserId(token);
+        operationJudCode = userDao.updateImageUrl(new User(id, imageUrl));
+        return operationJudCode;
     }
 }
