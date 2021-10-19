@@ -76,7 +76,7 @@ public class RedisUtil {
     }
 
     /**
-     * 将对象以键值对的形式存储
+     * 将对象以键值对的形式存储(1小时）
      *
      * @param id  userId
      * @param obj 对象
@@ -85,7 +85,9 @@ public class RedisUtil {
     public static void setUser(int id, Object obj) {
         Jedis jedis = getJedis();
         Gson gson = new Gson();
-        jedis.set("user" + id, gson.toJson(obj));
+        String key = "user"+id;
+        jedis.set(key, gson.toJson(obj));
+        jedis.expire(key,3600);
         close(jedis);
     }
 
