@@ -102,7 +102,7 @@ public class UserController {
      * @date 20:23 2021/10/19
      * @return java.util.Map<java.lang.String,java.lang.Object> User
      **/
-    @PostMapping("/users/image")
+    @PostMapping("/user/image")
     public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
         String folderString = "images";
@@ -129,6 +129,19 @@ public class UserController {
             User userInCache = userService.getUserInCache(id);
             map.put("user",userInCache);
             ResponseUtil.returnSuccess(map);
+        }
+        return map;
+    }
+
+    @PutMapping("/users")
+    public Map<String, Object> changUserInfo(HttpServletRequest request,@RequestBody User user){
+        Map<String, Object> map = new HashMap<>(4);
+        User userAfterChange = userService.changeUser(request.getHeader("token"),user);
+        if(userAfterChange != null){
+            ResponseUtil.returnSuccess(map);
+            map.put("user",userAfterChange);
+        }else{
+            ResponseUtil.returnFailed(map);
         }
         return map;
     }

@@ -56,4 +56,6 @@ public interface UserMapper {
      * @date 17:39 2021/10/19
      **/
     int updateImageUrl(User user);
+
+    int updateUser(User user);
 }

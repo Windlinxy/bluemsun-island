@@ -53,7 +53,7 @@ public class CORSFilter implements Filter {
                         "Authorization");
 
         //（预检请求）的响应结果，规定了服务器允许客户端使用的请求方法， 如：POST, GET 和 OPTIONS
-        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE, PATCH");
 
         //设置（预检请求）的返回结果的过期时间，这里设置响应最大有效时间为 86400 秒，即24 小时
         //即 Access-Control-Allow-Methods 和Access-Control-Allow-Headers 提供的信息可以被缓存多久

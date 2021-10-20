@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 /**
@@ -35,9 +36,12 @@ public class UserServiceImpl implements UserService {
     public User isUser(User user) {
         User userInDatabase;
         userInDatabase = userDao.queryOneUser(user);
+        if (userInDatabase != null) {
+            //将用户信息写进缓存
+            RedisUtil.setUser(userInDatabase.getId(), userInDatabase);
+        }
 
-        //将用户信息写进缓存
-        RedisUtil.setUser(userInDatabase.getId(), userInDatabase);
+
         return userInDatabase;
     }
 
@@ -105,5 +109,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserInCache(int id) {
         return RedisUtil.getUser(id);
+    }
+
+    @Override
+    public User changeUser(String token, User user) {
+        int id = JwtUtil.getUserId(token);
+        user.setId(id);
+        operationJudCode = userDao.updateUser(user);
+        if (operationJudCode == 1) {
+            User userInCache = RedisUtil.getUser(id);
+            //使用反射更新缓存中用户数据
+            Field[] fields = user.getClass().getDeclaredFields();
+            Field[] fieldsInCache = userInCache.getClass().getDeclaredFields();
+            try {
+                for (int i = 0; i < fields.length; i++) {
+                    fields[i].setAccessible(true);
+                    fieldsInCache[i].setAccessible(true);
+                    if (fields[i].get(user) != null) {
+                        fieldsInCache[i].set(userInCache, fields[i].get(user));
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            RedisUtil.setUser(id, userInCache);
+            return userInCache;
+        } else {
+            return null;
+        }
     }
 }

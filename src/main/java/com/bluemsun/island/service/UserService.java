@@ -57,4 +57,14 @@ public interface UserService {
      * @return com.bluemsun.island.entity.User 用户
      **/
     User getUserInCache(int id);
+
+    /**
+     * 修改部分用户信息(*)
+     *
+     * @date 15:35 2021/10/20
+     * @param token 用户令牌
+     * @param  user 用户（部分修改的信息）
+     * @return com.bluemsun.island.entity.User 用户（全部信息）
+     **/
+    User changeUser(String token, User user);
 }

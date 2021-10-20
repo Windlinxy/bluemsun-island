@@ -22,9 +22,15 @@
         signature,birthday,image_url
     </sql>
 
+    <update id="updateImageUrl" parameterType="user">
+        update bluemsun_island.tb_user
+        set image_url = '${imageUrl}'
+        where id = #{id}
+    </update>
+
     <select id="select" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
-#                *
+        # *
         <include refid="Base_Column_List"/>
         from tb_user
         where id = #{id,jdbcType=INTEGER}
@@ -36,17 +42,41 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
 
-    <insert id="insert"  parameterType="User">
+    <insert id="insert" parameterType="User">
         insert into tb_user
-            (username,password,phone_number)
-        values (#{username},#{password},#{phoneNumber});
+            (username, password, phone_number)
+        values (#{username}, #{password}, #{phoneNumber});
     </insert>
 
     <select id="queryOneByPhoneNumberAndPassword" parameterType="User" resultMap="BaseResultMap">
         select
-            <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         from tb_user
-        where phone_number = #{phoneNumber,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR};
+        where phone_number = #{phoneNumber} and password = #{password};
     </select>
 
+    <update id="updateUser" parameterType="User">
+        update tb_user
+        <set>
+            <if test="username!=null and username!='' ">
+                username=#{username},
+            </if>
+            <if test="password!=null and password!='' ">
+                password=#{password},
+            </if>
+            <if test="phoneNumber!=null and phoneNumber!='' ">
+                phone_number=#{phoneNumber},
+            </if>
+            <if test="sex!=null and sex!='' ">
+                sex=#{sex},
+            </if>
+            <if test="signature!=null and signature!='' ">
+                signature =#{signature},
+            </if>
+            <if test="birthday!=null and birthday!='' ">
+                birthday =#{birthday}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
 </mapper>

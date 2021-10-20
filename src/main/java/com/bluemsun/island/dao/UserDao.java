@@ -57,4 +57,13 @@ public interface UserDao {
      * @date 17:49 2021/10/19
      **/
     public int updateImageUrl(User user);
+
+    /**
+     * 更新用户信息
+     *
+     * @date 9:09 2021/10/20
+     * @param user 用户（传啥有啥）
+     * @return int 影响行数
+     **/
+    int updateUser(User user);
 }

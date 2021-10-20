@@ -90,4 +90,20 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
         }
         return operationCode;
     }
+
+    @Override
+    public int updateUser(User user){
+        try {
+            int rowsAffected = getMapper(UserMapper.class).updateUser(user);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
+        return operationCode;
+    }
 }
