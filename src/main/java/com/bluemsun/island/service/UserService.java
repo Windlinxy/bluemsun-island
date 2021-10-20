@@ -30,14 +30,6 @@ public interface UserService {
      **/
     User isUser(User user);
 
-    /**
-     * 文件存储服务
-     *
-     * @param serverPath 绝对路径
-     * @return java.lang.String 文件web中路径
-     * @date 20:11 2021/10/17
-     **/
-    String fileStore(MultipartFile file, String serverPath);
 
     /**
      * 改变用户url

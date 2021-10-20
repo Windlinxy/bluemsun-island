@@ -2,6 +2,7 @@ package com.bluemsun.island.controller;
 
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.enums.ReturnCode;
+import com.bluemsun.island.service.FileService;
 import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.ResponseUtil;
@@ -29,6 +30,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private FileService fileService;
 
     /**
      * 用户登录接口
@@ -99,15 +102,15 @@ public class UserController {
     /**
      * 用户上传头像接口
      *
+     * @return java.util.Map<java.lang.String, java.lang.Object> User
      * @date 20:23 2021/10/19
-     * @return java.util.Map<java.lang.String,java.lang.Object> User
      **/
     @PostMapping("/user/image")
     public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
         String folderString = "images";
         String serverPath = request.getServletContext().getRealPath(folderString);
-        String filename = userService.fileStore(file, serverPath);
+        String filename = fileService.fileStore(file, serverPath);
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
@@ -119,28 +122,36 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public Map<String,Object> getUserInfo(HttpServletRequest request){
+    public Map<String, Object> getUserInfo(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(5);
         String token = request.getHeader("token");
-        if(token ==null){
+        if (token == null) {
             ResponseUtil.returnFailed(map);
-        }else {
+        } else {
             int id = JwtUtil.getUserId(token);
             User userInCache = userService.getUserInCache(id);
-            map.put("user",userInCache);
+            map.put("user", userInCache);
             ResponseUtil.returnSuccess(map);
         }
         return map;
     }
 
-    @PutMapping("/users")
-    public Map<String, Object> changUserInfo(HttpServletRequest request,@RequestBody User user){
+    /**
+     * 修改用户信息（部分）
+     *
+     * @param request 请求
+     * @param user 用户（需要修改的信息）
+     * @return java.util.Map<java.lang.String, java.lang.Object>
+     * @date 17:30 2021/10/20
+     **/
+    @PatchMapping("/users")
+    public Map<String, Object> changUserInfo(HttpServletRequest request, @RequestBody User user) {
         Map<String, Object> map = new HashMap<>(4);
-        User userAfterChange = userService.changeUser(request.getHeader("token"),user);
-        if(userAfterChange != null){
+        User userAfterChange = userService.changeUser(request.getHeader("token"), user);
+        if (userAfterChange != null) {
             ResponseUtil.returnSuccess(map);
-            map.put("user",userAfterChange);
-        }else{
+            map.put("user", userAfterChange);
+        } else {
             ResponseUtil.returnFailed(map);
         }
         return map;

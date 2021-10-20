@@ -89,4 +89,5 @@
     </bean>
 
     <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl"/>
+    <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl"/>
 </beans>
