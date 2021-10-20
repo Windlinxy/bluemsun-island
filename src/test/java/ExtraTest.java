@@ -7,6 +7,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.Jedis;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @program: BulemsunIsland
  * @description: test
@@ -26,6 +31,18 @@ public class ExtraTest {
         String test = "D:\\TomCat\\apache-tomcat-8.5.59\\webapps\\bluemsun_island\\images\\3a9e5ab9-bb1f.png";
         System.out.println(test.replace("\\bluemsun_island", ""));
         System.out.println();
+    }
+
+    @Test
+    public void stringToDateTest() {
+        try{
+            Date date = DateFormat.getDateInstance().parse("2020-12-10");
+            System.out.println(date);
+            Date date1 = new Date();
+            System.out.println(date1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
 

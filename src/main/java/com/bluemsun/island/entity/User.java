@@ -1,5 +1,10 @@
 package com.bluemsun.island.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -18,7 +23,11 @@ public class User {
     private byte sex;
     private byte identifyId;
     private String signature;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
+
     private String imageUrl;
 
     public User() {
@@ -57,6 +66,10 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public void setBirthday(String birthday) throws ParseException {
+        this.birthday = DateFormat.getDateInstance().parse(birthday);
     }
 
     public int getId() {
