@@ -6,12 +6,9 @@ import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.UUID;
+import java.util.Date;
 
 /**
  * 用户服务接口实现类
@@ -28,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int addUser(User user) {
+        user.setBirthday(new Date());
         operationJudCode = userDao.insertUser(user);
         return operationJudCode;
     }

@@ -88,6 +88,6 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl"/>
-    <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl"/>
+    <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl" lazy-init="true"/>
+    <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl" lazy-init="true"/>
 </beans>

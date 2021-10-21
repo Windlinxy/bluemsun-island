@@ -26,12 +26,13 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
         System.out.println(uri);
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
         boolean jud = "/bluemsun_island/users".contains(uri) && "POST".equals(request.getMethod())
                 || uri.contains("/token")
                 || uri.contains("/images") && "GET".equals(request.getMethod())
                 //|| uri.contains("/image")
                 || "/bluemsun_island/".equals(uri);
+        //进行拦截，true放行，false则为未登录
         if (jud) {
             return true;
         } else if (!JwtUtil.verify(token)) {

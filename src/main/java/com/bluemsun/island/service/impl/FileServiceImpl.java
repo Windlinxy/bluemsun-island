@@ -60,7 +60,7 @@ public class FileServiceImpl implements FileService {
 
         try {
             file.transferTo(new File(fileParts));
-            file.transferTo(new File(permanentFileParts));
+            //file.transferTo(new File(permanentFileParts));
         } catch (IOException e) {
             throw new RuntimeException();
         }

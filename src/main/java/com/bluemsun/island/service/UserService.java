@@ -1,7 +1,6 @@
 package com.bluemsun.island.service;
 
 import com.bluemsun.island.entity.User;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 用户服务借口
