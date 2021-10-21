@@ -27,7 +27,6 @@ import java.util.Map;
 public class UserController {
     private int jud = 0;
     private final int hashMapCapacity = (int) (6 * 0.75 + 1.0);
-
     @Autowired
     private UserService userService;
     @Autowired
@@ -80,7 +79,7 @@ public class UserController {
         if (userInfo != null) {
             userInfo.setPassword(null);
             map.put("user", userInfo);
-            map.put("token", JwtUtil.sign(userInfo.getId(), userInfo.getIdentifyId()));
+            map.put("Authorization", JwtUtil.sign(userInfo.getId(), userInfo.getIdentifyId()));
             ResponseUtil.returnSuccess(map);
         } else {
             ResponseUtil.returnFailed(map);
@@ -105,26 +104,37 @@ public class UserController {
      * @return java.util.Map<java.lang.String, java.lang.Object> User
      * @date 20:23 2021/10/19
      **/
-    @PostMapping("/user/image")
+    @PostMapping(
+            value = "/user/image",
+            consumes = "multipart/form-data",
+            produces = "application/json")
     public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
+        System.out.println(request.getHeader("ContentType"));
         String folderString = "images";
         String serverPath = request.getServletContext().getRealPath(folderString);
         String filename = fileService.fileStore(file, serverPath);
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
-        projectServerPath = projectServerPath.replace("/bluemsun_island", "");
-        userService.changeImageUrl(request.getHeader("token"), projectServerPath);
-        map.put("status", ReturnCode.SUCCESS.getCode());
-        map.put("imageUrl", projectServerPath);
+        //projectServerPath = projectServerPath.replace("/bluemsun_island", "");
+        jud = userService.changeImageUrl(request.getHeader("Authorization"), projectServerPath);
+        if(jud==ReturnCode.OP_SUCCESS){
+            map.put("status", ReturnCode.SUCCESS.getCode());
+            map.put("imageUrl", projectServerPath);
+        }else {
+            ResponseUtil.returnFailed(map);
+        }
         return map;
     }
 
-    @GetMapping("/user")
+    @GetMapping(
+            value = "/user",
+            produces = "application/json"
+    )
     public Map<String, Object> getUserInfo(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(5);
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
         if (token == null) {
             ResponseUtil.returnFailed(map);
         } else {
@@ -140,14 +150,18 @@ public class UserController {
      * 修改用户信息（部分）
      *
      * @param request 请求
-     * @param user 用户（需要修改的信息）
+     * @param user    用户（需要修改的信息）
      * @return java.util.Map<java.lang.String, java.lang.Object>
      * @date 17:30 2021/10/20
      **/
-    @PatchMapping("/users")
-    public Map<String, Object> changUserInfo(HttpServletRequest request, @RequestBody User user) {
+    @PatchMapping(
+            value = "/users",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Map<String, Object> changUserInfo(HttpServletRequest request,@RequestBody User user) {
         Map<String, Object> map = new HashMap<>(4);
-        User userAfterChange = userService.changeUser(request.getHeader("token"), user);
+        User userAfterChange = userService.changeUser(request.getHeader("Authorization"), user);
         if (userAfterChange != null) {
             ResponseUtil.returnSuccess(map);
             map.put("user", userAfterChange);

@@ -1,11 +1,5 @@
-import com.bluemsun.island.dao.UserDao;
-import com.bluemsun.island.dao.impl.UserDaoImpl;
-import com.bluemsun.island.entity.User;
 import com.bluemsun.island.util.RedisUtil;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import redis.clients.jedis.Jedis;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,6 +37,12 @@ public class ExtraTest {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void dateTest() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        System.out.println(format.parse("2021-12-10 15:10:01"));
     }
 }
 
