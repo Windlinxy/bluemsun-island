@@ -22,13 +22,6 @@ public interface UserMapper {
      **/
     int insert(User user);
 
-    /**
-     * 获取所有用户
-     *
-     * @return java.util.List<com.bluemsun.island.entity.User>
-     * @date 16:02 2021/10/10
-     **/
-    List<User> select();
 
     /**
      * 根据id删除用户记录
@@ -39,14 +32,6 @@ public interface UserMapper {
      **/
     int deleteById(int id);
 
-    /**
-     * 根据手机号和密码查找用户
-     *
-     * @param user 用户
-     * @return com.bluemsun.island.entity.User 用户
-     * @date 16:57 2021/10/10
-     **/
-    User queryOneByPhoneNumberAndPassword(User user);
 
     /**
      * 修改头像url
@@ -57,5 +42,32 @@ public interface UserMapper {
      **/
     int updateImageUrl(User user);
 
-    int updateUser(User user);
+    /**
+     *
+     *
+     * @date 14:35 2021/10/22
+     * @param user
+     * @return int
+     **/
+    int updateUserSelective(User user);
+
+    /**
+     * 根据手机号和密码查找用户
+     *
+     * @param user 用户
+     * @return com.bluemsun.island.entity.User 用户
+     * @date 16:57 2021/10/10
+     **/
+    User selectOneByPhoneNumberAndPassword(User user);
+
+    /**
+     * 获取所有用户
+     *
+     * @return java.util.List<com.bluemsun.island.entity.User>
+     * @date 16:02 2021/10/10
+     **/
+    List<User> select();
+
+
+    int getAllUserCount();
 }

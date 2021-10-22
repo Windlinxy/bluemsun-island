@@ -29,16 +29,8 @@ public interface UserDao {
      * @return java.util.List<com.bluemsun.island.entity.User>
      * @date 16:55 2021/10/10
      **/
-    List<User> selectAllUsers();
+    List<User> queryAllUsers();
 
-    /**
-     * 根据id删除用户
-     *
-     * @param id 用户id
-     * @return int 操作判断码
-     * @date 16:55 2021/10/10
-     **/
-    int deleteUserById(int id);
 
     /**
      * 根据电话号码与密码查询用户
@@ -56,7 +48,7 @@ public interface UserDao {
      * @return int 操作码
      * @date 17:49 2021/10/19
      **/
-    public int updateImageUrl(User user);
+    int updateImageUrl(User user);
 
     /**
      * 更新用户信息
@@ -66,4 +58,13 @@ public interface UserDao {
      * @return int 影响行数
      **/
     int updateUser(User user);
+
+    /**
+     * 根据id删除用户
+     *
+     * @param id 用户id
+     * @return int 操作判断码
+     * @date 16:55 2021/10/10
+     **/
+    int deleteUserById(int id);
 }

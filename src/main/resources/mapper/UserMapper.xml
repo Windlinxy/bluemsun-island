@@ -14,12 +14,14 @@
         <result property="signature" column="signature" jdbcType="VARCHAR"/>
         <result property="birthday" column="birthday" jdbcType="DATE"/>
         <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="core" column="core" jdbcType="INTEGER"/>
+        <result property="status" column="user_status" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,identify_id,username,
         `password`,`phone_number`,sex,
-        signature,birthday,image_url
+        signature,birthday,image_url,core,user_status
     </sql>
 
     <update id="updateImageUrl" parameterType="user">
@@ -33,13 +35,13 @@
         # *
         <include refid="Base_Column_List"/>
         from tb_user
-        where id = #{id,jdbcType=INTEGER}
+        # where id = #{id}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Long">
         delete
         from tb_user
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id}
     </delete>
 
     <insert id="insert" parameterType="User">
@@ -48,21 +50,21 @@
         values (#{username}, #{password}, #{phoneNumber});
     </insert>
 
-    <select id="queryOneByPhoneNumberAndPassword" parameterType="User" resultMap="BaseResultMap">
+    <select id="selectOneByPhoneNumberAndPassword" parameterType="User" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from tb_user
         where phone_number = #{phoneNumber} and password = #{password};
     </select>
 
-    <update id="updateUser" parameterType="User">
+    <update id="updateUserSelective" parameterType="User">
         update tb_user
         <set>
             <if test="username!=null and username!='' ">
                 username=#{username},
             </if>
             <if test="password!=null and password!='' ">
-                password=#{password},
+                `password`=#{password},
             </if>
             <if test="phoneNumber!=null and phoneNumber!='' ">
                 phone_number=#{phoneNumber},
@@ -76,7 +78,18 @@
             <if test="birthday!=null">
                 birthday =#{birthday}
             </if>
+            <if test="core!=null">
+                core =#{core}
+            </if>
+            <if test="status!=null">
+                user_status =#{status}
+            </if>
         </set>
         where id = #{id};
     </update>
+
+    <select id="getAllUserCount" resultType="int">
+        select count(*)
+        from tb_user;
+    </select>
 </mapper>

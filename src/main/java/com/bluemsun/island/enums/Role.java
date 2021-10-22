@@ -1,8 +1,10 @@
 package com.bluemsun.island.enums;
 
 /**
+ * 用户角色枚举类
+ *
  * @program: BulemsunIsland
- * @description: 用户角色
+ * @description: 用户角色枚举类
  * @author: Windlinxy
  * @create: 2021-10-08 14:22
  **/

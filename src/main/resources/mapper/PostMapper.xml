@@ -28,19 +28,19 @@
         select
         <include refid="Base_Column_List"/>
         from tb_post
-        where post_id = #{postId,jdbcType=INTEGER}
+        where post_id = #{postId}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Long">
         delete
         from tb_post
-        where post_id = #{postId,jdbcType=INTEGER}
+        where post_id = #{postId}
     </delete>
 
     <insert id="insert" keyColumn="post_id" keyProperty="postId" parameterType="Post" useGeneratedKeys="true">
         insert into tb_post
-        ( title, user_id, content, section_id)
-        values ( #{title,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},  #{sectionId,jdbcType=INTEGER})
+            (title, user_id, content, section_id)
+        values (#{title}, #{userId}, #{content}, #{sectionId})
     </insert>
 
     <insert id="insertSelective" keyColumn="post_id" keyProperty="postId" parameterType="Post">
@@ -57,28 +57,28 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="title != null">
-                title = #{title,jdbcType=VARCHAR},
+                title = #{title},
             </if>
             <if test="userId != null">
-                user_id = #{userId,jdbcType=INTEGER},
+                user_id = #{userId},
             </if>
             <if test="content != null">
-                content = #{content,jdbcType=VARCHAR},
+                content = #{content},
             </if>
             <if test="accessNumber != null">
-                access_number = #{accessNumber,jdbcType=INTEGER},
+                access_number = #{accessNumber},
             </if>
             <if test="starNumber != null">
-                star_number = #{starNumber,jdbcType=INTEGER},
+                star_number = #{starNumber},
             </if>
             <if test="commentNumber != null">
-                comment_number = #{commentNumber,jdbcType=INTEGER},
+                comment_number = #{commentNumber},
             </if>
             <if test="likeNumber != null">
-                like_number = #{likeNumber,jdbcType=INTEGER},
+                like_number = #{likeNumber},
             </if>
             <if test="sectionId != null">
-                section_id = #{sectionId,jdbcType=INTEGER},
+                section_id = #{sectionId},
             </if>
         </trim>
     </insert>
@@ -88,49 +88,53 @@
         update tb_post
         <set>
             <if test="postDate != null">
-                post_date = #{postDate,jdbcType=TIMESTAMP},
+                post_date = #{postDate},
             </if>
             <if test="title != null">
-                title = #{title,jdbcType=VARCHAR},
+                title = #{title},
             </if>
             <if test="userId != null">
-                user_id = #{userId,jdbcType=INTEGER},
+                user_id = #{userId},
             </if>
             <if test="content != null">
-                content = #{content,jdbcType=VARCHAR},
+                content = #{content},
+            </if>
+            <if test="status != null">
+                content = #{status},
             </if>
             <if test="accessNumber != null">
-                access_number = #{accessNumber,jdbcType=INTEGER},
+                access_number = #{accessNumber},
             </if>
             <if test="starNumber != null">
-                star_number = #{starNumber,jdbcType=INTEGER},
+                star_number = #{starNumber},
             </if>
             <if test="commentNumber != null">
-                comment_number = #{commentNumber,jdbcType=INTEGER},
+                comment_number = #{commentNumber},
             </if>
             <if test="likeNumber != null">
-                like_number = #{likeNumber,jdbcType=INTEGER},
+                like_number = #{likeNumber},
             </if>
             <if test="sectionId != null">
-                section_id = #{sectionId,jdbcType=INTEGER},
+                section_id = #{sectionIdR},
             </if>
         </set>
-        where post_id = #{postId,jdbcType=INTEGER}
+        where post_id = #{postId}
     </update>
 
 
     <update id="updateById" parameterType="Post">
         update tb_post
-        set post_date      = #{postDate,jdbcType=TIMESTAMP},
-            title          = #{title,jdbcType=VARCHAR},
-            user_id        = #{userId,jdbcType=INTEGER},
-            content        = #{content,jdbcType=VARCHAR},
-            access_number  = #{accessNumber,jdbcType=INTEGER},
-            star_number    = #{starNumber,jdbcType=INTEGER},
-            comment_number = #{commentNumber,jdbcType=INTEGER},
-            like_number    = #{likeNumber,jdbcType=INTEGER},
-            section_id     = #{sectionId,jdbcType=INTEGER}
-        where post_id = #{postId,jdbcType=INTEGER}
+        set post_date      = #{postDate},
+            title          = #{title},
+            user_id        = #{userId},
+            content        = #{content},
+            post_status    = #{status},
+            access_number  = #{accessNumber},
+            star_number    = #{starNumber},
+            comment_number = #{commentNumber},
+            like_number    = #{likeNumber},
+            section_id     = #{sectionId}
+        where post_id = #{postId}
     </update>
 
 </mapper>

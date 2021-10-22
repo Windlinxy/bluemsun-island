@@ -88,6 +88,19 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
+    <bean id="noticeDao" class="com.bluemsun.island.dao.impl.NoticeDaoImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="postDao" class="com.bluemsun.island.dao.impl.PostDaoImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
     <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl" lazy-init="true"/>
     <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl" lazy-init="true"/>
+    <bean id="adminService" class="com.bluemsun.island.service.impl.AdminServiceImpl" lazy-init="true"/>
+    <bean id="noticeService" class="com.bluemsun.island.service.impl.NoticeServiceImpl" lazy-init="true"/>
+    <bean id="pageService" class="com.bluemsun.island.service.impl.PageServiceImpl" lazy-init="true"/>
+    <bean id="replyService" class="com.bluemsun.island.service.impl.ReplyServiceImpl" lazy-init="true"/>
+    <bean id="commentService" class="com.bluemsun.island.service.impl.CommentServiceImpl" lazy-init="true"/>
 </beans>

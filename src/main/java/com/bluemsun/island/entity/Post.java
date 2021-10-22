@@ -64,6 +64,8 @@ public class Post {
      */
     private int sectionId;
 
+    private int status;
+
     public Post() {
     }
 
@@ -147,6 +149,14 @@ public class Post {
         this.sectionId = sectionId;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
@@ -160,6 +170,7 @@ public class Post {
                 ", commentNumber=" + commentNumber +
                 ", likeNumber=" + likeNumber +
                 ", sectionId=" + sectionId +
+                ", status=" + status +
                 '}';
     }
 }

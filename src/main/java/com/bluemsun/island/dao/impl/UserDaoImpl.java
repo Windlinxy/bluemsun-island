@@ -39,7 +39,7 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     }
 
     @Override
-    public List<User> selectAllUsers() {
+    public List<User> queryAllUsers() {
         List<User> userList;
         try {
             userList = getMapper(UserMapper.class).select();
@@ -50,25 +50,9 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     }
 
     @Override
-    public int deleteUserById(int id) {
-        try {
-            int rowsAffected = getMapper(UserMapper.class).deleteById(id);
-            if (rowsAffected == 1) {
-                operationCode = ReturnCode.OP_SUCCESS;
-            } else {
-                operationCode = ReturnCode.OP_FAILED;
-            }
-        } catch (Exception e) {
-            operationCode = ReturnCode.OP_FAILED;
-            throw new RuntimeException(e);
-        }
-        return operationCode;
-    }
-
-    @Override
     public User queryOneUser(User user) {
         try {
-            user = getMapper(UserMapper.class).queryOneByPhoneNumberAndPassword(user);
+            user = getMapper(UserMapper.class).selectOneByPhoneNumberAndPassword(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -92,9 +76,25 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     }
 
     @Override
-    public int updateUser(User user){
+    public int updateUser(User user) {
         try {
-            int rowsAffected = getMapper(UserMapper.class).updateUser(user);
+            int rowsAffected = getMapper(UserMapper.class).updateUserSelective(user);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
+        return operationCode;
+    }
+
+    @Override
+    public int deleteUserById(int id) {
+        try {
+            int rowsAffected = getMapper(UserMapper.class).deleteById(id);
             if (rowsAffected == 1) {
                 operationCode = ReturnCode.OP_SUCCESS;
             } else {

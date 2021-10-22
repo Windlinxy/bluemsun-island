@@ -1,6 +1,10 @@
 package com.bluemsun.island.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: BulemsunIsland
@@ -10,4 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 public class AdminController {
+    @GetMapping("/users")
+    public Map<String,Object> userList(){
+        Map<String,Object> map = new HashMap<>();
+
+        return map;
+    }
 }

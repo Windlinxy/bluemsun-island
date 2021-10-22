@@ -34,6 +34,7 @@ public class Notice {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date noticeTime;
 
+    private int status;
     public Notice() {
     }
 
@@ -69,6 +70,14 @@ public class Notice {
         this.noticeTime = noticeTime;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Notice{" +
@@ -76,6 +85,7 @@ public class Notice {
                 ", userId=" + userId +
                 ", content='" + content + '\'' +
                 ", noticeTime=" + noticeTime +
+                ", status=" + status +
                 '}';
     }
 }

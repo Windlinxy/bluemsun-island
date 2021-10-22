@@ -1,21 +1,29 @@
 package com.bluemsun.island.filter;
 
 import com.bluemsun.island.util.RedisUtil;
-import org.springframework.context.annotation.ComponentScan;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * CORS跨域过滤器
+ *
+ * @program: BulemsunIsland
+ * @description: CORS跨域过滤器
+ * @author: Windlinxy
+ * @create: 2021-10-08 14:22
+ **/
 public class CORSFilter implements Filter {
-    @Override
-    public void init(FilterConfig config) {
-//        System.out.println("CORS init()");;
-    }
 
     @Override
     public void destroy() {
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
     }
 
     @Override

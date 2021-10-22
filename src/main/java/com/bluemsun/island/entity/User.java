@@ -30,6 +30,10 @@ public class User {
 
     private String imageUrl;
 
+    private int core;
+
+    private int status;
+
     public User() {
     }
 
@@ -120,6 +124,21 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public int getCore() {
+        return core;
+    }
+
+    public void setCore(int core) {
+        this.core = core;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
@@ -133,6 +152,8 @@ public class User {
                 ", signature='" + signature + '\'' +
                 ", birthday=" + birthday +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", core=" + core +
+                ", status=" + status +
                 '}';
     }
 }
