@@ -29,7 +29,7 @@ public interface UserDao {
      * @return java.util.List<com.bluemsun.island.entity.User>
      * @date 16:55 2021/10/10
      **/
-    List<User> queryAllUsers();
+    List<User> queryAllUsers(int startIndex,int pageSize);
 
 
     /**
@@ -67,4 +67,12 @@ public interface UserDao {
      * @date 16:55 2021/10/10
      **/
     int deleteUserById(int id);
+
+    /**
+     * 获得用户总数
+     *
+     * @date 20:35 2021/10/22
+     * @return int 用户总数
+     **/
+    int getAllUsersCount();
 }

@@ -1,6 +1,8 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.UserDao;
+import com.bluemsun.island.entity.Page;
+import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,5 +16,12 @@ public class PageServiceImpl implements PageService {
     @Autowired
     private UserDao userDao;
 
+    @Override
+    public Page<User> getUsers(int curPage, int pageSize) {
+        int totalResult = userDao.getAllUsersCount();
+        Page<User> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(userDao.queryAllUsers(page.getStartIndex(),pageSize));
+        return page;
+    }
 
 }

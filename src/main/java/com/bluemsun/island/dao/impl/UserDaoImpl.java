@@ -39,24 +39,19 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     }
 
     @Override
-    public List<User> queryAllUsers() {
-        List<User> userList;
+    public int deleteUserById(int id) {
         try {
-            userList = getMapper(UserMapper.class).select();
+            int rowsAffected = getMapper(UserMapper.class).deleteById(id);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
         } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
             throw new RuntimeException(e);
         }
-        return userList;
-    }
-
-    @Override
-    public User queryOneUser(User user) {
-        try {
-            user = getMapper(UserMapper.class).selectOneByPhoneNumberAndPassword(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return user;
+        return operationCode;
     }
 
     @Override
@@ -92,18 +87,35 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     }
 
     @Override
-    public int deleteUserById(int id) {
+    public List<User> queryAllUsers(int startIndex,int pageSize) {
+        List<User> userList;
         try {
-            int rowsAffected = getMapper(UserMapper.class).deleteById(id);
-            if (rowsAffected == 1) {
-                operationCode = ReturnCode.OP_SUCCESS;
-            } else {
-                operationCode = ReturnCode.OP_FAILED;
-            }
+            userList = getMapper(UserMapper.class).selectAllUser(startIndex,pageSize);
         } catch (Exception e) {
-            operationCode = ReturnCode.OP_FAILED;
             throw new RuntimeException(e);
         }
-        return operationCode;
+        return userList;
     }
+
+    @Override
+    public User queryOneUser(User user) {
+        try {
+            user = getMapper(UserMapper.class).selectOneByPhoneNumberAndPassword(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
+
+    @Override
+    public int getAllUsersCount(){
+        int count;
+        try {
+            count = getMapper(UserMapper.class).getAllUserCount();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
 }

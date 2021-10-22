@@ -1,6 +1,7 @@
 package com.bluemsun.island.dao.mapper;
 
 import com.bluemsun.island.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -61,11 +62,12 @@ public interface UserMapper {
 
     /**
      * 获取所有用户
-     *
+     * @param startIndex 开始页
+     * @param pageSize      页面大小
      * @return java.util.List<com.bluemsun.island.entity.User>
      * @date 16:02 2021/10/10
      **/
-    List<User> select();
+    List<User> selectAllUser(@Param("startIndex")int startIndex,@Param("pageSize")int pageSize);//int,int
 
     /**
      * 获得用户表记录数
