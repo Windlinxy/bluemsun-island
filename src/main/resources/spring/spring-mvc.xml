@@ -79,7 +79,6 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"/><!-- 默认编码ISO-8859-1 -->
         <property name="maxInMemorySize" value="102400"/><!-- 最大内存 10M -->
-        <property name="uploadTempDir" value="/images/"/><!-- 上传的文件名字 -->
         <property name="maxUploadSize" value="-1"/><!-- 最大文件，-1不限制 -->
     </bean>
 
@@ -103,4 +102,5 @@
     <bean id="pageService" class="com.bluemsun.island.service.impl.PageServiceImpl" lazy-init="true"/>
     <bean id="replyService" class="com.bluemsun.island.service.impl.ReplyServiceImpl" lazy-init="true"/>
     <bean id="commentService" class="com.bluemsun.island.service.impl.CommentServiceImpl" lazy-init="true"/>
+    <bean id="postService" class="com.bluemsun.island.service.impl.PostServiceImpl" lazy-init="true"/>
 </beans>

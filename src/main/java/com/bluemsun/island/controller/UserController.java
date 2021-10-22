@@ -105,19 +105,19 @@ public class UserController {
      * @date 20:23 2021/10/19
      **/
     @PostMapping(
-            value = "/user/image",
+            value = "/user/portrait",
             consumes = "multipart/form-data",
             produces = "application/json")
-    public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
+    public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("portrait") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
         System.out.println(request.getHeader("ContentType"));
-        String folderString = "images";
+        String folderString = "portraits";
         String serverPath = request.getServletContext().getRealPath(folderString);
         String filename = fileService.fileStore(file, serverPath);
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
-        //projectServerPath = projectServerPath.replace("/bluemsun_island", "");
+
         jud = userService.changeImageUrl(request.getHeader("Authorization"), projectServerPath);
         if(jud==ReturnCode.OP_SUCCESS){
             map.put("status", ReturnCode.SUCCESS.getCode());

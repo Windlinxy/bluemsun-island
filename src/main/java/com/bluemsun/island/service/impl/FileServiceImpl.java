@@ -32,7 +32,11 @@ public class FileServiceImpl implements FileService {
         } else {
             suffix = "";
         }
+        File fileDisk = new File(serverPath);
 
+        if(!fileDisk.exists()){
+            fileDisk.mkdir();
+        }
 
         // 随机的生成uuid，作为文件名的一部分。 加上刚才获取到的后缀作为最终文件名。
         String uuid = UUID.randomUUID() + "";
@@ -62,6 +66,7 @@ public class FileServiceImpl implements FileService {
             file.transferTo(new File(fileParts));
             //file.transferTo(new File(permanentFileParts));
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException();
         }
         return filename;

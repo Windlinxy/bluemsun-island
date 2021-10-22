@@ -43,11 +43,10 @@ public interface UserMapper {
     int updateImageUrl(User user);
 
     /**
-     *
-     *
-     * @date 14:35 2021/10/22
-     * @param user
+     * 灵活修改用户信息
+     * @param user  用户（灵活）
      * @return int
+     * @date 14:35 2021/10/22
      **/
     int updateUserSelective(User user);
 
@@ -68,6 +67,11 @@ public interface UserMapper {
      **/
     List<User> select();
 
-
+    /**
+     * 获得用户表记录数
+     *
+     * @date 14:36 2021/10/22
+     * @return int 记录数
+     **/
     int getAllUserCount();
 }
