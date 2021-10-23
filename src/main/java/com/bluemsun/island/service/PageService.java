@@ -1,6 +1,7 @@
 package com.bluemsun.island.service;
 
 import com.bluemsun.island.entity.Page;
+import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.entity.User;
 
 /**
@@ -19,4 +20,14 @@ public interface PageService {
      * @return Page<User>
      **/
     Page<User> getUsers(int curPage, int pageSize);
+
+    /**
+     * 获得所有帖子
+     *
+     * @date 10:36 2021/10/23
+     * @param curPage 当前页
+     * @param  pageSize 页面显示数量
+     * @return Page<Post>
+     **/
+    Page<Post> getPosts(int  curPage, int pageSize);
 }

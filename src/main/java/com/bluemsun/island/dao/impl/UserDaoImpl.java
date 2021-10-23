@@ -111,11 +111,12 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     public int getAllUsersCount(){
         int count;
         try {
-            count = getMapper(UserMapper.class).getAllUserCount();
+            count = getMapper(UserMapper.class).getAllUsersCount();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return count;
     }
+
 
 }

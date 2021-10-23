@@ -1,6 +1,9 @@
 package com.bluemsun.island.dao.mapper;
 
 import com.bluemsun.island.entity.Post;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 帖子映射
@@ -18,10 +21,14 @@ public interface PostMapper {
 
     int insertSelective(Post record);
 
-    Post selectById(Long id);
-
     int updateByIdSelective(Post record);
 
     int updateById(Post record);
+
+    Post selectById(Long id);
+
+    int getAllPostsCount();
+
+    List<Post> selectAllPosts(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
 }

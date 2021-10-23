@@ -23,7 +23,6 @@ public interface UserMapper {
      **/
     int insert(User user);
 
-
     /**
      * 根据id删除用户记录
      *
@@ -32,7 +31,6 @@ public interface UserMapper {
      * @date 16:56 2021/10/10
      **/
     int deleteById(int id);
-
 
     /**
      * 修改头像url
@@ -75,5 +73,5 @@ public interface UserMapper {
      * @date 14:36 2021/10/22
      * @return int 记录数
      **/
-    int getAllUserCount();
+    int getAllUsersCount();
 }

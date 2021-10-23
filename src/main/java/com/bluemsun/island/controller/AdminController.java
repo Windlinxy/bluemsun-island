@@ -2,6 +2,8 @@ package com.bluemsun.island.controller;
 
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.User;
+import com.bluemsun.island.enums.ReturnCode;
+import com.bluemsun.island.service.AdminService;
 import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,11 @@ import java.util.Map;
  **/
 @RestController
 public class AdminController {
+    private int operationJudCode = 0;
     @Autowired
     private PageService pageService;
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping(
             value = "/users",
@@ -37,12 +42,20 @@ public class AdminController {
         }
         return map;
     }
+
     @DeleteMapping(
             value = "/users/{userId}"
     )
     public Map<String, Object> deleteUser(@PathVariable("userId")int userId){
         Map<String, Object> map = new HashMap<>();
-        map.put("id",userId);
+        operationJudCode =adminService.deleteUser(userId);
+        if(operationJudCode == ReturnCode.OP_SUCCESS){
+            ResponseUtil.returnSuccess(map);
+        }else if(operationJudCode == ReturnCode.OP_FAILED){
+            ResponseUtil.returnFailed(map);
+        }else {
+            ResponseUtil.returnUnknownError(map);
+        }
         return map;
     }
 }

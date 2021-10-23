@@ -7,6 +7,8 @@ import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.List;
+
 /**
  * @program: BulemsunIsland
  * @description: 帖子数据持久层接口实现类
@@ -32,4 +34,28 @@ public class PostDaoImpl extends SqlSessionDaoSupport implements PostDao {
         }
         return operationCode;
     }
+
+    @Override
+    public List<Post> queryAllPosts(int startIndex, int pageSize) {
+        List<Post> postList;
+        try {
+            postList = getMapper(PostMapper.class).selectAllPosts(startIndex,pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return postList;
+    }
+
+    @Override
+    public int getAllPostsCount(){
+        int count;
+        try {
+            count = getMapper(PostMapper.class).getAllPostsCount();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
+
 }

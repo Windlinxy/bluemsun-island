@@ -137,4 +137,16 @@
         where post_id = #{postId}
     </update>
 
+    <select id="getAllPostsCount" resultType="int">
+        select COUNT(*)
+        from tb_post;
+    </select>
+
+    <select id="selectAllPosts" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_post
+        limit #{startIndex},#{pageSize};
+    </select>
+
 </mapper>

@@ -105,7 +105,7 @@ public class UserController {
      * @date 20:23 2021/10/19
      **/
     @PostMapping(
-            value = "/user/portrait",
+            value = "/user/portraits",
             consumes = "multipart/form-data",
             produces = "application/json")
     public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("portrait") MultipartFile file) {
