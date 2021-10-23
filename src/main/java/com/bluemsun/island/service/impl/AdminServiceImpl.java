@@ -1,7 +1,9 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.UserDao;
+import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.AdminService;
+import com.bluemsun.island.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -19,4 +21,34 @@ public class AdminServiceImpl implements AdminService {
         operationJudCode =  userDao.deleteUserById(userId);
         return operationJudCode;
     }
+
+
+
+    @Override
+    public int changeUserStatus(int id,int status) {
+        User user = new User();
+        user.setId(id);
+        user.setStatus(status);
+        operationJudCode = userDao.updateUser(user);
+        return operationJudCode;
+    }
+
+    @Override
+    public User getUserInfo(int userId){
+        User userAfter;
+        User userInCache = RedisUtil.getUser(userId);
+        if(userInCache!=null){
+            userAfter = userInCache;
+        }else {
+            User userInDatabase = userDao.queryOneUser(userId);
+            if(userInDatabase != null){
+                userAfter = userInDatabase;
+                RedisUtil.setUser(userId,userInDatabase);
+            }else {
+                userAfter = null;
+            }
+        }
+        return userAfter;
+    }
+
 }

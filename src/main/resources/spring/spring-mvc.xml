@@ -95,6 +95,12 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
+    <bean id="sectionDao" class="com.bluemsun.island.dao.impl.SectionDaoImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+
+
     <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl" lazy-init="true"/>
     <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl" lazy-init="true"/>
     <bean id="adminService" class="com.bluemsun.island.service.impl.AdminServiceImpl" lazy-init="true"/>
@@ -103,4 +109,5 @@
     <bean id="replyService" class="com.bluemsun.island.service.impl.ReplyServiceImpl" lazy-init="true"/>
     <bean id="commentService" class="com.bluemsun.island.service.impl.CommentServiceImpl" lazy-init="true"/>
     <bean id="postService" class="com.bluemsun.island.service.impl.PostServiceImpl" lazy-init="true"/>
+    <bean id="sectionService" class="com.bluemsun.island.service.impl.SectionServiceImpl" lazy-init="true"/>
 </beans>

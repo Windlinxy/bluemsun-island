@@ -29,7 +29,7 @@ public interface UserDao {
      * @return java.util.List<com.bluemsun.island.entity.User>
      * @date 16:55 2021/10/10
      **/
-    List<User> queryAllUsers(int startIndex,int pageSize);
+    List<User> queryAllUsers(int startIndex, int pageSize);
 
 
     /**
@@ -40,6 +40,15 @@ public interface UserDao {
      * @date 17:41 2021/10/17
      **/
     User queryOneUser(User user);
+
+    /**
+     * 根据id获得用户
+     *
+     * @param userId 用户id
+     * @return User 获得用户
+     * @date 16:10 2021/10/23
+     **/
+    User queryOneUser(int userId);
 
     /**
      * 上传用户头像地址
@@ -53,9 +62,9 @@ public interface UserDao {
     /**
      * 更新用户信息
      *
-     * @date 9:09 2021/10/20
      * @param user 用户（传啥有啥）
      * @return int 影响行数
+     * @date 9:09 2021/10/20
      **/
     int updateUser(User user);
 
@@ -71,8 +80,8 @@ public interface UserDao {
     /**
      * 获得用户总数
      *
-     * @date 20:35 2021/10/22
      * @return int 用户总数
+     * @date 20:35 2021/10/22
      **/
     int getAllUsersCount();
 }

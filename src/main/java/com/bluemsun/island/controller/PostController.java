@@ -6,6 +6,7 @@ import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.FileService;
 import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.service.PostService;
+import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ import java.util.Map;
  * @create: 2021-10-21 20:34
  **/
 @RestController
+@RequestMapping(produces = "application/json")
 public class PostController {
     private int jud = 0;
     @Autowired
@@ -33,8 +35,7 @@ public class PostController {
 
     @PostMapping(
             value = "/post/images",
-            consumes = "multipart/form-data",
-            produces = "application/json"
+            consumes = "multipart/form-data"
     )
     public Map<String, Object> getImage(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
@@ -52,11 +53,16 @@ public class PostController {
     }
 
     @PostMapping(
-            value = "/posts",
-            consumes = "application/json",
-            produces = "application/json"
+            value = "/{secId}/posts",
+            consumes = "application/json"
     )
-    public Map<String,Object> addPost(@RequestBody Post post){
+    public Map<String, Object> addPost(
+            @PathVariable("secId") int sectionId,
+            HttpServletRequest request,
+            @RequestBody Post post) {
+        int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
+        post.setSectionId(sectionId);
+        post.setUserId(userId);
         Map<String, Object> map = new HashMap<>(4);
         jud = postService.addPost(post);
         if (jud == ReturnCode.OP_SUCCESS) {
@@ -71,12 +77,13 @@ public class PostController {
     }
 
     @GetMapping(
-            value = "/posts",
-            produces = "application/json"
+            value = "/posts"
     )
-    public Map<String,Object> getAllPosts(@RequestParam("cur") int currentPage, @RequestParam("size") int pageSize) {
+    public Map<String, Object> getAllPosts(
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize) {
         Map<String, Object> map = new HashMap<>();
-        System.out.println(currentPage+"==="+pageSize);
+        System.out.println(currentPage + "===" + pageSize);
         Page<Post> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);

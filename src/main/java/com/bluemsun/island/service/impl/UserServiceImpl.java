@@ -60,12 +60,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeUser(String token, User user) {
-        int id = JwtUtil.getUserId(token);
+    public User changeUser(int id, User user) {
         user.setId(id);
         operationJudCode = userDao.updateUser(user);
-        if (operationJudCode == 1) {
-            User userInCache = RedisUtil.getUser(id);
+        User userInCache = RedisUtil.getUser(id);
+        if (operationJudCode == 1 && user.getStatus()==0) {
+
             //使用反射更新缓存中用户数据
             Field[] fields = user.getClass().getDeclaredFields();
             Field[] fieldsInCache = userInCache.getClass().getDeclaredFields();
@@ -82,8 +82,11 @@ public class UserServiceImpl implements UserService {
             }
             RedisUtil.setUser(id, userInCache);
             return userInCache;
-        } else {
+        }else {
             return null;
         }
     }
+
+
+
 }

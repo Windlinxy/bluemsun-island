@@ -24,6 +24,9 @@ import java.util.Map;
  **/
 
 @RestController
+@RequestMapping(
+        produces = "application/json"
+)
 public class UserController {
     private int jud = 0;
     private final int hashMapCapacity = (int) (6 * 0.75 + 1.0);
@@ -41,8 +44,7 @@ public class UserController {
      **/
     @PostMapping(
             value = "/users",
-            consumes = "application/json",
-            produces = "application/json"
+            consumes = "application/json"
     )
     public Map<String, Object> register(@RequestBody User user) {
 
@@ -70,8 +72,7 @@ public class UserController {
      **/
     @PostMapping(
             value = "/users/token",
-            consumes = "application/json",
-            produces = "application/json"
+            consumes = "application/json"
     )
     public Map<String, Object> login(@RequestBody User user) {
         Map<String, Object> map = new HashMap<>(hashMapCapacity);
@@ -106,9 +107,10 @@ public class UserController {
      **/
     @PostMapping(
             value = "/user/portraits",
-            consumes = "multipart/form-data",
-            produces = "application/json")
-    public Map<String, Object> uploadHeadPortrait(HttpServletRequest request, @RequestParam("portrait") MultipartFile file) {
+            consumes = "multipart/form-data")
+    public Map<String, Object> uploadHeadPortrait(
+            HttpServletRequest request,
+            @RequestParam("portrait") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
         System.out.println(request.getHeader("ContentType"));
         String folderString = "portraits";
@@ -128,9 +130,15 @@ public class UserController {
         return map;
     }
 
+    /**
+     * 获取用户信息
+     *
+     * @date 19:25 2021/10/23
+     * @param request 请求
+     * @return Map<Object> 响应结果
+     **/
     @GetMapping(
-            value = "/user",
-            produces = "application/json"
+            value = "/user"
     )
     public Map<String, Object> getUserInfo(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(5);
@@ -156,12 +164,13 @@ public class UserController {
      **/
     @PatchMapping(
             value = "/users",
-            consumes = "application/json",
-            produces = "application/json"
+            consumes = "application/json"
     )
-    public Map<String, Object> changUserInfo(HttpServletRequest request,@RequestBody User user) {
+    public Map<String, Object> changUserInfo(
+            HttpServletRequest request,
+            @RequestBody User user) {
         Map<String, Object> map = new HashMap<>(4);
-        User userAfterChange = userService.changeUser(request.getHeader("Authorization"), user);
+        User userAfterChange = userService.changeUser(JwtUtil.getUserId(request.getHeader("Authorization")), user);
         if (userAfterChange != null) {
             ResponseUtil.returnSuccess(map);
             map.put("user", userAfterChange);
@@ -170,4 +179,11 @@ public class UserController {
         }
         return map;
     }
+
+//    @PostMapping
+//    public Map<String,Object> addSection(
+//
+//            ){
+//
+//    }
 }

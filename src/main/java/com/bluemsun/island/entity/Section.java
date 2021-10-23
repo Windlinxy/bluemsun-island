@@ -1,0 +1,126 @@
+package com.bluemsun.island.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+
+public class Section implements Serializable {
+    private int sectionId;
+
+    private String sectionName;
+
+    private String description;
+
+    private Date createTime;
+
+    private int masterId;
+
+    private int sectionStatus;
+
+    private int focusNumber;
+
+    private int postNumber;
+
+    private int accessNumber;
+
+    private String imageUrl;
+
+    public Section() {
+    }
+
+    public int getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public int getMasterId() {
+        return masterId;
+    }
+
+    public void setMasterId(int masterId) {
+        this.masterId = masterId;
+    }
+
+    public int getSectionStatus() {
+        return sectionStatus;
+    }
+
+    public void setSectionStatus(int sectionStatus) {
+        this.sectionStatus = sectionStatus;
+    }
+
+    public int getFocusNumber() {
+        return focusNumber;
+    }
+
+    public void setFocusNumber(int focusNumber) {
+        this.focusNumber = focusNumber;
+    }
+
+    public int getPostNumber() {
+        return postNumber;
+    }
+
+    public void setPostNumber(int postNumber) {
+        this.postNumber = postNumber;
+    }
+
+    public int getAccessNumber() {
+        return accessNumber;
+    }
+
+    public void setAccessNumber(int accessNumber) {
+        this.accessNumber = accessNumber;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Section{" +
+                "sectionId=" + sectionId +
+                ", sectionName='" + sectionName + '\'' +
+                ", description='" + description + '\'' +
+                ", createTime=" + createTime +
+                ", masterId=" + masterId +
+                ", sectionStatus=" + sectionStatus +
+                ", focusNumber=" + focusNumber +
+                ", postNumber=" + postNumber +
+                ", accessNumber=" + accessNumber +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
+    }
+}

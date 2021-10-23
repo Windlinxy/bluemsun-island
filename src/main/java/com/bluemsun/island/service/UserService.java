@@ -53,9 +53,12 @@ public interface UserService {
      * 修改部分用户信息(*)
      *
      * @date 15:35 2021/10/20
-     * @param token 用户令牌
+     * @param id 用户id
      * @param  user 用户（部分修改的信息）
      * @return com.bluemsun.island.entity.User 用户（全部信息）
      **/
-    User changeUser(String token, User user);
+    User changeUser(int id, User user);
+
+
+
 }

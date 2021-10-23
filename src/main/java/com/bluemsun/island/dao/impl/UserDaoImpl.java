@@ -27,8 +27,12 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     @Override
     public int insertUser(User user) {
         try {
-            getMapper(UserMapper.class).insert(user);
-            operationCode = ReturnCode.OP_SUCCESS;
+            int rowsAffected = getMapper(UserMapper.class).insert(user);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
         } catch (DuplicateKeyException e) {
             operationCode = ReturnCode.OP_FAILED;
         } catch (Exception e) {
@@ -101,6 +105,17 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     public User queryOneUser(User user) {
         try {
             user = getMapper(UserMapper.class).selectOneByPhoneNumberAndPassword(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
+
+    @Override
+    public User queryOneUser(int userId) {
+        User user;
+        try {
+            user = getMapper(UserMapper.class).selectOneById(userId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

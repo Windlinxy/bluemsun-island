@@ -74,4 +74,6 @@ public interface UserMapper {
      * @return int 记录数
      **/
     int getAllUsersCount();
+
+    User selectOneById(int userId);
 }
