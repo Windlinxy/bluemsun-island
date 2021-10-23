@@ -27,8 +27,8 @@ public interface PostMapper {
 
     Post selectById(Long id);
 
-    int getAllPostsCount();
+    int getAllCount();
 
-    List<Post> selectAllPosts(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
+    List<Post> selectAll(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
 }

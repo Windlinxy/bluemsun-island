@@ -7,6 +7,8 @@ import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.List;
+
 /**
  * @program: BulemsunIsland
  * @description: 板块数据持久层接口实现类
@@ -37,4 +39,25 @@ public class SectionDaoImpl extends SqlSessionDaoSupport implements SectionDao {
         return operationCode;
     }
 
+    @Override
+    public List<Section> queryAllSections(int startIndex, int pageSize){
+        List<Section> sectionList;
+        try {
+            sectionList = getMapper(SectionMapper.class).selectAll(startIndex,pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sectionList;
+    }
+
+    @Override
+    public int getAllSectionsCount(){
+        int count;
+        try {
+            count = getMapper(SectionMapper.class).getAllCount();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
 }

@@ -1,9 +1,11 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.PostDao;
+import com.bluemsun.island.dao.SectionDao;
 import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Post;
+import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class PageServiceImpl implements PageService {
     private UserDao userDao;
     @Autowired
     private PostDao postDao;
+    @Autowired
+    private SectionDao sectionDao;
 
     @Override
     public Page<User> getUsers(int curPage, int pageSize) {
@@ -33,6 +37,14 @@ public class PageServiceImpl implements PageService {
         int totalResult = userDao.getAllUsersCount();
         Page<Post> page = new Page<>(curPage, pageSize, totalResult);
         page.setList(postDao.queryAllPosts(page.getStartIndex(),pageSize));
+        return page;
+    }
+
+    @Override
+    public Page<Section> getAllSections(int  curPage, int pageSize){
+        int totalResult = sectionDao.getAllSectionsCount();
+        Page<Section> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(sectionDao.queryAllSections(page.getStartIndex(),pageSize));
         return page;
     }
 

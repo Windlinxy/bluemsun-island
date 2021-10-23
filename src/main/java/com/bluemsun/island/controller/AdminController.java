@@ -39,7 +39,6 @@ public class AdminController {
             @RequestParam("size") int pageSize
     ) {
         Map<String, Object> map = new HashMap<>();
-        System.out.println(currentPage + "===" + pageSize);
         Page<User> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);

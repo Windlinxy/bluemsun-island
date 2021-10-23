@@ -2,6 +2,7 @@ package com.bluemsun.island.service;
 
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Post;
+import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
 
 /**
@@ -30,4 +31,14 @@ public interface PageService {
      * @return Page<Post>
      **/
     Page<Post> getPosts(int  curPage, int pageSize);
+
+    /**
+     * 获得所有板块
+     *
+     * @date 0:29 2021/10/24
+     * @param curPage 当前页数
+     * @param pageSize 页面数据数量
+     * @return Page<Section>
+     **/
+    Page<Section> getAllSections(int  curPage, int pageSize);
 }

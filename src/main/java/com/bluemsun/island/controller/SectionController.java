@@ -1,8 +1,10 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.FileService;
+import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.service.SectionService;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.ResponseUtil;
@@ -28,6 +30,8 @@ public class SectionController {
     private SectionService sectionService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private PageService pageService;
 
     @PostMapping(
             value = "/sections/portraits",
@@ -68,6 +72,25 @@ public class SectionController {
             ResponseUtil.returnFailed(map);
         } else if (jud == ReturnCode.OP_UNKNOWN_ERROR) {
             ResponseUtil.returnUnknownError(map);
+        }
+        return map;
+    }
+
+    @GetMapping(
+            value = "/sections",
+            consumes = "application/json"
+    )
+    public Map<String, Object> getAllSections(
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize){
+        Map<String, Object> map = new HashMap<>(5);
+        Page<Section> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getAllSections(currentPage, pageSize);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
         }
         return map;
     }

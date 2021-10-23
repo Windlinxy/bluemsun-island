@@ -39,7 +39,7 @@ public class PostDaoImpl extends SqlSessionDaoSupport implements PostDao {
     public List<Post> queryAllPosts(int startIndex, int pageSize) {
         List<Post> postList;
         try {
-            postList = getMapper(PostMapper.class).selectAllPosts(startIndex,pageSize);
+            postList = getMapper(PostMapper.class).selectAll(startIndex,pageSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +50,7 @@ public class PostDaoImpl extends SqlSessionDaoSupport implements PostDao {
     public int getAllPostsCount(){
         int count;
         try {
-            count = getMapper(PostMapper.class).getAllPostsCount();
+            count = getMapper(PostMapper.class).getAllCount();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
