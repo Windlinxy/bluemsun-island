@@ -37,4 +37,6 @@ public interface SectionDao {
      * @return int 数量
      **/
     int getAllSectionsCount();
+
+    Section queryOneById(int id);
 }

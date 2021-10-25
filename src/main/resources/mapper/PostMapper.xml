@@ -17,11 +17,37 @@
         <result property="sectionId" column="section_id" jdbcType="INTEGER"/>
     </resultMap>
 
+
+    <resultMap id="PostResultMap" type="com.bluemsun.island.dto.PostResult">
+        <id property="postId" column="post_id" jdbcType="INTEGER"/>
+        <result property="postDate" column="post_date" jdbcType="TIMESTAMP"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="accessNumber" column="access_number" jdbcType="INTEGER"/>
+        <result property="starNumber" column="star_number" jdbcType="INTEGER"/>
+        <result property="commentNumber" column="comment_number" jdbcType="INTEGER"/>
+        <result property="likeNumber" column="like_number" jdbcType="INTEGER"/>
+        <result property="sectionId" column="section_id" jdbcType="INTEGER"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="sectionImageUrl" column="section_image_url" jdbcType="VARCHAR"/>
+        <result property="sectionName" column="section_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         post_id,post_date,title,
         user_id,content,access_number,
         star_number,comment_number,like_number,
         section_id
+    </sql>
+
+    <sql id="Post_Column_List">
+        post_id,post_date,title,
+    user_id,content,access_number,
+    star_number,comment_number,
+    like_number,tb.section_id,username,
+    image_url,sec.section_name,sec.section_image_url
     </sql>
 
     <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -37,7 +63,7 @@
         where post_id = #{postId}
     </delete>
 
-    <insert id="insert" keyColumn="post_id" keyProperty="postId" parameterType="Post" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="post_id" parameterType="Post">
         insert into tb_post
             (title, user_id, content, section_id)
         values (#{title}, #{userId}, #{content}, #{sectionId})
@@ -142,6 +168,12 @@
         from tb_post;
     </select>
 
+    <select id="getAllCountById" resultType="int">
+        select COUNT(*)
+        from tb_post
+        where section_id = #{id}
+    </select>
+
     <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -149,4 +181,18 @@
         limit #{startIndex},#{pageSize};
     </select>
 
+    <select id="selectAllBySectionId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_post where section_id = #{sectionId}
+        limit #{startIndex},#{pageSize};
+    </select>
+
+    <select id="selectOneById" parameterType="int" resultMap="PostResultMap">
+        select <include refid="Post_Column_List" />
+        from tb_user
+                 INNER JOIN tb_post tb on tb.user_id = tb_user.id
+                 INNER JOIN tb_section sec on tb.section_id = sec.section_id
+        where post_id = #{id};
+    </select>
 </mapper>

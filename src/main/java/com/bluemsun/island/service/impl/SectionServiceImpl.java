@@ -21,4 +21,14 @@ public class SectionServiceImpl implements SectionService{
         operationJudCode = sectionDao.insertSection(section);
         return operationJudCode;
     }
+
+    @Override
+    public Section getSection(int id){
+        Section section = sectionDao.queryOneById(id);
+        if(section ==null){
+            return null;
+        }else {
+            return section;
+        }
+    }
 }

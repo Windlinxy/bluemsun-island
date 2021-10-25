@@ -60,4 +60,15 @@ public class SectionDaoImpl extends SqlSessionDaoSupport implements SectionDao {
         }
         return count;
     }
+
+    @Override
+    public Section queryOneById(int id){
+        Section section;
+        try {
+            section = getMapper(SectionMapper.class).selectOneById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return section;
+    }
 }

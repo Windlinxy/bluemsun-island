@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.island.dao.mapper.AuditMapper">
+
+    <resultMap id="BaseResultMap" type="com.bluemsun.island.entity.Audit">
+            <id property="auditId" column="audit_id" jdbcType="INTEGER"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        audit_id,content,user_id,
+        status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_audit
+        where  audit_id = #{auditId,jdbcType=INTEGER} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from tb_audit
+        where  audit_id = #{auditId,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="audit_id" keyProperty="auditId" parameterType="com.bluemsun.island.entity.Audit" useGeneratedKeys="true">
+        insert into tb_audit
+        ( audit_id,content,user_id
+        ,status)
+        values (#{auditId,jdbcType=INTEGER},#{content,jdbcType=VARCHAR},#{userId,jdbcType=INTEGER}
+        ,#{status,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="audit_id" keyProperty="auditId" parameterType="com.bluemsun.island.entity.Audit" useGeneratedKeys="true">
+        insert into tb_audit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="auditId != null">auditId,</if>
+                <if test="content != null">content,</if>
+                <if test="userId != null">userId,</if>
+                <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="auditId != null">audit_id = #{auditId,jdbcType=INTEGER},</if>
+                <if test="content != null">content = #{content,jdbcType=VARCHAR},</if>
+                <if test="userId != null">user_id = #{userId,jdbcType=INTEGER},</if>
+                <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bluemsun.island.entity.Audit">
+        update tb_audit
+        <set>
+                <if test="content != null">
+                    content = #{content,jdbcType=VARCHAR},
+                </if>
+                <if test="userId != null">
+                    user_id = #{userId,jdbcType=INTEGER},
+                </if>
+                <if test="status != null">
+                    status = #{status,jdbcType=INTEGER},
+                </if>
+        </set>
+        where   audit_id = #{auditId,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bluemsun.island.entity.Audit">
+        update tb_audit
+        set 
+            content =  #{content,jdbcType=VARCHAR},
+            user_id =  #{userId,jdbcType=INTEGER},
+            status =  #{status,jdbcType=INTEGER}
+        where   audit_id = #{auditId,jdbcType=INTEGER} 
+    </update>
+</mapper>

@@ -41,4 +41,6 @@ public interface PageService {
      * @return Page<Section>
      **/
     Page<Section> getAllSections(int  curPage, int pageSize);
+
+    Page<Post> getPostInSection(int  curPage, int pageSize,int sectionId);
 }

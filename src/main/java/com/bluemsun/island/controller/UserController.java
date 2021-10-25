@@ -180,10 +180,4 @@ public class UserController {
         return map;
     }
 
-//    @PostMapping
-//    public Map<String,Object> addSection(
-//
-//            ){
-//
-//    }
 }

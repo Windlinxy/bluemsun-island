@@ -2,6 +2,7 @@ package com.bluemsun.island.dao.impl;
 
 import com.bluemsun.island.dao.PostDao;
 import com.bluemsun.island.dao.mapper.PostMapper;
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -36,7 +37,7 @@ public class PostDaoImpl extends SqlSessionDaoSupport implements PostDao {
     }
 
     @Override
-    public List<Post> queryAllPosts(int startIndex, int pageSize) {
+    public List<Post> queryPosts(int startIndex, int pageSize) {
         List<Post> postList;
         try {
             postList = getMapper(PostMapper.class).selectAll(startIndex,pageSize);
@@ -57,5 +58,36 @@ public class PostDaoImpl extends SqlSessionDaoSupport implements PostDao {
         return count;
     }
 
+    @Override
+    public List<Post> queryPosts(int startIndex, int pageSize,int sectionId){
+        List<Post> postList;
+        try {
+            postList = getMapper(PostMapper.class).selectAllBySectionId(startIndex,pageSize,sectionId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return postList;
+    }
 
+    @Override
+    public PostResult queryPostById(int postId){
+        PostResult postResult;
+        try {
+            postResult = getMapper(PostMapper.class).selectOneById(postId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return postResult;
+    }
+
+    @Override
+    public int getPostsByIdCount(int id) {
+        int count;
+        try {
+            count = getMapper(PostMapper.class).getAllCountById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
 }

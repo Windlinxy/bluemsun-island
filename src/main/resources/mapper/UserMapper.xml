@@ -81,6 +81,7 @@
         limit #{startIndex},#{pageSize};
     </select>
 
+
     <select id="getAllUsersCount" resultType="int">
         select COUNT(*)
         from tb_user;

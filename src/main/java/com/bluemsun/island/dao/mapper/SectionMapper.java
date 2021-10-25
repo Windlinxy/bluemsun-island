@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Entity generator.domain.TbSection
- */
 public interface SectionMapper {
 
     int deleteById(Long id);
@@ -21,4 +18,8 @@ public interface SectionMapper {
     List<Section> selectAll(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
     int getAllCount();
+
+    int getAllCount(@Param("col")String col,@Param("order")String order);
+
+    Section selectOneById(int sectionId);
 }

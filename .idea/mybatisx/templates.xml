@@ -45,8 +45,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="TbSection" />
-                  <option name="tableName" value="tb_section" />
+                  <option name="className" value="TbAudit" />
+                  <option name="tableName" value="tb_audit" />
                 </TableUIInfo>
               </list>
             </option>

@@ -74,6 +74,7 @@ public class AdminController {
         operationJudCode = adminService.changeUserStatus(userId, status);
         if (operationJudCode == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);
+            map.put("userStatus",status);
         } else {
             ResponseUtil.returnFailed(map);
         }

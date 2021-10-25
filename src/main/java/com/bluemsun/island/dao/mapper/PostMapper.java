@@ -1,5 +1,6 @@
 package com.bluemsun.island.dao.mapper;
 
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Post;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,6 +30,11 @@ public interface PostMapper {
 
     int getAllCount();
 
+    int getAllCountById(int id);
+
     List<Post> selectAll(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
+    PostResult selectOneById(int id);
+
+    List<Post> selectAllBySectionId(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize,@Param("sectionId")int sectionId);
 }

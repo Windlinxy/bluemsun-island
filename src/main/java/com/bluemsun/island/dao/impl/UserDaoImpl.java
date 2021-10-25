@@ -102,6 +102,17 @@ public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
     }
 
     @Override
+    public List<User> queryAllUsersByOrder(int startIndex,int pageSize,String col,String order) {
+        List<User> userList;
+        try {
+            userList = getMapper(UserMapper.class).selectAllUserByOrder(col,order,startIndex,pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
+    }
+
+    @Override
     public User queryOneUser(User user) {
         try {
             user = getMapper(UserMapper.class).selectOneByPhoneNumberAndPassword(user);

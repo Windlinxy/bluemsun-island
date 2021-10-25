@@ -14,13 +14,13 @@
         <result property="focusNumber" column="focus_number" jdbcType="INTEGER"/>
         <result property="postNumber" column="post_number" jdbcType="INTEGER"/>
         <result property="accessNumber" column="access_number" jdbcType="INTEGER"/>
-        <result property="imageUrl" column="image_url" jdbcType="VARCHAR" />
+        <result property="imageUrl" column="section_image_url" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         section_id,section_name,description,
         create_time,master_id,section_status,
-        focus_number,post_number,access_number,image_url
+        focus_number,post_number,access_number,secyion_image_url
     </sql>
 
     <select id="selectById" parameterType="int" resultMap="BaseResultMap">
@@ -39,8 +39,8 @@
 
     <insert id="insert" keyColumn="section_id" parameterType="Section">
         insert into tb_section
-            (section_name, description, master_id,image_url)
-        values (#{sectionName}, #{description},#{masterId},#{imageUrl})
+            (section_name, description, master_id, section_image_url)
+        values (#{sectionName}, #{description}, #{masterId}, #{imageUrl})
     </insert>
 
 
@@ -70,7 +70,7 @@
                 access_number = #{accessNumber},
             </if>
             <if test="imageUrl != null">
-                image_url = #{imageUrl},
+                section_image_url = #{imageUrl},
             </if>
         </set>
         where section_id = #{sectionId}
@@ -83,8 +83,15 @@
         limit #{startIndex},#{pageSize};
     </select>
 
-    <select id="getAllCount" resultType="java.lang.Integer">
+    <select id="getAllCount" resultType="int">
         select COUNT(*)
         from tb_section;
+    </select>
+
+    <select id="selectOneById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_section
+        where section_id = #{sectionId};
     </select>
 </mapper>

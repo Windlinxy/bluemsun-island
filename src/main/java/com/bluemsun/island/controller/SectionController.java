@@ -1,6 +1,7 @@
 package com.bluemsun.island.controller;
 
 import com.bluemsun.island.entity.Page;
+import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.FileService;
@@ -77,18 +78,51 @@ public class SectionController {
     }
 
     @GetMapping(
-            value = "/sections",
-            consumes = "application/json"
+            value = "/sections"
     )
     public Map<String, Object> getAllSections(
             @RequestParam("cur") int currentPage,
-            @RequestParam("size") int pageSize){
+            @RequestParam("size") int pageSize) {
         Map<String, Object> map = new HashMap<>(5);
         Page<Section> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
             page = pageService.getAllSections(currentPage, pageSize);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @GetMapping(
+            value = "/sections/:{secId}"
+    )
+    public Map<String, Object> getSection(@PathVariable("secId") int sectionId) {
+        Map<String, Object> map = new HashMap<>(5);
+        Section section = sectionService.getSection(sectionId);
+        if (section != null) {
+            ResponseUtil.returnSuccess(map);
+            map.put("section", section);
+        } else {
+            ResponseUtil.returnFailed(map);
+        }
+        return map;
+    }
+
+    @GetMapping(
+            value = "/sections/:{secId}/posts"
+    )
+    public Map<String, Object> getPostInSection(
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize,
+            @PathVariable("secId") int sectionId) {
+        Map<String, Object> map = new HashMap<>(5);
+        Page<Post> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getPostInSection(currentPage, pageSize,sectionId);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }

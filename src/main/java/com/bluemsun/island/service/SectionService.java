@@ -17,4 +17,6 @@ public interface SectionService {
      * @return int 操作判断
      **/
     int addSection(Section section);
+
+    Section getSection(int id);
 }

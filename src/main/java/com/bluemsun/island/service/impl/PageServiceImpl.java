@@ -34,9 +34,9 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public Page<Post> getPosts(int  curPage, int pageSize){
-        int totalResult = userDao.getAllUsersCount();
+        int totalResult = postDao.getAllPostsCount();
         Page<Post> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(postDao.queryAllPosts(page.getStartIndex(),pageSize));
+        page.setList(postDao.queryPosts(page.getStartIndex(),pageSize));
         return page;
     }
 
@@ -45,6 +45,14 @@ public class PageServiceImpl implements PageService {
         int totalResult = sectionDao.getAllSectionsCount();
         Page<Section> page = new Page<>(curPage, pageSize, totalResult);
         page.setList(sectionDao.queryAllSections(page.getStartIndex(),pageSize));
+        return page;
+    }
+
+    @Override
+    public Page<Post> getPostInSection(int  curPage, int pageSize, int sectionId){
+        int totalResult = postDao.getPostsByIdCount(sectionId);
+        Page<Post> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(postDao.queryPosts(page.getStartIndex(),pageSize));
         return page;
     }
 

@@ -31,7 +31,7 @@ public interface UserDao {
      **/
     List<User> queryAllUsers(int startIndex, int pageSize);
 
-
+    List<User> queryAllUsersByOrder(int startIndex,int pageSize,String col,String order);
     /**
      * 根据电话号码与密码查询用户
      *

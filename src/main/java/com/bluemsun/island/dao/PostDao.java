@@ -1,5 +1,6 @@
 package com.bluemsun.island.dao;
 
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Post;
 
 import java.util.List;
@@ -28,8 +29,9 @@ public interface PostDao {
      * @param  pageSize 数据量大小
      * @return java.util.List<com.bluemsun.island.entity.Post>
      **/
-    List<Post> queryAllPosts(int startIndex, int pageSize);
+    List<Post> queryPosts(int startIndex, int pageSize);
 
+    PostResult queryPostById(int postId);
     /**
      * 总帖子数
      *
@@ -37,4 +39,8 @@ public interface PostDao {
      * @return int 数量
      **/
     int getAllPostsCount();
+
+    List<Post> queryPosts(int startIndex, int pageSize,int sectionId);
+
+    int getPostsByIdCount(int id);
 }

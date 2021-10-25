@@ -67,6 +67,8 @@ public interface UserMapper {
      **/
     List<User> selectAllUser(@Param("startIndex")int startIndex,@Param("pageSize")int pageSize);//int,int
 
+
+    List<User> selectAllUserByOrder(@Param("col")String col,@Param("order") String order,@Param("startIndex")int startIndex,@Param("pageSize")int pageSize);
     /**
      * 获得用户表记录数
      *

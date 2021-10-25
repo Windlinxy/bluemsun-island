@@ -27,6 +27,13 @@ public class UserDaoTest {
 
     @Test
     public void insertTest2() {
-        userDao.insertUser(new User("u","sad546","22346789102"));
+        new UserDaoImpl().insertUser(new User("u","sad546","22346789102"));
+    }
+
+    @Test
+    public void orderTest(){
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/application.xml");
+        UserDao userDao = context.getBean("userDao", UserDaoImpl.class);
+        System.out.println(userDao.queryAllUsersByOrder(0, 5, "id", "desc"));
     }
 }
