@@ -3,8 +3,8 @@ package com.bluemsun.island.service.impl;
 import com.bluemsun.island.dao.PostDao;
 import com.bluemsun.island.dao.SectionDao;
 import com.bluemsun.island.dao.UserDao;
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Page;
-import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.PageService;
@@ -33,9 +33,9 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public Page<Post> getPosts(int  curPage, int pageSize){
+    public Page<PostResult> getPosts(int  curPage, int pageSize){
         int totalResult = postDao.getAllPostsCount();
-        Page<Post> page = new Page<>(curPage, pageSize, totalResult);
+        Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
         page.setList(postDao.queryPosts(page.getStartIndex(),pageSize));
         return page;
     }
@@ -49,9 +49,9 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public Page<Post> getPostInSection(int  curPage, int pageSize, int sectionId){
+    public Page<PostResult> getPostInSection(int  curPage, int pageSize, int sectionId){
         int totalResult = postDao.getPostsByIdCount(sectionId);
-        Page<Post> page = new Page<>(curPage, pageSize, totalResult);
+        Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
         page.setList(postDao.queryPosts(page.getStartIndex(),pageSize));
         return page;
     }

@@ -1,7 +1,6 @@
 package com.blumsun.island.dao;
 
 import com.bluemsun.island.dao.PostDao;
-import com.bluemsun.island.dao.impl.PostDaoImpl;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,7 +16,7 @@ public class PostDaoTest {
     @Test
     public void testGetOne(){
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/application.xml");
-        PostDao postDao = context.getBean("postDao", PostDaoImpl.class);
+        PostDao postDao = context.getBean("postDao", PostDao.class);
         System.out.println(postDao.queryPostById(1));
     }
 }

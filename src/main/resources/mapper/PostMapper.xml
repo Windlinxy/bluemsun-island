@@ -174,10 +174,11 @@
         where section_id = #{id}
     </select>
 
-    <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_post
+    <select id="selectAll" parameterType="int" resultMap="PostResultMap">
+        select <include refid="Post_Column_List" />
+        from tb_user
+        INNER JOIN tb_post tb on tb.user_id = tb_user.id
+        INNER JOIN tb_section sec on tb.section_id = sec.section_id
         limit #{startIndex},#{pageSize};
     </select>
 

@@ -26,7 +26,6 @@ public class Section implements Serializable {
 
     private int postNumber;
 
-    private int accessNumber;
 
     private String imageUrl;
 
@@ -97,13 +96,6 @@ public class Section implements Serializable {
         this.postNumber = postNumber;
     }
 
-    public int getAccessNumber() {
-        return accessNumber;
-    }
-
-    public void setAccessNumber(int accessNumber) {
-        this.accessNumber = accessNumber;
-    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -124,7 +116,6 @@ public class Section implements Serializable {
                 ", sectionStatus=" + sectionStatus +
                 ", focusNumber=" + focusNumber +
                 ", postNumber=" + postNumber +
-                ", accessNumber=" + accessNumber +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }

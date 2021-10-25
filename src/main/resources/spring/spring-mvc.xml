@@ -83,19 +83,19 @@
     </bean>
 
 
-    <bean id="userDao" class="com.bluemsun.island.dao.impl.UserDaoImpl">
+    <bean id="userDao" class="com.bluemsun.island.dao.UserDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean id="noticeDao" class="com.bluemsun.island.dao.impl.NoticeDaoImpl">
+    <bean id="noticeDao" class="com.bluemsun.island.dao.NoticeDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean id="postDao" class="com.bluemsun.island.dao.impl.PostDaoImpl">
+    <bean id="postDao" class="com.bluemsun.island.dao.PostDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <bean id="sectionDao" class="com.bluemsun.island.dao.impl.SectionDaoImpl">
+    <bean id="sectionDao" class="com.bluemsun.island.dao.SectionDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 

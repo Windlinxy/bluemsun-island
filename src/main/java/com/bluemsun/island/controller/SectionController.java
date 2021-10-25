@@ -1,13 +1,14 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Page;
-import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.FileService;
 import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.service.SectionService;
 import com.bluemsun.island.util.JwtUtil;
+import com.bluemsun.island.util.RedisUtil;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,6 @@ public class SectionController {
 
         ResponseUtil.returnSuccess(map);
         map.put("imageUrl", projectServerPath);
-
         return map;
     }
 
@@ -74,6 +74,22 @@ public class SectionController {
         } else if (jud == ReturnCode.OP_UNKNOWN_ERROR) {
             ResponseUtil.returnUnknownError(map);
         }
+        return map;
+    }
+
+    @PostMapping(
+            value = "/sections/audit",
+            consumes = "application/json"
+    )
+    public Map<String, Object> beSection(
+            HttpServletRequest request,
+            @RequestBody Section section) {
+        Map<String, Object> map = new HashMap<>(5);
+        int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
+        section.setMasterId(userId);
+        RedisUtil.setObject("apply"+userId,section);
+        jud = sectionService.addSection(section);
+        ResponseUtil.returnSuccess(map);
         return map;
     }
 
@@ -118,7 +134,7 @@ public class SectionController {
             @RequestParam("size") int pageSize,
             @PathVariable("secId") int sectionId) {
         Map<String, Object> map = new HashMap<>(5);
-        Page<Post> page;
+        Page<PostResult> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {

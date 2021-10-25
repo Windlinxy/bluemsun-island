@@ -1,7 +1,5 @@
 package com.blumsun.island.service;
 
-import com.bluemsun.island.dao.UserDao;
-import com.bluemsun.island.dao.impl.UserDaoImpl;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.impl.UserServiceImpl;
 import org.junit.Test;

@@ -33,7 +33,7 @@
     <insert id="insert" parameterType="Notice">
         insert into tb_notice
             (user_id, content)
-        values (#{userId,jdbcType=INTEGER}, #{content})
+        values (#{userId}, #{content})
     </insert>
 
     <insert id="insertSelective" parameterType="Notice">

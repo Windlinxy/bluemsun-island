@@ -32,7 +32,7 @@ public interface PostMapper {
 
     int getAllCountById(int id);
 
-    List<Post> selectAll(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
+    List<PostResult> selectAll(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
     PostResult selectOneById(int id);
 

@@ -1,5 +1,6 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.enums.ReturnCode;
@@ -84,7 +85,7 @@ public class PostController {
             @RequestParam("size") int pageSize) {
         Map<String, Object> map = new HashMap<>();
         System.out.println(currentPage + "===" + pageSize);
-        Page<Post> page;
+        Page<PostResult> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {

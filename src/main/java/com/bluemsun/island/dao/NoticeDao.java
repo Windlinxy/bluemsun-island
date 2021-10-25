@@ -1,10 +1,12 @@
 package com.bluemsun.island.dao;
 
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+
 /**
  * @program: BulemsunIsland
- * @description: 消息数据持久层接口
+ * @description: 通知数据持久层接口实现类
  * @author: Windlinxy
- * @create: 2021-10-21 21:46
+ * @create: 2021-10-21 21:47
  **/
-public interface NoticeDao {
+public class NoticeDao extends SqlSessionDaoSupport {
 }
