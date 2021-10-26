@@ -11,7 +11,9 @@ public interface SectionMapper {
 
     int insert(Section record);
 
-    Section selectById(Long id);
+    Section selectById(int id);
+
+    Section selectByName(String name);
 
     int updateSelective(Section record);
 

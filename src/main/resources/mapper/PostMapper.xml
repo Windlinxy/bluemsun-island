@@ -182,10 +182,12 @@
         limit #{startIndex},#{pageSize};
     </select>
 
-    <select id="selectAllBySectionId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_post where section_id = #{sectionId}
+    <select id="selectAllBySectionId" resultMap="PostResultMap">
+        select <include refid="Post_Column_List" />
+        from tb_user
+        INNER JOIN tb_post tb on tb.user_id = tb_user.id
+        INNER JOIN tb_section sec on tb.section_id = sec.section_id
+        where tb.section_id = #{sectionId}
         limit #{startIndex},#{pageSize};
     </select>
 

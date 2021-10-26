@@ -1,5 +1,7 @@
 package com.bluemsun.island.dto;
 
+import com.bluemsun.island.entity.Section;
+
 /**
  * @program: BulemsunIsland
  * @description: 申请成为版主
@@ -8,27 +10,37 @@ package com.bluemsun.island.dto;
  **/
 public class ApplyForSectionMaster {
     private int userId;
-    private String sectionName;
-    private String description;
-    private String userImage;
+    private Section section;
 
-    public ApplyForSectionMaster(int userId, String sectionName, String description, String userImage) {
+    public ApplyForSectionMaster(int userId,Section section) {
         this.userId = userId;
-        this.sectionName = sectionName;
-        this.description = description;
-        this.userImage = userImage;
+        this.section = section;
     }
 
     public ApplyForSectionMaster() {
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
     }
 
     @Override
     public String toString() {
         return "ApplyForSectionMaster{" +
                 "userId=" + userId +
-                ", sectionName='" + sectionName + '\'' +
-                ", description='" + description + '\'' +
-                ", userImage='" + userImage + '\'' +
+                ", section=" + section +
                 '}';
     }
 }

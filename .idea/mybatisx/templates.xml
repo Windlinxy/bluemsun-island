@@ -45,8 +45,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="TbAudit" />
-                  <option name="tableName" value="tb_audit" />
+                  <option name="className" value="TbMasterForSection" />
+                  <option name="tableName" value="tb_master_for_section" />
                 </TableUIInfo>
               </list>
             </option>

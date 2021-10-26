@@ -1,9 +1,11 @@
 package com.bluemsun.island.service.impl;
 
+import com.bluemsun.island.dao.AuditDao;
 import com.bluemsun.island.dao.PostDao;
 import com.bluemsun.island.dao.SectionDao;
 import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.dto.PostResult;
+import com.bluemsun.island.entity.Audit;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
@@ -23,6 +25,8 @@ public class PageServiceImpl implements PageService {
     private PostDao postDao;
     @Autowired
     private SectionDao sectionDao;
+    @Autowired
+    private AuditDao auditDao;
 
     @Override
     public Page<User> getUsers(int curPage, int pageSize) {
@@ -41,6 +45,13 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    public Page<PostResult> getPosts(int  curPage, int pageSize,int sectionId){
+        int totalResult = postDao.getAllPostsCount();
+        Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(postDao.queryPosts(page.getStartIndex(),pageSize,sectionId));
+        return page;
+    }
+    @Override
     public Page<Section> getAllSections(int  curPage, int pageSize){
         int totalResult = sectionDao.getAllSectionsCount();
         Page<Section> page = new Page<>(curPage, pageSize, totalResult);
@@ -48,11 +59,12 @@ public class PageServiceImpl implements PageService {
         return page;
     }
 
+
     @Override
-    public Page<PostResult> getPostInSection(int  curPage, int pageSize, int sectionId){
-        int totalResult = postDao.getPostsByIdCount(sectionId);
-        Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(postDao.queryPosts(page.getStartIndex(),pageSize));
+    public Page<Audit> getAudits(int  curPage, int pageSize){
+        int totalResult = auditDao.getAllAuditsCount();
+        Page<Audit> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(auditDao.queryAllAudits(page.getStartIndex(),pageSize));
         return page;
     }
 

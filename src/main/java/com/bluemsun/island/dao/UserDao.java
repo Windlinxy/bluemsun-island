@@ -100,7 +100,7 @@ public class UserDao extends SqlSessionDaoSupport {
      **/
     public int updateUser(User user) {
         try {
-            int rowsAffected = getMapper(UserMapper.class).updateUserSelective(user);
+            int rowsAffected = getMapper(UserMapper.class).updateOneSelective(user);
             if (rowsAffected == 1) {
                 operationCode = ReturnCode.OP_SUCCESS;
             } else {
@@ -122,21 +122,21 @@ public class UserDao extends SqlSessionDaoSupport {
     public List<User> queryAllUsers(int startIndex,int pageSize) {
         List<User> userList;
         try {
-            userList = getMapper(UserMapper.class).selectAllUser(startIndex,pageSize);
+            userList = getMapper(UserMapper.class).selectAll(startIndex,pageSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return userList;
     }
-    public List<User> queryAllUsersByOrder(int startIndex,int pageSize,String col,String order) {
-        List<User> userList;
-        try {
-            userList = getMapper(UserMapper.class).selectAllUserByOrder(col,order,startIndex,pageSize);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return userList;
-    }
+//    public List<User> queryAllUsersByOrder(int startIndex,int pageSize,String col,String order) {
+//        List<User> userList;
+//        try {
+//            userList = getMapper(UserMapper.class).selectAllUserByOrder(col,order,startIndex,pageSize);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return userList;
+//    }
 
     /**
      * 根据电话号码与密码查询用户
@@ -177,11 +177,10 @@ public class UserDao extends SqlSessionDaoSupport {
      * @return int 用户总数
      * @date 20:35 2021/10/22
      **/
-
     public int getAllUsersCount(){
         int count;
         try {
-            count = getMapper(UserMapper.class).getAllUsersCount();
+            count = getMapper(UserMapper.class).getAllCount();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

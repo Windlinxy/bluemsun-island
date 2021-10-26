@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.island.dao.mapper.MasterForSectionMapper">
+
+    <resultMap id="BaseResultMap" type="com.bluemsun.island.dto.MasterForSection">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="masterId" column="master_id" jdbcType="INTEGER"/>
+            <result property="masterSectionId" column="master_section_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,master_id,master_section_id
+    </sql>
+
+    <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_master_for_section
+        where  master_id = #{userId}
+    </select>
+
+    <delete id="deleteByUserId" parameterType="int">
+        delete from tb_master_for_section
+        where  master_id = #{userId}
+    </delete>
+
+    <insert id="insert" parameterType="com.bluemsun.island.dto.MasterForSection">
+        insert into tb_master_for_section
+        ( master_id,master_section_id
+        )
+        values (#{masterId},#{masterSectionId}
+        )
+    </insert>
+</mapper>

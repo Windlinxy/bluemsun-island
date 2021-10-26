@@ -1,11 +1,12 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.entity.Audit;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.AdminService;
+import com.bluemsun.island.service.AuditService;
 import com.bluemsun.island.service.PageService;
-import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,14 @@ import java.util.Map;
         produces = "application/json"
 )
 public class AdminController {
-    private int operationJudCode = 0;
+    private int jud = 0;
     @Autowired
     private PageService pageService;
     @Autowired
     private AdminService adminService;
     @Autowired
-    private UserService userService;
+    private AuditService auditService;
+
 
     @GetMapping(
             value = "/users")
@@ -55,10 +57,10 @@ public class AdminController {
     )
     public Map<String, Object> deleteUser(@PathVariable("id") int userId) {
         Map<String, Object> map = new HashMap<>();
-        operationJudCode = adminService.deleteUser(userId);
-        if (operationJudCode == ReturnCode.OP_SUCCESS) {
+        jud = adminService.deleteUser(userId);
+        if (jud == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);
-        } else if (operationJudCode == ReturnCode.OP_FAILED) {
+        } else if (jud == ReturnCode.OP_FAILED) {
             ResponseUtil.returnFailed(map);
         } else {
             ResponseUtil.returnUnknownError(map);
@@ -71,10 +73,10 @@ public class AdminController {
     )
     public Map<String, Object> banUser(@PathVariable("id") int userId, @PathVariable("sta") int status) {
         Map<String, Object> map = new HashMap<>();
-        operationJudCode = adminService.changeUserStatus(userId, status);
-        if (operationJudCode == ReturnCode.OP_SUCCESS) {
+        jud = adminService.changeUserStatus(userId, status);
+        if (jud == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);
-            map.put("userStatus",status);
+            map.put("userStatus", status);
         } else {
             ResponseUtil.returnFailed(map);
         }
@@ -96,4 +98,38 @@ public class AdminController {
         return map;
     }
 
+    @GetMapping(
+            value = "/audits"
+    )
+    public Map<String, Object> getAudits(
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize) {
+        Map<String, Object> map = new HashMap<>(5);
+        Page<Audit> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getAudits(currentPage, pageSize);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @PatchMapping(
+            value = "/audits/:{id}/{sta}"
+    )
+    public Map<String, Object> agreeOrRejectAudit(
+            @PathVariable("id") int auditId,
+            @PathVariable("sta") int status
+    ) {
+        Map<String, Object> map = new HashMap<>(5);
+        jud = auditService.agreeAudit(auditId,status);
+        if(jud ==ReturnCode.OP_SUCCESS){
+            ResponseUtil.returnSuccess(map);
+        }else {
+            ResponseUtil.returnFailed(map);
+        }
+        return map;
+    }
 }

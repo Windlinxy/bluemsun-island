@@ -95,4 +95,24 @@ public class PostController {
         }
         return map;
     }
+
+//    @GetMapping(
+//            value = "/{secId}/posts"
+//    )
+//    public Map<String, Object> getAllPostsInSection(
+//            @PathVariable("secId") int sectionId,
+//            @RequestParam("cur") int currentPage,
+//            @RequestParam("size") int pageSize) {
+//        Map<String, Object> map = new HashMap<>();
+//        System.out.println(currentPage + "===" + pageSize);
+//        Page<PostResult> page;
+//        if (currentPage < 1 || pageSize < 1) {
+//            ResponseUtil.returnFailed(map);
+//        } else {
+//            page = pageService.getPosts(currentPage, pageSize,sectionId);
+//            ResponseUtil.returnSuccess(map);
+//            map.put("page", page);
+//        }
+//        return map;
+//    }
 }

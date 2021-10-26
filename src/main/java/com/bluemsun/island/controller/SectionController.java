@@ -1,9 +1,11 @@
 package com.bluemsun.island.controller;
 
 import com.bluemsun.island.dto.PostResult;
+import com.bluemsun.island.entity.Audit;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.enums.ReturnCode;
+import com.bluemsun.island.service.AuditService;
 import com.bluemsun.island.service.FileService;
 import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.service.SectionService;
@@ -34,6 +36,8 @@ public class SectionController {
     private FileService fileService;
     @Autowired
     private PageService pageService;
+    @Autowired
+    private AuditService auditService;
 
     @PostMapping(
             value = "/sections/portraits",
@@ -63,8 +67,6 @@ public class SectionController {
             HttpServletRequest request,
             @RequestBody Section section) {
         Map<String, Object> map = new HashMap<>(5);
-        int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
-        section.setMasterId(userId);
         jud = sectionService.addSection(section);
         if (jud == ReturnCode.OP_SUCCESS) {
             map.put("section", section);
@@ -81,15 +83,23 @@ public class SectionController {
             value = "/sections/audit",
             consumes = "application/json"
     )
-    public Map<String, Object> beSection(
+    public Map<String, Object> beSectionMaster(
             HttpServletRequest request,
             @RequestBody Section section) {
         Map<String, Object> map = new HashMap<>(5);
         int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
-        section.setMasterId(userId);
-        RedisUtil.setObject("apply"+userId,section);
-        jud = sectionService.addSection(section);
-        ResponseUtil.returnSuccess(map);
+        RedisUtil.getUser(userId);
+        String content = "用户【"+RedisUtil.getUser(userId).getUsername()+"】申请成为【"+section.getSectionName()+"】的版主";
+        Audit audit = new Audit(content,userId,section.getDescription(),section.getImageUrl(),section.getSectionName());
+        jud = auditService.addAudit(audit);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            map.put("audit", audit);
+            ResponseUtil.returnSuccess(map);
+        } else if (jud == ReturnCode.OP_FAILED) {
+            ResponseUtil.returnFailed(map);
+        } else if (jud == ReturnCode.OP_UNKNOWN_ERROR) {
+            ResponseUtil.returnUnknownError(map);
+        }
         return map;
     }
 
@@ -138,7 +148,7 @@ public class SectionController {
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getPostInSection(currentPage, pageSize,sectionId);
+            page = pageService.getPosts(currentPage, pageSize,sectionId);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }

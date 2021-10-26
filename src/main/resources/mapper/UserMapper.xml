@@ -42,7 +42,7 @@
         where id = #{id}
     </update>
 
-    <update id="updateUserSelective" parameterType="User">
+    <update id="updateOneSelective" parameterType="User">
         update tb_user
         <set>
             <if test="username!=null and username!='' ">
@@ -74,7 +74,7 @@
     </update>
 
 
-    <select id="selectAllUser" parameterType="int" resultMap="BaseResultMap">
+    <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from tb_user
@@ -82,7 +82,7 @@
     </select>
 
 
-    <select id="getAllUsersCount" resultType="int">
+    <select id="getAllCount" resultType="int">
         select COUNT(*)
         from tb_user;
     </select>

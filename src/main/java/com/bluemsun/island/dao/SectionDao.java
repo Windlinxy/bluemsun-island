@@ -89,4 +89,14 @@ public class SectionDao extends SqlSessionDaoSupport {
         }
         return section;
     }
+
+    public Section queryOneByName(String name) {
+        Section section;
+        try {
+            section = getMapper(SectionMapper.class).selectByName(name);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return section;
+    }
 }

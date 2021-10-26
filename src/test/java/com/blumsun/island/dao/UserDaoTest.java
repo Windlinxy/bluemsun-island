@@ -29,10 +29,10 @@ public class UserDaoTest {
         new UserDao().insertUser(new User("u","sad546","22346789102"));
     }
 
-    @Test
-    public void orderTest(){
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/application.xml");
-        UserDao userDao = context.getBean("userDao", UserDao.class);
-        System.out.println(userDao.queryAllUsersByOrder(0, 5, "id", "desc"));
-    }
+//    @Test
+//    public void orderTest(){
+//        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/application.xml");
+//        UserDao userDao = context.getBean("userDao", UserDao.class);
+//        System.out.println(userDao.queryAllUsersByOrder(0, 5, "id", "desc"));
+//    }
 }

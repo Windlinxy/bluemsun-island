@@ -18,8 +18,6 @@ public class Section implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    private int masterId;
-
     private int sectionStatus;
 
     private int focusNumber;
@@ -30,6 +28,12 @@ public class Section implements Serializable {
     private String imageUrl;
 
     public Section() {
+    }
+
+    public Section(String sectionName, String description, String imageUrl) {
+        this.sectionName = sectionName;
+        this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public int getSectionId() {
@@ -64,13 +68,6 @@ public class Section implements Serializable {
         this.createTime = createTime;
     }
 
-    public int getMasterId() {
-        return masterId;
-    }
-
-    public void setMasterId(int masterId) {
-        this.masterId = masterId;
-    }
 
     public int getSectionStatus() {
         return sectionStatus;
@@ -112,7 +109,6 @@ public class Section implements Serializable {
                 ", sectionName='" + sectionName + '\'' +
                 ", description='" + description + '\'' +
                 ", createTime=" + createTime +
-                ", masterId=" + masterId +
                 ", sectionStatus=" + sectionStatus +
                 ", focusNumber=" + focusNumber +
                 ", postNumber=" + postNumber +

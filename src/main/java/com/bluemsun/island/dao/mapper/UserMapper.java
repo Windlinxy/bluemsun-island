@@ -47,7 +47,7 @@ public interface UserMapper {
      * @return int
      * @date 14:35 2021/10/22
      **/
-    int updateUserSelective(User user);
+    int updateOneSelective(User user);
 
     /**
      * 根据手机号和密码查找用户
@@ -65,17 +65,15 @@ public interface UserMapper {
      * @return java.util.List<com.bluemsun.island.entity.User>
      * @date 16:02 2021/10/10
      **/
-    List<User> selectAllUser(@Param("startIndex")int startIndex,@Param("pageSize")int pageSize);//int,int
+    List<User> selectAll(@Param("startIndex")int startIndex, @Param("pageSize")int pageSize);//int,int
 
-
-    List<User> selectAllUserByOrder(@Param("col")String col,@Param("order") String order,@Param("startIndex")int startIndex,@Param("pageSize")int pageSize);
     /**
      * 获得用户表记录数
      *
      * @date 14:36 2021/10/22
      * @return int 记录数
      **/
-    int getAllUsersCount();
+    int getAllCount();
 
     User selectOneById(int userId);
 }

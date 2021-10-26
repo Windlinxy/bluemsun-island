@@ -36,5 +36,5 @@ public interface PostMapper {
 
     PostResult selectOneById(int id);
 
-    List<Post> selectAllBySectionId(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize,@Param("sectionId")int sectionId);
+    List<PostResult> selectAllBySectionId(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize,@Param("sectionId")int sectionId);
 }

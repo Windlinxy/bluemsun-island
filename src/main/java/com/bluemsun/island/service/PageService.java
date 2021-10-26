@@ -1,6 +1,7 @@
 package com.bluemsun.island.service;
 
 import com.bluemsun.island.dto.PostResult;
+import com.bluemsun.island.entity.Audit;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
@@ -32,6 +33,7 @@ public interface PageService {
      **/
     Page<PostResult> getPosts(int  curPage, int pageSize);
 
+    Page<PostResult> getPosts(int  curPage, int pageSize,int sectionId);
     /**
      * 获得所有板块
      *
@@ -42,5 +44,5 @@ public interface PageService {
      **/
     Page<Section> getAllSections(int  curPage, int pageSize);
 
-    Page<PostResult> getPostInSection(int  curPage, int pageSize, int sectionId);
+    Page<Audit> getAudits(int  curPage, int pageSize);
 }

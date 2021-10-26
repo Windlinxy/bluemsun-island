@@ -1,22 +1,25 @@
 package com.bluemsun.island.dao.mapper;
 
 import com.bluemsun.island.entity.Audit;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * @Entity generator.domain.TbAudit
- */
+import java.util.List;
+
+
 public interface AuditMapper {
 
-    int deleteByPrimaryKey(Long id);
+    int deleteById(int id);
 
     int insert(Audit record);
 
     int insertSelective(Audit record);
 
-    Audit selectByPrimaryKey(Long id);
+    Audit selectById(int id);
 
-    int updateByPrimaryKeySelective(Audit record);
+    int updateByIdSelective(Audit record);
 
-    int updateByPrimaryKey(Audit record);
 
+    List<Audit> selectAll(@Param("startIndex")int startIndex, @Param("pageSize")int pageSize);//int,int
+
+    int getAllCount();
 }
