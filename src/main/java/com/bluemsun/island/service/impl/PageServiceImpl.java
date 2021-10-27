@@ -37,6 +37,14 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    public Page<User> getUsers(int curPage, int pageSize, String name) {
+        int totalResult = userDao.getUsersCountByName(name);
+        Page<User> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(userDao.queryUsersByName(page.getStartIndex(),pageSize,name));
+        return page;
+    }
+
+    @Override
     public Page<PostResult> getPosts(int  curPage, int pageSize){
         int totalResult = postDao.getAllPostsCount();
         Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
@@ -52,13 +60,20 @@ public class PageServiceImpl implements PageService {
         return page;
     }
     @Override
-    public Page<Section> getAllSections(int  curPage, int pageSize){
+    public Page<Section> getSections(int  curPage, int pageSize){
         int totalResult = sectionDao.getAllSectionsCount();
         Page<Section> page = new Page<>(curPage, pageSize, totalResult);
         page.setList(sectionDao.queryAllSections(page.getStartIndex(),pageSize));
         return page;
     }
 
+    @Override
+    public Page<Section> getSections(int  curPage, int pageSize, String sectionName){
+        int totalResult = sectionDao.getSectionCountByName(sectionName);
+        Page<Section> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(sectionDao.querySectionsByName(page.getStartIndex(),pageSize,sectionName));
+        return page;
+    }
 
     @Override
     public Page<Audit> getAudits(int  curPage, int pageSize){

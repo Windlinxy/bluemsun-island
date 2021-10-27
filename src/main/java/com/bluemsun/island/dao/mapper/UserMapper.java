@@ -76,4 +76,8 @@ public interface UserMapper {
     int getAllCount();
 
     User selectOneById(int userId);
+
+    List<User> selectByUserName(@Param("startIndex") int startIndex,@Param("pageSize") int pageSize,@Param("username") String username);
+
+    int getCountByUserName(String username);
 }

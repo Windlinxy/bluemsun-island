@@ -14,7 +14,7 @@ public interface AuditMapper {
 
     int insertSelective(Audit record);
 
-    Audit selectById(int id);
+    Audit selectById(int auditId);
 
     int updateByIdSelective(Audit record);
 

@@ -22,6 +22,7 @@
         <include refid="Base_Column_List"/>
         from tb_notice
         where id = #{id}
+        order by audit_id desc;
     </select>
 
     <delete id="deleteById" parameterType="int">

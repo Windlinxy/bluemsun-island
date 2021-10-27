@@ -23,6 +23,8 @@ public interface PageService {
      **/
     Page<User> getUsers(int curPage, int pageSize);
 
+    Page<User> getUsers(int curPage, int pageSize, String name);
+
     /**
      * 获得所有帖子
      *
@@ -42,7 +44,10 @@ public interface PageService {
      * @param pageSize 页面数据数量
      * @return Page<Section>
      **/
-    Page<Section> getAllSections(int  curPage, int pageSize);
+    Page<Section> getSections(int  curPage, int pageSize);
+
+    Page<Section> getSections(int  curPage, int pageSize,String sectionName);
 
     Page<Audit> getAudits(int  curPage, int pageSize);
+
 }

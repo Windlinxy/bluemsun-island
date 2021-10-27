@@ -101,5 +101,19 @@
         where id = #{userId};
     </select>
 
+    <select id="selectByUserName"  resultType="User">
+        select <include refid="Base_Column_List"/>
+        from tb_user
+        where LOCATE (#{username},username) > 0
+        order by  id desc
+        limit #{startIndex},#{pageSize};
+    </select>
+
+    <select id="getCountByUserName" parameterType="string" resultType="int">
+        select COUNT(*)
+        from tb_user
+        where LOCATE (username,#{username}) > 0
+        order by  id desc
+    </select>
 
 </mapper>

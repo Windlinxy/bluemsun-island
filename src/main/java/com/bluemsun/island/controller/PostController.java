@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @PostMapping(
-            value = "/{secId}/posts",
+            value = "/:{secId}/posts",
             consumes = "application/json"
     )
     public Map<String, Object> addPost(

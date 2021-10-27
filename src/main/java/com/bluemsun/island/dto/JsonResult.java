@@ -14,7 +14,7 @@ public class JsonResult<T> {
     /**
      * 错误码
      */
-    private Integer code;
+    private Integer status;
 
     /**
      * 提示信息
@@ -28,7 +28,7 @@ public class JsonResult<T> {
 
 
     public JsonResult(Integer code, String msg, T data) {
-        this.code = code;
+        this.status = code;
         this.msg = msg;
         this.data = data;
     }

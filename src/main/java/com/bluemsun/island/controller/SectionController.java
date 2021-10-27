@@ -114,7 +114,7 @@ public class SectionController {
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getAllSections(currentPage, pageSize);
+            page = pageService.getSections(currentPage, pageSize);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
@@ -149,6 +149,27 @@ public class SectionController {
             ResponseUtil.returnFailed(map);
         } else {
             page = pageService.getPosts(currentPage, pageSize,sectionId);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @GetMapping(
+            value = "/sections/{name}"
+    )
+    public Map<String, Object> sectionList(
+            @PathVariable("name")String sectionName,
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize
+    ) {
+        Map<String, Object> map = new HashMap<>();
+        Page<Section> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            System.out.println(sectionName);
+            page = pageService.getSections(currentPage, pageSize, sectionName);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }

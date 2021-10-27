@@ -13,7 +13,11 @@ public interface SectionMapper {
 
     Section selectById(int id);
 
-    Section selectByName(String name);
+    Section searchByName(String name);
+
+    List<Section> selectBySectionName(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize, @Param("sectionName") String sectionName);
+
+    int getCountBySectionName(@Param("sectionName")String sectionName);
 
     int updateSelective(Section record);
 

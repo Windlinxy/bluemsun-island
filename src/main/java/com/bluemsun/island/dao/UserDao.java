@@ -187,5 +187,23 @@ public class UserDao extends SqlSessionDaoSupport {
         return count;
     }
 
+    public int getUsersCountByName(String name){
+        int count;
+        try {
+            count = getMapper(UserMapper.class).getCountByUserName(name);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
 
+    public List<User> queryUsersByName(int startIndex,int pageSize,String name) {
+        List<User> userList;
+        try {
+            userList = getMapper(UserMapper.class).selectByUserName(startIndex,pageSize,name);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
+    }
 }

@@ -85,9 +85,26 @@
         from tb_section
         where section_id = #{sectionId};
     </select>
-    <select id="selectByName" resultType="com.bluemsun.island.entity.Section">
-        select <include refid="Base_Column_List"/>
+
+    <select id="searchByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
         from tb_section
         where section_name = #{name}
+    </select>
+
+    <select id="selectBySectionName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_section
+        where LOCATE (#{sectionName},section_name) > 0
+        order by section_id desc
+        limit #{startIndex},#{pageSize};
+    </select>
+
+    <select id="getCountBySectionName" parameterType="string" resultType="java.lang.Integer">
+        select COUNT(*)
+        from tb_section
+        where LOCATE(#{sectionName}, section_name) > 0
     </select>
 </mapper>

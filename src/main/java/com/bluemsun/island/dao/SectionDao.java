@@ -93,10 +93,30 @@ public class SectionDao extends SqlSessionDaoSupport {
     public Section queryOneByName(String name) {
         Section section;
         try {
-            section = getMapper(SectionMapper.class).selectByName(name);
+            section = getMapper(SectionMapper.class).searchByName(name);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return section;
+    }
+
+    public int getSectionCountByName(String name){
+        int count;
+        try {
+            count = getMapper(SectionMapper.class).getCountBySectionName(name);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
+    public List<Section> querySectionsByName(int startIndex, int pageSize, String name) {
+        List<Section> sectionList;
+        try {
+            sectionList = getMapper(SectionMapper.class).selectBySectionName(startIndex,pageSize,name);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sectionList;
     }
 }

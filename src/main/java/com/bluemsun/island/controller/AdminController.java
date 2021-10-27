@@ -99,6 +99,25 @@ public class AdminController {
     }
 
     @GetMapping(
+            value = "/users/:{name}")
+    public Map<String, Object> userList(
+            @PathVariable("name")String username,
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize
+    ) {
+        Map<String, Object> map = new HashMap<>();
+        Page<User> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getUsers(currentPage, pageSize,username);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @GetMapping(
             value = "/audits"
     )
     public Map<String, Object> getAudits(
@@ -124,11 +143,31 @@ public class AdminController {
             @PathVariable("sta") int status
     ) {
         Map<String, Object> map = new HashMap<>(5);
-        jud = auditService.agreeAudit(auditId,status);
+        if(status==1){
+            jud = auditService.agreeAudit(auditId,status);
+        }else if(status==0){
+            jud = auditService.updateAudit(new Audit(auditId,status));
+        }
         if(jud ==ReturnCode.OP_SUCCESS){
             ResponseUtil.returnSuccess(map);
         }else {
             ResponseUtil.returnFailed(map);
+        }
+        return map;
+    }
+
+    @DeleteMapping(
+            value = "/audits/:{id}"
+    )
+    public Map<String,Object> deleteAudit(@PathVariable("id")int auditId){
+        Map<String,Object> map = new HashMap<>(5);
+        jud = auditService.deleteAudit(auditId);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            ResponseUtil.returnSuccess(map);
+        } else if (jud == ReturnCode.OP_FAILED) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            ResponseUtil.returnUnknownError(map);
         }
         return map;
     }

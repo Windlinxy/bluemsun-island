@@ -56,7 +56,7 @@ public class AuditServiceImpl implements AuditService {
         operationJudCode = sectionDao.insertSection(new Section(audit.getSectionName(),audit.getDescription(),audit.getImageUrl()));
         if(operationJudCode == 1){
             int userId = audit.getUserId();
-            operationJudCode = userForSectionDao.insert(userId,sectionDao.queryOneByName(audit.getSectionName()).getSectionId());
+            operationJudCode = userForSectionDao.insert(userId,audit.getSectionName());
         }else {
             operationJudCode =0;
         }

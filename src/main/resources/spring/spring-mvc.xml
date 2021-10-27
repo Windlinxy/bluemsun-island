@@ -82,6 +82,7 @@
         <property name="maxUploadSize" value="-1"/><!-- 最大文件，-1不限制 -->
     </bean>
 
+    <bean id="jsonResult" class="com.bluemsun.island.dto.JsonResult" />
 
     <bean id="userDao" class="com.bluemsun.island.dao.UserDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>

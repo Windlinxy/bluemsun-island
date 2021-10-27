@@ -179,6 +179,7 @@
         from tb_user
         INNER JOIN tb_post tb on tb.user_id = tb_user.id
         INNER JOIN tb_section sec on tb.section_id = sec.section_id
+        order by tb.post_date desc
         limit #{startIndex},#{pageSize};
     </select>
 
@@ -188,6 +189,7 @@
         INNER JOIN tb_post tb on tb.user_id = tb_user.id
         INNER JOIN tb_section sec on tb.section_id = sec.section_id
         where tb.section_id = #{sectionId}
+        order by tb.post_date desc
         limit #{startIndex},#{pageSize};
     </select>
 

@@ -4,11 +4,11 @@ import com.bluemsun.island.dto.MasterForSection;
 
 public interface MasterForSectionMapper {
 
-    int deleteByUserId(int userId);
+    int deleteByUserId(int masterId);
 
     int insert(MasterForSection record);
 
-    MasterForSection selectByUserId(int userId);
+    MasterForSection selectByUserId(int masterId);
 
 
 }

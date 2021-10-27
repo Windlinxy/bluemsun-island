@@ -1,5 +1,6 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.dto.JsonResult;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.FileService;
@@ -46,21 +47,15 @@ public class UserController {
             value = "/users",
             consumes = "application/json"
     )
-    public Map<String, Object> register(@RequestBody User user) {
-
-        Map<String, Object> map = new HashMap<>(hashMapCapacity);
+    public JsonResult<User> register(@RequestBody User user) {
         jud = userService.addUser(user);
         if (jud == ReturnCode.OP_SUCCESS) {
             user.setPassword(null);
             user.setPhoneNumber(null);
-            map.put("user", user);
-            ResponseUtil.returnSuccess(map);
-        } else if (jud == ReturnCode.OP_FAILED) {
-            ResponseUtil.returnFailed(map);
-        } else if (jud == ReturnCode.OP_UNKNOWN_ERROR) {
-            ResponseUtil.returnUnknownError(map);
+            return new JsonResult<User>().ok(user);
+        } else{
+            return new JsonResult<User>().fail();
         }
-        return map;
     }
 
     /**

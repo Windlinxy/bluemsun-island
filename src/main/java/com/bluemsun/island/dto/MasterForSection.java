@@ -17,11 +17,14 @@ public class MasterForSection implements Serializable {
     /**
      * 
      */
-    private int masterSectionId;
+    private String  masterSectionName;
 
-    public MasterForSection(int masterId, int masterSectionId) {
+    public MasterForSection() {
+    }
+
+    public MasterForSection(int masterId, String masterSectionName) {
         this.masterId = masterId;
-        this.masterSectionId = masterSectionId;
+        this.masterSectionName = masterSectionName;
     }
 
     public int getId() {
@@ -40,12 +43,12 @@ public class MasterForSection implements Serializable {
         this.masterId = masterId;
     }
 
-    public int getMasterSectionId() {
-        return masterSectionId;
+    public String getMasterSectionName() {
+        return masterSectionName;
     }
 
-    public void setMasterSectionId(int masterSectionId) {
-        this.masterSectionId = masterSectionId;
+    public void setMasterSectionName(String masterSectionName) {
+        this.masterSectionName = masterSectionName;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class MasterForSection implements Serializable {
         return "MasterForSection{" +
                 "id=" + id +
                 ", masterId=" + masterId +
-                ", masterSectionId=" + masterSectionId +
+                ", masterSectionName='" + masterSectionName + '\'' +
                 '}';
     }
 }

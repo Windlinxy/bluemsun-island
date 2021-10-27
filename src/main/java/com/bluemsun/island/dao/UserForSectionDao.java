@@ -19,9 +19,9 @@ public class UserForSectionDao extends SqlSessionDaoSupport {
         return getSqlSession().getMapper(mapperClass);
     }
 
-    public int insert(int userId, int sectionId) {
+    public int insert(int userId, String sectionName) {
         try {
-            int rowsAffected = getMapper(MasterForSectionMapper.class).insert(new MasterForSection(userId, sectionId));
+            int rowsAffected = getMapper(MasterForSectionMapper.class).insert(new MasterForSection(userId, sectionName));
             if (rowsAffected == 1) {
                 operationCode = ReturnCode.OP_SUCCESS;
             } else {
