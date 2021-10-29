@@ -21,8 +21,6 @@ public interface PageService {
      * @return Page<User>
      * @date 20:44 2021/10/22
      **/
-    Page<User> getUsers(int curPage, int pageSize);
-
     Page<User> getUsers(int curPage, int pageSize, String name);
 
     /**
@@ -38,7 +36,6 @@ public interface PageService {
     Page<PostResult> getPosts(int curPage, int pageSize, int sectionId);
 
     Page<PostResult> getHotPosts(int curPage, int pageSize, int sectionId);
-
     /**
      * 获得所有板块
      *
@@ -47,7 +44,6 @@ public interface PageService {
      * @return Page<Section>
      * @date 0:29 2021/10/24
      **/
-    Page<Section> getSections(int curPage, int pageSize);
 
     Page<Section> getHotSections(int curPage, int pageSize);
 

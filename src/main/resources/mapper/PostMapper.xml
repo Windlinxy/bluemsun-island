@@ -168,7 +168,7 @@
         from tb_post;
     </select>
 
-    <select id="getAllCountById" resultType="int">
+    <select id="getAllCountBySectionId" resultType="int">
         select COUNT(*)
         from tb_post
         where section_id = #{id}
@@ -215,6 +215,15 @@
         limit #{startIndex},#{pageSize};
     </select>
 
+    <select id="selectAllHot" resultMap="PostResultMap">
+        select
+        <include refid="Post_Column_List"/>
+        from tb_user
+        INNER JOIN tb_post tb on tb.user_id = tb_user.id
+        INNER JOIN tb_section sec on tb.section_id = sec.section_id
+        order by tb.like_number desc
+        limit #{startIndex},#{pageSize};
+    </select>
 
 
 </mapper>

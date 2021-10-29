@@ -95,6 +95,16 @@ public class PostDao extends SqlSessionDaoSupport {
         return postList;
     }
 
+    public List<PostResult> queryHotPosts(int startIndex, int pageSize){
+        List<PostResult> postList;
+        try {
+            postList = getMapper(PostMapper.class).selectAllHot(startIndex,pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return postList;
+    }
+
     public PostResult queryPostById(int postId){
         PostResult postResult;
         try {
@@ -105,10 +115,10 @@ public class PostDao extends SqlSessionDaoSupport {
         return postResult;
     }
 
-    public int getPostsByIdCount(int id) {
+    public int getPostsBySectionIdCount(int id) {
         int count;
         try {
-            count = getMapper(PostMapper.class).getAllCountById(id);
+            count = getMapper(PostMapper.class).getAllCountBySectionId(id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

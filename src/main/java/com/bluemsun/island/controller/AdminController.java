@@ -33,30 +33,25 @@ public class AdminController {
     @Autowired
     private AuditService auditService;
 
-
-    @GetMapping(
-            value = "/users")
+    @GetMapping(value = "/users")
     public Map<String, Object> userList(
             @RequestParam("cur") int currentPage,
-            @RequestParam("size") int pageSize
-    ) {
-        Map<String, Object> map = new HashMap<>();
+            @RequestParam("size") int pageSize) {
+        Map<String, Object> map = new HashMap<>(5);
         Page<User> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getUsers(currentPage, pageSize);
+            page = pageService.getUsers(currentPage, pageSize,null);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
         return map;
     }
 
-    @DeleteMapping(
-            value = "/users/:{id}"
-    )
+    @DeleteMapping(value = "/users/:{id}")
     public Map<String, Object> deleteUser(@PathVariable("id") int userId) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(3);
         jud = adminService.deleteUser(userId);
         if (jud == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);
@@ -68,11 +63,9 @@ public class AdminController {
         return map;
     }
 
-    @PatchMapping(
-            value = "users/:{id}/:{sta}"
-    )
+    @PatchMapping("users/:{id}/:{sta}")
     public Map<String, Object> banUser(@PathVariable("id") int userId, @PathVariable("sta") int status) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(5);
         jud = adminService.changeUserStatus(userId, status);
         if (jud == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);
@@ -83,11 +76,9 @@ public class AdminController {
         return map;
     }
 
-    @GetMapping(
-            value = "users/{id}"
-    )
+    @GetMapping( "users/{id}")
     public Map<String, Object> getUserInfo(@PathVariable("id") int id) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(5);
         User userInfo = adminService.getUserInfo(id);
         if (userInfo != null) {
             ResponseUtil.returnSuccess(map);
@@ -98,14 +89,12 @@ public class AdminController {
         return map;
     }
 
-    @GetMapping(
-            value = "/users/:{name}")
+    @GetMapping("/users/:{name}")
     public Map<String, Object> userList(
             @PathVariable("name")String username,
             @RequestParam("cur") int currentPage,
-            @RequestParam("size") int pageSize
-    ) {
-        Map<String, Object> map = new HashMap<>();
+            @RequestParam("size") int pageSize) {
+        Map<String, Object> map = new HashMap<>(5);
         Page<User> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
@@ -117,9 +106,7 @@ public class AdminController {
         return map;
     }
 
-    @GetMapping(
-            value = "/audits"
-    )
+    @GetMapping("/audits")
     public Map<String, Object> getAudits(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize) {
@@ -135,13 +122,10 @@ public class AdminController {
         return map;
     }
 
-    @PatchMapping(
-            value = "/audits/:{id}/{sta}"
-    )
+    @PatchMapping("/audits/:{id}/{sta}")
     public Map<String, Object> agreeOrRejectAudit(
             @PathVariable("id") int auditId,
-            @PathVariable("sta") int status
-    ) {
+            @PathVariable("sta") int status) {
         Map<String, Object> map = new HashMap<>(5);
         if(status==1){
             jud = auditService.agreeAudit(auditId,status);
@@ -156,9 +140,7 @@ public class AdminController {
         return map;
     }
 
-    @DeleteMapping(
-            value = "/audits/:{id}"
-    )
+    @DeleteMapping( "/audits/:{id}")
     public Map<String,Object> deleteAudit(@PathVariable("id")int auditId){
         Map<String,Object> map = new HashMap<>(5);
         jud = auditService.deleteAudit(auditId);
@@ -172,11 +154,9 @@ public class AdminController {
         return map;
     }
 
-    @PatchMapping(
-            value = "sections/:{id}/:{sta}"
-    )
+    @PatchMapping( "sections/:{id}/:{sta}")
     public Map<String, Object> banSection(@PathVariable("id") int sectionId, @PathVariable("sta") int status) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(5);
         jud = adminService.changeSectionStatus(sectionId, status);
         if (jud == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);

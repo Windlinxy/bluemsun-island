@@ -63,9 +63,7 @@ public class SectionController {
             value = "/sections",
             consumes = "application/json"
     )
-    public Map<String, Object> addSection(
-            HttpServletRequest request,
-            @RequestBody Section section) {
+    public Map<String, Object> addSection(@RequestBody Section section) {
         Map<String, Object> map = new HashMap<>(5);
         jud = sectionService.addSection(section);
         if (jud == ReturnCode.OP_SUCCESS) {
@@ -114,7 +112,7 @@ public class SectionController {
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getSections(currentPage, pageSize);
+            page = pageService.getSections(currentPage, pageSize,null);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
@@ -200,7 +198,7 @@ public class SectionController {
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize
     ) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(5);
         Page<Section> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);

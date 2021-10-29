@@ -40,7 +40,6 @@ public class UserController {
      * 用户登录接口
      *
      * @param user 用户（手机号，密码，昵称）
-     * @return java.util.Map<java.lang.String, java.lang.Object> 响应数据
      * @date 17:39 2021/10/17
      **/
     @PostMapping(
@@ -62,7 +61,6 @@ public class UserController {
      * 用户登录方法
      *
      * @param user 用户（手机号，密码）
-     * @return java.util.Map<java.lang.String, java.lang.Object> 响应数据
      * @date 17:40 2021/10/17
      **/
     @PostMapping(
@@ -97,7 +95,6 @@ public class UserController {
     /**
      * 用户上传头像接口
      *
-     * @return java.util.Map<java.lang.String, java.lang.Object> User
      * @date 20:23 2021/10/19
      **/
     @PostMapping(
@@ -130,7 +127,6 @@ public class UserController {
      *
      * @date 19:25 2021/10/23
      * @param request 请求
-     * @return Map<Object> 响应结果
      **/
     @GetMapping(
             value = "/user"
@@ -154,7 +150,6 @@ public class UserController {
      *
      * @param request 请求
      * @param user    用户（需要修改的信息）
-     * @return java.util.Map<java.lang.String, java.lang.Object>
      * @date 17:30 2021/10/20
      **/
     @PatchMapping(

@@ -30,7 +30,7 @@ public interface PostMapper {
 
     int getAllCount();
 
-    int getAllCountById(int id);
+    int getAllCountBySectionId(int id);
 
     List<PostResult> selectAll(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
@@ -40,5 +40,6 @@ public interface PostMapper {
 
     List<PostResult> selectAllBySectionIdHot(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize, @Param("sectionId")int sectionId);
 
+    List<PostResult> selectAllHot(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
 }
