@@ -36,4 +36,8 @@ public interface AdminService {
      * @return com.bluemsun.island.entity.User 用户
      **/
     User getUserInfo(int userId);
+
+    int changeSectionStatus(int sectionId, int status);
+
+    int deleteSection(int sectionId);
 }

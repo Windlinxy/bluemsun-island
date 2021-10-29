@@ -1,6 +1,8 @@
 package com.bluemsun.island.service.impl;
 
+import com.bluemsun.island.dao.SectionDao;
 import com.bluemsun.island.dao.UserDao;
+import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.AdminService;
 import com.bluemsun.island.util.RedisUtil;
@@ -16,6 +18,8 @@ public class AdminServiceImpl implements AdminService {
     private int operationJudCode = 0;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private SectionDao sectionDao;
 @Override
     public int deleteUser(int userId){
         operationJudCode =  userDao.deleteUserById(userId);
@@ -51,4 +55,17 @@ public class AdminServiceImpl implements AdminService {
         return userAfter;
     }
 
+    @Override
+    public int changeSectionStatus(int sectionId, int status){
+        Section section = new Section(sectionId,status);
+        operationJudCode = sectionDao.updateSectionPostNumber(section);
+        return operationJudCode;
+    }
+
+
+    @Override
+    public int deleteSection(int sectionId){
+        operationJudCode = sectionDao.deleteById(sectionId);
+        return operationJudCode;
+    }
 }

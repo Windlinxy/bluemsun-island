@@ -78,7 +78,17 @@ public class PostDao extends SqlSessionDaoSupport {
     public List<PostResult> queryPosts(int startIndex, int pageSize,int sectionId){
         List<PostResult> postList;
         try {
-            postList = getMapper(PostMapper.class).selectAllBySectionId(startIndex,pageSize,sectionId);
+            postList = getMapper(PostMapper.class).selectAllBySectionIdDate(startIndex,pageSize,sectionId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return postList;
+    }
+
+    public List<PostResult> queryHotPosts(int startIndex, int pageSize,int sectionId){
+        List<PostResult> postList;
+        try {
+            postList = getMapper(PostMapper.class).selectAllBySectionIdHot(startIndex,pageSize,sectionId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

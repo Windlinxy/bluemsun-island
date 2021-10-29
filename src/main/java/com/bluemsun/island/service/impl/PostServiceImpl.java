@@ -1,6 +1,7 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.PostDao;
+import com.bluemsun.island.dao.SectionDao;
 import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,16 @@ public class PostServiceImpl implements PostService {
     private int operationJudCode = 0;
     @Autowired
     private PostDao postDao;
+    @Autowired
+    private SectionDao sectionDao;
 
     @Override
-    public int addPost(Post post){
+    public int addPost(Post post) {
         System.out.println(post);
         operationJudCode = postDao.insertPost(post);
+        if (operationJudCode == 1) {
+            operationJudCode = sectionDao.updateSectionPostNumber(post.getSectionId());
+        }
         return operationJudCode;
     }
 }

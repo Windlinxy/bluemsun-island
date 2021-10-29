@@ -20,6 +20,21 @@ public class SectionDao extends SqlSessionDaoSupport {
         return getSqlSession().getMapper(mapperClass);
     }
 
+
+    public int deleteById(int sectionId){
+        try {
+            int rowsAffected = getMapper(SectionMapper.class).deleteById(sectionId);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+        }
+
+        return operationCode;
+    }
     /**
      * 添加板块
      *
@@ -36,10 +51,40 @@ public class SectionDao extends SqlSessionDaoSupport {
             } else {
                 operationCode = ReturnCode.OP_FAILED;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             operationCode = ReturnCode.OP_FAILED;
         }
 
+        return operationCode;
+    }
+
+    public int updateSectionPostNumber(Section section) {
+        try {
+            int rowsAffected = getMapper(SectionMapper.class).updateSelective(section);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
+        return operationCode;
+    }
+
+    public int updateSectionPostNumber(int sectionId) {
+        try {
+            int rowsAffected = getMapper(SectionMapper.class).postNumberAdd(sectionId);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
         return operationCode;
     }
 
@@ -51,11 +96,20 @@ public class SectionDao extends SqlSessionDaoSupport {
      * @return List<Section> 板块列表
      * @date 0:24 2021/10/24
      **/
-
     public List<Section> queryAllSections(int startIndex, int pageSize) {
         List<Section> sectionList;
         try {
             sectionList = getMapper(SectionMapper.class).selectAll(startIndex, pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sectionList;
+    }
+
+    public List<Section> queryAllHotSections(int startIndex, int pageSize) {
+        List<Section> sectionList;
+        try {
+            sectionList = getMapper(SectionMapper.class).selectAllHot(startIndex, pageSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -100,7 +154,7 @@ public class SectionDao extends SqlSessionDaoSupport {
         return section;
     }
 
-    public int getSectionCountByName(String name){
+    public int getSectionCountByName(String name) {
         int count;
         try {
             count = getMapper(SectionMapper.class).getCountBySectionName(name);
@@ -113,7 +167,7 @@ public class SectionDao extends SqlSessionDaoSupport {
     public List<Section> querySectionsByName(int startIndex, int pageSize, String name) {
         List<Section> sectionList;
         try {
-            sectionList = getMapper(SectionMapper.class).selectBySectionName(startIndex,pageSize,name);
+            sectionList = getMapper(SectionMapper.class).selectBySectionName(startIndex, pageSize, name);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

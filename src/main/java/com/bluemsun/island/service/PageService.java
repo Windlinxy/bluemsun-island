@@ -16,10 +16,10 @@ public interface PageService {
     /**
      * 获得用户页面
      *
-     * @date 20:44 2021/10/22
-     * @param curPage 当前页
-     * @param  pageSize 页面大小
+     * @param curPage  当前页
+     * @param pageSize 页面大小
      * @return Page<User>
+     * @date 20:44 2021/10/22
      **/
     Page<User> getUsers(int curPage, int pageSize);
 
@@ -28,26 +28,31 @@ public interface PageService {
     /**
      * 获得所有帖子
      *
-     * @date 10:36 2021/10/23
-     * @param curPage 当前页
-     * @param  pageSize 页面显示数量
+     * @param curPage  当前页
+     * @param pageSize 页面显示数量
      * @return Page<Post>
+     * @date 10:36 2021/10/23
      **/
-    Page<PostResult> getPosts(int  curPage, int pageSize);
+    Page<PostResult> getPosts(int curPage, int pageSize);
 
-    Page<PostResult> getPosts(int  curPage, int pageSize,int sectionId);
+    Page<PostResult> getPosts(int curPage, int pageSize, int sectionId);
+
+    Page<PostResult> getHotPosts(int curPage, int pageSize, int sectionId);
+
     /**
      * 获得所有板块
      *
-     * @date 0:29 2021/10/24
-     * @param curPage 当前页数
+     * @param curPage  当前页数
      * @param pageSize 页面数据数量
      * @return Page<Section>
+     * @date 0:29 2021/10/24
      **/
-    Page<Section> getSections(int  curPage, int pageSize);
+    Page<Section> getSections(int curPage, int pageSize);
 
-    Page<Section> getSections(int  curPage, int pageSize,String sectionName);
+    Page<Section> getHotSections(int curPage, int pageSize);
 
-    Page<Audit> getAudits(int  curPage, int pageSize);
+    Page<Section> getSections(int curPage, int pageSize, String sectionName);
+
+    Page<Audit> getAudits(int curPage, int pageSize);
 
 }

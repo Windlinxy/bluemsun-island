@@ -175,7 +175,8 @@
     </select>
 
     <select id="selectAll" parameterType="int" resultMap="PostResultMap">
-        select <include refid="Post_Column_List" />
+        select
+        <include refid="Post_Column_List"/>
         from tb_user
         INNER JOIN tb_post tb on tb.user_id = tb_user.id
         INNER JOIN tb_section sec on tb.section_id = sec.section_id
@@ -183,8 +184,9 @@
         limit #{startIndex},#{pageSize};
     </select>
 
-    <select id="selectAllBySectionId" resultMap="PostResultMap">
-        select <include refid="Post_Column_List" />
+    <select id="selectAllBySectionIdDate" resultMap="PostResultMap">
+        select
+        <include refid="Post_Column_List"/>
         from tb_user
         INNER JOIN tb_post tb on tb.user_id = tb_user.id
         INNER JOIN tb_section sec on tb.section_id = sec.section_id
@@ -194,10 +196,25 @@
     </select>
 
     <select id="selectOneById" parameterType="int" resultMap="PostResultMap">
-        select <include refid="Post_Column_List" />
+        select
+        <include refid="Post_Column_List"/>
         from tb_user
-                 INNER JOIN tb_post tb on tb.user_id = tb_user.id
-                 INNER JOIN tb_section sec on tb.section_id = sec.section_id
+        INNER JOIN tb_post tb on tb.user_id = tb_user.id
+        INNER JOIN tb_section sec on tb.section_id = sec.section_id
         where post_id = #{id};
     </select>
+
+    <select id="selectAllBySectionIdHot" resultMap="PostResultMap">
+        select
+        <include refid="Post_Column_List"/>
+        from tb_user
+        INNER JOIN tb_post tb on tb.user_id = tb_user.id
+        INNER JOIN tb_section sec on tb.section_id = sec.section_id
+        where tb.section_id = #{sectionId}
+        order by tb.like_number desc
+        limit #{startIndex},#{pageSize};
+    </select>
+
+
+
 </mapper>

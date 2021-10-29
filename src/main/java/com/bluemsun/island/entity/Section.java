@@ -30,6 +30,11 @@ public class Section implements Serializable {
     public Section() {
     }
 
+    public Section(int sectionId, int sectionStatus) {
+        this.sectionId = sectionId;
+        this.sectionStatus = sectionStatus;
+    }
+
     public Section(String sectionName, String description, String imageUrl) {
         this.sectionName = sectionName;
         this.description = description;

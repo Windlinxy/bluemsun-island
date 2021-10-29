@@ -89,8 +89,8 @@ public class SectionController {
         Map<String, Object> map = new HashMap<>(5);
         int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
         RedisUtil.getUser(userId);
-        String content = "用户【"+RedisUtil.getUser(userId).getUsername()+"】申请成为【"+section.getSectionName()+"】的版主";
-        Audit audit = new Audit(content,userId,section.getDescription(),section.getImageUrl(),section.getSectionName());
+        String content = "用户【" + RedisUtil.getUser(userId).getUsername() + "】申请成为【" + section.getSectionName() + "】的版主";
+        Audit audit = new Audit(content, userId, section.getDescription(), section.getImageUrl(), section.getSectionName());
         jud = auditService.addAudit(audit);
         if (jud == ReturnCode.OP_SUCCESS) {
             map.put("audit", audit);
@@ -115,6 +115,24 @@ public class SectionController {
             ResponseUtil.returnFailed(map);
         } else {
             page = pageService.getSections(currentPage, pageSize);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @GetMapping(
+            value = "/hotsections"
+    )
+    public Map<String, Object> getAllHotSections(
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize) {
+        Map<String, Object> map = new HashMap<>(5);
+        Page<Section> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getHotSections(currentPage, pageSize);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
@@ -148,7 +166,26 @@ public class SectionController {
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getPosts(currentPage, pageSize,sectionId);
+            page = pageService.getPosts(currentPage, pageSize, sectionId);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @GetMapping(
+            value = "/sections/:{secId}/hotposts"
+    )
+    public Map<String, Object> getHotPostInSection(
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize,
+            @PathVariable("secId") int sectionId) {
+        Map<String, Object> map = new HashMap<>(5);
+        Page<PostResult> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getHotPosts(currentPage, pageSize, sectionId);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
@@ -159,7 +196,7 @@ public class SectionController {
             value = "/sections/{name}"
     )
     public Map<String, Object> sectionList(
-            @PathVariable("name")String sectionName,
+            @PathVariable("name") String sectionName,
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize
     ) {

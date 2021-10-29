@@ -32,7 +32,7 @@ public class PageServiceImpl implements PageService {
     public Page<User> getUsers(int curPage, int pageSize) {
         int totalResult = userDao.getAllUsersCount();
         Page<User> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(userDao.queryAllUsers(page.getStartIndex(),pageSize));
+        page.setList(userDao.queryAllUsers(page.getStartIndex(), pageSize));
         return page;
     }
 
@@ -40,46 +40,63 @@ public class PageServiceImpl implements PageService {
     public Page<User> getUsers(int curPage, int pageSize, String name) {
         int totalResult = userDao.getUsersCountByName(name);
         Page<User> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(userDao.queryUsersByName(page.getStartIndex(),pageSize,name));
+        page.setList(userDao.queryUsersByName(page.getStartIndex(), pageSize, name));
         return page;
     }
 
     @Override
-    public Page<PostResult> getPosts(int  curPage, int pageSize){
+    public Page<PostResult> getPosts(int curPage, int pageSize) {
         int totalResult = postDao.getAllPostsCount();
         Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(postDao.queryPosts(page.getStartIndex(),pageSize));
+        page.setList(postDao.queryPosts(page.getStartIndex(), pageSize));
         return page;
     }
 
     @Override
-    public Page<PostResult> getPosts(int  curPage, int pageSize,int sectionId){
+    public Page<PostResult> getPosts(int curPage, int pageSize, int sectionId) {
         int totalResult = postDao.getAllPostsCount();
         Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(postDao.queryPosts(page.getStartIndex(),pageSize,sectionId));
+        page.setList(postDao.queryPosts(page.getStartIndex(), pageSize, sectionId));
         return page;
     }
+
     @Override
-    public Page<Section> getSections(int  curPage, int pageSize){
+    public Page<PostResult> getHotPosts(int curPage, int pageSize, int sectionId) {
+        int totalResult = postDao.getAllPostsCount();
+        Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(postDao.queryHotPosts(page.getStartIndex(), pageSize, sectionId));
+        return page;
+    }
+
+    @Override
+    public Page<Section> getSections(int curPage, int pageSize) {
         int totalResult = sectionDao.getAllSectionsCount();
         Page<Section> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(sectionDao.queryAllSections(page.getStartIndex(),pageSize));
+        page.setList(sectionDao.queryAllSections(page.getStartIndex(), pageSize));
         return page;
     }
 
     @Override
-    public Page<Section> getSections(int  curPage, int pageSize, String sectionName){
+    public Page<Section> getHotSections(int curPage, int pageSize) {
+        int totalResult = sectionDao.getAllSectionsCount();
+        Page<Section> page = new Page<>(curPage, pageSize, totalResult);
+        page.setList(sectionDao.queryAllHotSections(page.getStartIndex(), pageSize));
+        return page;
+    }
+
+    @Override
+    public Page<Section> getSections(int curPage, int pageSize, String sectionName) {
         int totalResult = sectionDao.getSectionCountByName(sectionName);
         Page<Section> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(sectionDao.querySectionsByName(page.getStartIndex(),pageSize,sectionName));
+        page.setList(sectionDao.querySectionsByName(page.getStartIndex(), pageSize, sectionName));
         return page;
     }
 
     @Override
-    public Page<Audit> getAudits(int  curPage, int pageSize){
+    public Page<Audit> getAudits(int curPage, int pageSize) {
         int totalResult = auditDao.getAllAuditsCount();
         Page<Audit> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(auditDao.queryAllAudits(page.getStartIndex(),pageSize));
+        page.setList(auditDao.queryAllAudits(page.getStartIndex(), pageSize));
         return page;
     }
 

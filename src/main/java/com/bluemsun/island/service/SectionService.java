@@ -19,4 +19,5 @@ public interface SectionService {
     int addSection(Section section);
 
     Section getSection(int id);
+
 }

@@ -171,4 +171,19 @@ public class AdminController {
         }
         return map;
     }
+
+    @PatchMapping(
+            value = "sections/:{id}/:{sta}"
+    )
+    public Map<String, Object> banSection(@PathVariable("id") int sectionId, @PathVariable("sta") int status) {
+        Map<String, Object> map = new HashMap<>();
+        jud = adminService.changeSectionStatus(sectionId, status);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            ResponseUtil.returnSuccess(map);
+            map.put("sectionStatus", status);
+        } else {
+            ResponseUtil.returnFailed(map);
+        }
+        return map;
+    }
 }
