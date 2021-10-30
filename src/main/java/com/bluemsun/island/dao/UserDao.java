@@ -128,15 +128,6 @@ public class UserDao extends SqlSessionDaoSupport {
         }
         return userList;
     }
-//    public List<User> queryAllUsersByOrder(int startIndex,int pageSize,String col,String order) {
-//        List<User> userList;
-//        try {
-//            userList = getMapper(UserMapper.class).selectAllUserByOrder(col,order,startIndex,pageSize);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        return userList;
-//    }
 
     /**
      * 根据电话号码与密码查询用户

@@ -39,9 +39,10 @@ public class SectionController {
     @Autowired
     private AuditService auditService;
 
-    @PostMapping(
-            value = "/sections/portraits",
-            consumes = "multipart/form-data")
+    /**
+     *上传版图
+     **/
+    @PostMapping(value = "/sections/portraits", consumes = "multipart/form-data")
     public Map<String, Object> uploadHeadPortrait(
             HttpServletRequest request,
             @RequestParam("portrait") MultipartFile file) {
@@ -53,16 +54,13 @@ public class SectionController {
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
-
+        projectServerPath = projectServerPath.replace("bluemsun_island/","");
         ResponseUtil.returnSuccess(map);
         map.put("imageUrl", projectServerPath);
         return map;
     }
 
-    @PostMapping(
-            value = "/sections",
-            consumes = "application/json"
-    )
+    @PostMapping(value = "/sections", consumes = "application/json")
     public Map<String, Object> addSection(@RequestBody Section section) {
         Map<String, Object> map = new HashMap<>(5);
         jud = sectionService.addSection(section);
@@ -77,10 +75,10 @@ public class SectionController {
         return map;
     }
 
-    @PostMapping(
-            value = "/sections/audit",
-            consumes = "application/json"
-    )
+    /**
+     *申请成为版主
+     **/
+    @PostMapping(value = "/sections/audit", consumes = "application/json")
     public Map<String, Object> beSectionMaster(
             HttpServletRequest request,
             @RequestBody Section section) {
@@ -101,9 +99,10 @@ public class SectionController {
         return map;
     }
 
-    @GetMapping(
-            value = "/sections"
-    )
+    /**
+     *获取所有板块
+     **/
+    @GetMapping("/sections")
     public Map<String, Object> getAllSections(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize) {
@@ -119,9 +118,10 @@ public class SectionController {
         return map;
     }
 
-    @GetMapping(
-            value = "/hotsections"
-    )
+    /**
+     *热门板块
+     **/
+    @GetMapping("/hotsections")
     public Map<String, Object> getAllHotSections(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize) {
@@ -137,9 +137,10 @@ public class SectionController {
         return map;
     }
 
-    @GetMapping(
-            value = "/sections/:{secId}"
-    )
+    /**
+     *  id获取板块
+     **/
+    @GetMapping("/sections/:{secId}")
     public Map<String, Object> getSection(@PathVariable("secId") int sectionId) {
         Map<String, Object> map = new HashMap<>(5);
         Section section = sectionService.getSection(sectionId);
@@ -152,9 +153,10 @@ public class SectionController {
         return map;
     }
 
-    @GetMapping(
-            value = "/sections/:{secId}/posts"
-    )
+    /**
+     *板块帖子
+     **/
+    @GetMapping("/sections/:{secId}/posts")
     public Map<String, Object> getPostInSection(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize,
@@ -171,9 +173,10 @@ public class SectionController {
         return map;
     }
 
-    @GetMapping(
-            value = "/sections/:{secId}/hotposts"
-    )
+    /**
+     *  板块内热门帖
+     **/
+    @GetMapping("/sections/:{secId}/hotposts")
     public Map<String, Object> getHotPostInSection(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize,
@@ -190,14 +193,14 @@ public class SectionController {
         return map;
     }
 
-    @GetMapping(
-            value = "/sections/{name}"
-    )
+    /**
+     *搜索板块
+     **/
+    @GetMapping("/sections/{name}")
     public Map<String, Object> sectionList(
             @PathVariable("name") String sectionName,
             @RequestParam("cur") int currentPage,
-            @RequestParam("size") int pageSize
-    ) {
+            @RequestParam("size") int pageSize) {
         Map<String, Object> map = new HashMap<>(5);
         Page<Section> page;
         if (currentPage < 1 || pageSize < 1) {

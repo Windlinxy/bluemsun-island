@@ -34,10 +34,7 @@ public class PostController {
     @Autowired
     private PageService pageService;
 
-    @PostMapping(
-            value = "/post/images",
-            consumes = "multipart/form-data"
-    )
+    @PostMapping(value = "/post/images", consumes = "multipart/form-data")
     public Map<String, Object> getImage(HttpServletRequest request, @RequestParam("image") MultipartFile file) {
         Map<String, Object> map = new HashMap<>(4);
         System.out.println("=======================================");
@@ -47,16 +44,13 @@ public class PostController {
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
-
+        projectServerPath = projectServerPath.replace("bluemsun_island/","");
         map.put("status", ReturnCode.SUCCESS.getCode());
         map.put("imageUrl", projectServerPath);
         return map;
     }
 
-    @PostMapping(
-            value = "/:{secId}/posts",
-            consumes = "application/json"
-    )
+    @PostMapping(value = "/:{secId}/posts", consumes = "application/json")
     public Map<String, Object> addPost(
             @PathVariable("secId") int sectionId,
             HttpServletRequest request,
@@ -77,9 +71,7 @@ public class PostController {
         return map;
     }
 
-    @GetMapping(
-            value = "/posts"
-    )
+    @GetMapping("/posts")
     public Map<String, Object> getAllPosts(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize) {
@@ -96,9 +88,7 @@ public class PostController {
         return map;
     }
 
-    @GetMapping(
-            value = "/hotposts"
-    )
+    @GetMapping( "/hotposts")
     public Map<String, Object> getHotPosts(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize) {

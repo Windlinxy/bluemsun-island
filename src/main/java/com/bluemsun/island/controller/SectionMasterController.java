@@ -17,9 +17,10 @@ import java.util.Map;
 @RestController
 @RequestMapping(produces = "application/json")
 public class SectionMasterController {
-    @GetMapping(
-            value = "/:{userId}/section"
-    )
+    /**
+     *  版主的版
+     **/
+    @GetMapping("/:{userId}/section")
     public Map<String,Object> mySection(@PathVariable("userId")int userId) {
         Map<String,Object> map = new HashMap<>();
 

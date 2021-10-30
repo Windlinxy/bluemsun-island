@@ -45,8 +45,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="TbMasterForSection" />
-                  <option name="tableName" value="tb_master_for_section" />
+                  <option name="className" value="TbReply" />
+                  <option name="tableName" value="tb_reply" />
                 </TableUIInfo>
               </list>
             </option>

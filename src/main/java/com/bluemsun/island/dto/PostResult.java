@@ -71,6 +71,7 @@ public class PostResult {
     private String username;
 
     private String sectionName;
+
     private String sectionImageUrl;
     public PostResult() {
     }

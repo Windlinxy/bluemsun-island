@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.island.dao.mapper.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="Comment">
+        <id property="commentId" column="comment_id" jdbcType="INTEGER"/>
+        <result property="commentDate" column="comment_date" jdbcType="TIMESTAMP"/>
+        <result property="commentPostId" column="comment_post_id" jdbcType="INTEGER"/>
+        <result property="commentUserId" column="comment_user_id" jdbcType="INTEGER"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="commentLikeNumber" column="comment_like_number" jdbcType="INTEGER"/>
+        <result property="commentStatus" column="comment_status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        comment_id,comment_date,comment_post_id,
+        comment_user_id,comment_content,comment_like_number,
+        comment_status
+    </sql>
+
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_comment
+        where comment_id = #{commentId}
+    </select>
+
+    <delete id="deleteById" parameterType="int">
+        delete
+        from tb_comment
+        where comment_id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="Comment">
+        insert into tb_comment
+            (comment_post_id, comment_user_id, comment_content)
+        values (#{commentPostId}, #{commentUserId}, #{commentContent})
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="Comment">
+        update tb_comment
+        <set>
+            <if test="commentPostId != null">
+                comment_post_id = #{commentPostId},
+            </if>
+            <if test="commentUserId != null">
+                comment_user_id = #{commentUserId},
+            </if>
+            <if test="commentContent != null">
+                comment_content = #{commentContent},
+            </if>
+            <if test="commentLikeNumber != null">
+                comment_like_number = #{commentLikeNumber},
+            </if>
+            <if test="commentStatus != null">
+                comment_status = #{commentStatus},
+            </if>
+        </set>
+        where comment_id = #{commentId}
+    </update>
+
+    <select id="selectByPostId" parameterType="int" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from tb_comment where comment_post_id = #{postId}
+        limit #{startIndex},#{pageSize};
+    </select>
+
+    <select id="getCountByPostIdCount" resultType="java.lang.Integer">
+        select COUNT(*)
+        from tb_comment where comment_post_id = #{postId};
+    </select>
+</mapper>

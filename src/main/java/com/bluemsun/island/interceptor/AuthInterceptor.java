@@ -29,8 +29,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         boolean jud = "/bluemsun_island/users".contains(uri) && "POST".equals(request.getMethod())
                 || uri.contains("/token")
-                || uri.contains("/images") && "GET".equals(request.getMethod())
-                || uri.contains("/portrait")&& "GET".equals(request.getMethod())
+                || uri.contains("/images")
+                || uri.contains("portraits")
                 || "/bluemsun_island/".equals(uri);
 
 

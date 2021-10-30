@@ -37,15 +37,12 @@ public class UserController {
     private FileService fileService;
 
     /**
-     * 用户登录接口
+     * 用户注册接口
      *
      * @param user 用户（手机号，密码，昵称）
      * @date 17:39 2021/10/17
      **/
-    @PostMapping(
-            value = "/users",
-            consumes = "application/json"
-    )
+    @PostMapping(value = "/users", consumes = "application/json")
     public JsonResult<User> register(@RequestBody User user) {
         jud = userService.addUser(user);
         if (jud == ReturnCode.OP_SUCCESS) {
@@ -63,10 +60,7 @@ public class UserController {
      * @param user 用户（手机号，密码）
      * @date 17:40 2021/10/17
      **/
-    @PostMapping(
-            value = "/users/token",
-            consumes = "application/json"
-    )
+    @PostMapping(value = "/users/token", consumes = "application/json")
     public Map<String, Object> login(@RequestBody User user) {
         Map<String, Object> map = new HashMap<>(hashMapCapacity);
         User userInfo = userService.isUser(user);
@@ -83,9 +77,6 @@ public class UserController {
 
     /**
      * 测试接口
-     *
-     * @param test 测试参数
-     * @date 17:40 2021/10/17
      **/
     @GetMapping
     public void test(@RequestParam("test") String test) {
@@ -93,13 +84,9 @@ public class UserController {
     }
 
     /**
-     * 用户上传头像接口
-     *
-     * @date 20:23 2021/10/19
+     * 用户上传头像
      **/
-    @PostMapping(
-            value = "/user/portraits",
-            consumes = "multipart/form-data")
+    @PostMapping(value = "/user/portraits", consumes = "multipart/form-data")
     public Map<String, Object> uploadHeadPortrait(
             HttpServletRequest request,
             @RequestParam("portrait") MultipartFile file) {
@@ -111,7 +98,7 @@ public class UserController {
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
-
+        projectServerPath = projectServerPath.replace("bluemsun_island/","");
         jud = userService.changeImageUrl(request.getHeader("Authorization"), projectServerPath);
         if(jud==ReturnCode.OP_SUCCESS){
             map.put("status", ReturnCode.SUCCESS.getCode());
@@ -128,9 +115,7 @@ public class UserController {
      * @date 19:25 2021/10/23
      * @param request 请求
      **/
-    @GetMapping(
-            value = "/user"
-    )
+    @GetMapping("/user")
     public Map<String, Object> getUserInfo(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(5);
         String token = request.getHeader("Authorization");
@@ -152,10 +137,7 @@ public class UserController {
      * @param user    用户（需要修改的信息）
      * @date 17:30 2021/10/20
      **/
-    @PatchMapping(
-            value = "/users",
-            consumes = "application/json"
-    )
+    @PatchMapping(value = "/users", consumes = "application/json")
     public Map<String, Object> changUserInfo(
             HttpServletRequest request,
             @RequestBody User user) {

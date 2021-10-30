@@ -103,7 +103,16 @@
     <bean id="auditDao" class="com.bluemsun.island.dao.AuditDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-    <bean id="userForSection" class="com.bluemsun.island.dao.UserForSectionDao">
+
+    <bean id="userForSectionDao" class="com.bluemsun.island.dao.UserForSectionDao">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="commentDao" class="com.bluemsun.island.dao.CommentDao">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="replyDao" class="com.bluemsun.island.dao.ReplyDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 

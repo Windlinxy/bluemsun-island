@@ -33,6 +33,9 @@ public class AdminController {
     @Autowired
     private AuditService auditService;
 
+    /**
+     * 获取用户列表
+     **/
     @GetMapping(value = "/users")
     public Map<String, Object> userList(
             @RequestParam("cur") int currentPage,
@@ -42,13 +45,16 @@ public class AdminController {
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getUsers(currentPage, pageSize,null);
+            page = pageService.getUsers(currentPage, pageSize, null);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
         return map;
     }
 
+    /**
+     * Id删除用户
+     **/
     @DeleteMapping(value = "/users/:{id}")
     public Map<String, Object> deleteUser(@PathVariable("id") int userId) {
         Map<String, Object> map = new HashMap<>(3);
@@ -63,6 +69,9 @@ public class AdminController {
         return map;
     }
 
+    /**
+     * 用户封禁与解禁
+     **/
     @PatchMapping("users/:{id}/:{sta}")
     public Map<String, Object> banUser(@PathVariable("id") int userId, @PathVariable("sta") int status) {
         Map<String, Object> map = new HashMap<>(5);
@@ -76,7 +85,10 @@ public class AdminController {
         return map;
     }
 
-    @GetMapping( "users/{id}")
+    /**
+     * 获取用户信息
+     **/
+    @GetMapping("users/{id}")
     public Map<String, Object> getUserInfo(@PathVariable("id") int id) {
         Map<String, Object> map = new HashMap<>(5);
         User userInfo = adminService.getUserInfo(id);
@@ -89,9 +101,12 @@ public class AdminController {
         return map;
     }
 
+    /**
+     * 搜索用户
+     **/
     @GetMapping("/users/:{name}")
     public Map<String, Object> userList(
-            @PathVariable("name")String username,
+            @PathVariable("name") String username,
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize) {
         Map<String, Object> map = new HashMap<>(5);
@@ -99,13 +114,16 @@ public class AdminController {
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getUsers(currentPage, pageSize,username);
+            page = pageService.getUsers(currentPage, pageSize, username);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
         return map;
     }
 
+    /**
+     * 获取审核
+     **/
     @GetMapping("/audits")
     public Map<String, Object> getAudits(
             @RequestParam("cur") int currentPage,
@@ -122,27 +140,35 @@ public class AdminController {
         return map;
     }
 
+    /**
+     * 进行审核（通过，拒绝）
+     **/
     @PatchMapping("/audits/:{id}/{sta}")
     public Map<String, Object> agreeOrRejectAudit(
             @PathVariable("id") int auditId,
             @PathVariable("sta") int status) {
         Map<String, Object> map = new HashMap<>(5);
-        if(status==1){
-            jud = auditService.agreeAudit(auditId,status);
-        }else if(status==0){
-            jud = auditService.updateAudit(new Audit(auditId,status));
-        }
-        if(jud ==ReturnCode.OP_SUCCESS){
-            ResponseUtil.returnSuccess(map);
+        if (status == 1) {
+            jud = auditService.agreeAudit(auditId, status);
+        } else if (status == -1) {
+            jud = auditService.updateAudit(new Audit(auditId, status));
         }else {
+            jud = 0;
+        }
+        if (jud == ReturnCode.OP_SUCCESS) {
+            ResponseUtil.returnSuccess(map);
+        } else {
             ResponseUtil.returnFailed(map);
         }
         return map;
     }
 
-    @DeleteMapping( "/audits/:{id}")
-    public Map<String,Object> deleteAudit(@PathVariable("id")int auditId){
-        Map<String,Object> map = new HashMap<>(5);
+    /**
+     * 删除审核
+     **/
+    @DeleteMapping("/audits/:{id}")
+    public Map<String, Object> deleteAudit(@PathVariable("id") int auditId) {
+        Map<String, Object> map = new HashMap<>(5);
         jud = auditService.deleteAudit(auditId);
         if (jud == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);
@@ -154,7 +180,10 @@ public class AdminController {
         return map;
     }
 
-    @PatchMapping( "sections/:{id}/:{sta}")
+    /**
+     * 冻结板块
+     **/
+    @PatchMapping("sections/:{id}/:{sta}")
     public Map<String, Object> banSection(@PathVariable("id") int sectionId, @PathVariable("sta") int status) {
         Map<String, Object> map = new HashMap<>(5);
         jud = adminService.changeSectionStatus(sectionId, status);

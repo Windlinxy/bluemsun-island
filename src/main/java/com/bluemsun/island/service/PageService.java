@@ -1,10 +1,7 @@
 package com.bluemsun.island.service;
 
 import com.bluemsun.island.dto.PostResult;
-import com.bluemsun.island.entity.Audit;
-import com.bluemsun.island.entity.Page;
-import com.bluemsun.island.entity.Section;
-import com.bluemsun.island.entity.User;
+import com.bluemsun.island.entity.*;
 
 /**
  * @program: BulemsunIsland
@@ -51,4 +48,5 @@ public interface PageService {
 
     Page<Audit> getAudits(int curPage, int pageSize);
 
+    Page<Comment> getComment(int curPage,int pageSize,int postId);
 }
