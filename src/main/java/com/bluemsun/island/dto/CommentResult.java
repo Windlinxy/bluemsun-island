@@ -1,11 +1,9 @@
 package com.bluemsun.island.dto;
 
-import com.bluemsun.island.entity.Reply;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @program: BulemsunIsland
@@ -14,122 +12,136 @@ import java.util.List;
  * @create: 2021-10-30 16:31
  **/
 public class CommentResult {
-    private List<Reply> list;
     /**
      * id
      */
-    private int commentId;
+    private int id;
 
     /**
      * 评论时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date commentDate;
+    private Date date;
 
     /**
      * 帖子id
      */
-    private int commentPostId;
+    private int postId;
 
     /**
-     * 用户id
+     * 用户名
      */
-    private int commentUserId;
+    private String userName;
+    /**
+     * 用户头像
+     */
+    private String userPortrait;
 
     /**
      * 评论内容
      */
-    private String commentContent;
+    private String content;
 
     /**
      * 点赞数
      */
-    private int commentLikeNumber;
+    private int likeNumber;
 
     /**
      * 状态
      */
-    private int commentStatus;
+    private int status;
+
+    private int commenterId;
 
     public CommentResult() {
     }
 
-    public List<Reply> getList() {
-        return list;
+    public int getId() {
+        return id;
     }
 
-    public void setList(List<Reply> list) {
-        this.list = list;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getCommentId() {
-        return commentId;
+    public Date getDate() {
+        return date;
     }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Date getCommentDate() {
-        return commentDate;
+    public int getPostId() {
+        return postId;
     }
 
-    public void setCommentDate(Date commentDate) {
-        this.commentDate = commentDate;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
-    public int getCommentPostId() {
-        return commentPostId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCommentPostId(int commentPostId) {
-        this.commentPostId = commentPostId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public int getCommentUserId() {
-        return commentUserId;
+    public String getUserPortrait() {
+        return userPortrait;
     }
 
-    public void setCommentUserId(int commentUserId) {
-        this.commentUserId = commentUserId;
+    public void setUserPortrait(String userPortrait) {
+        this.userPortrait = userPortrait;
     }
 
-    public String getCommentContent() {
-        return commentContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getCommentLikeNumber() {
-        return commentLikeNumber;
+    public int getLikeNumber() {
+        return likeNumber;
     }
 
-    public void setCommentLikeNumber(int commentLikeNumber) {
-        this.commentLikeNumber = commentLikeNumber;
+    public void setLikeNumber(int likeNumber) {
+        this.likeNumber = likeNumber;
     }
 
-    public int getCommentStatus() {
-        return commentStatus;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCommentStatus(int commentStatus) {
-        this.commentStatus = commentStatus;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getCommenterId() {
+        return commenterId;
+    }
+
+    public void setCommenterId(int commenterId) {
+        this.commenterId = commenterId;
     }
 
     @Override
     public String toString() {
         return "CommentResult{" +
-                "list=" + list +
-                ", commentId=" + commentId +
-                ", commentDate=" + commentDate +
-                ", commentPostId=" + commentPostId +
-                ", commentUserId=" + commentUserId +
-                ", commentContent='" + commentContent + '\'' +
-                ", commentLikeNumber=" + commentLikeNumber +
-                ", commentStatus=" + commentStatus +
+                "id=" + id +
+                ", date=" + date +
+                ", postId=" + postId +
+                ", userName='" + userName + '\'' +
+                ", userPortrait='" + userPortrait + '\'' +
+                ", content='" + content + '\'' +
+                ", likeNumber=" + likeNumber +
+                ", status=" + status +
+                ", repliedUserId=" + commenterId +
                 '}';
     }
 }

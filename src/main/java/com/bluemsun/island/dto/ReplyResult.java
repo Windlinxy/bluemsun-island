@@ -1,13 +1,17 @@
-package com.bluemsun.island.entity;
+package com.bluemsun.island.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.util.Date;
 
-
-public class Reply implements Serializable {
+/**
+ * @program: BulemsunIsland
+ * @description: dto
+ * @author: Windlinxy
+ * @create: 2021-10-30 21:34
+ **/
+public class ReplyResult {
     /**
      * id
      */
@@ -44,18 +48,19 @@ public class Reply implements Serializable {
     private int replyStatus;
 
     /**
-     * 
+     *
      */
     private int replyLikeNumber;
 
-    public Reply() {
-    }
+    private String beReplier;
 
-    public Reply(int repliedCommentId, int repliedId, int replyUserId, String replyContent) {
-        this.repliedCommentId = repliedCommentId;
-        this.repliedId = repliedId;
-        this.replyUserId = replyUserId;
-        this.replyContent = replyContent;
+    private String beReplierPortrait;
+
+    private String replier;
+
+    private String replierPortrait;
+
+    public ReplyResult() {
     }
 
     public Integer getReplyId() {
@@ -122,9 +127,41 @@ public class Reply implements Serializable {
         this.replyLikeNumber = replyLikeNumber;
     }
 
+    public String getBeReplier() {
+        return beReplier;
+    }
+
+    public void setBeReplier(String beReplier) {
+        this.beReplier = beReplier;
+    }
+
+    public String getBeReplierPortrait() {
+        return beReplierPortrait;
+    }
+
+    public void setBeReplierPortrait(String beReplierPortrait) {
+        this.beReplierPortrait = beReplierPortrait;
+    }
+
+    public String getReplier() {
+        return replier;
+    }
+
+    public void setReplier(String replier) {
+        this.replier = replier;
+    }
+
+    public String getReplierPortrait() {
+        return replierPortrait;
+    }
+
+    public void setReplierPortrait(String replierPortrait) {
+        this.replierPortrait = replierPortrait;
+    }
+
     @Override
     public String toString() {
-        return "Reply{" +
+        return "ReplyResult{" +
                 "replyId=" + replyId +
                 ", replyDate=" + replyDate +
                 ", repliedCommentId=" + repliedCommentId +
@@ -133,6 +170,10 @@ public class Reply implements Serializable {
                 ", replyContent='" + replyContent + '\'' +
                 ", replyStatus=" + replyStatus +
                 ", replyLikeNumber=" + replyLikeNumber +
+                ", beReplier='" + beReplier + '\'' +
+                ", beReplierPortrait='" + beReplierPortrait + '\'' +
+                ", replier='" + replier + '\'' +
+                ", replierPortrait='" + replierPortrait + '\'' +
                 '}';
     }
 }

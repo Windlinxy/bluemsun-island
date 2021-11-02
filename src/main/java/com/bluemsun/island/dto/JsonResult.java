@@ -38,18 +38,18 @@ public class JsonResult<T> {
 
 
     public JsonResult<T> fail() {
-        return new JsonResult<>(1, "操作失败", null);
+        return new JsonResult<>(0, "操作失败", null);
     }
 
     public JsonResult<T> fail(String msg) {
-        return new JsonResult<>(1, msg, null);
+        return new JsonResult<>(0, msg, null);
     }
 
     public JsonResult<T> ok() {
-        return new JsonResult<>(0, "操作成功", null);
+        return new JsonResult<>(1, "操作成功", null);
     }
 
     public JsonResult<T> ok(T data) {
-        return new JsonResult<>(0, "操作成功", data);
+        return new JsonResult<>(1, "操作成功", data);
     }
 }

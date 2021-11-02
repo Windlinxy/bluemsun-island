@@ -1,5 +1,6 @@
 package com.bluemsun.island.service;
 
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Post;
 
 /**
@@ -17,4 +18,8 @@ public interface PostService {
      * @return int 操作判断
      **/
     int addPost(Post post);
+
+    PostResult getPost(int postId);
+
+    int changePost(Post post);
 }

@@ -36,4 +36,14 @@ public class UserForSectionDao extends SqlSessionDaoSupport {
         return operationCode;
     }
 
+    public int getUserForSectionNameCount(int userId, String sectionName) {
+        int count=0;
+        try {
+            count = getMapper(MasterForSectionMapper.class).selectByUserIdForSectionName(new MasterForSection(userId, sectionName));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
 }

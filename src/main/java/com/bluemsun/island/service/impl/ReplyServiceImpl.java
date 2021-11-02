@@ -1,6 +1,9 @@
 package com.bluemsun.island.service.impl;
 
+import com.bluemsun.island.dao.ReplyDao;
+import com.bluemsun.island.entity.Reply;
 import com.bluemsun.island.service.ReplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @program: BulemsunIsland
@@ -9,4 +12,13 @@ import com.bluemsun.island.service.ReplyService;
  * @create: 2021-10-21 21:44
  **/
 public class ReplyServiceImpl implements ReplyService {
+    private int operationJudCode = 0;
+    @Autowired
+    private ReplyDao replyDao;
+
+    @Override
+    public int addReply(Reply reply) {
+        operationJudCode = replyDao.insertReply(reply);
+        return operationJudCode;
+    }
 }

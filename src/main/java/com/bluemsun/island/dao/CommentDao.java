@@ -1,6 +1,7 @@
 package com.bluemsun.island.dao;
 
 import com.bluemsun.island.dao.mapper.CommentMapper;
+import com.bluemsun.island.dto.CommentResult;
 import com.bluemsun.island.entity.Comment;
 import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -37,8 +38,8 @@ public class CommentDao extends SqlSessionDaoSupport {
         return operationCode;
     }
 
-    public List<Comment> queryAllByPostId(int startIndex,int pageSize,int postId){
-        List<Comment> list;
+    public List<CommentResult> queryAllByPostId(int startIndex, int pageSize, int postId){
+        List<CommentResult> list;
         try {
             list = getMapper(CommentMapper.class).selectByPostId(startIndex,pageSize,postId);
         } catch (Exception e) {

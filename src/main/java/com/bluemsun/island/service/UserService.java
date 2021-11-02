@@ -60,5 +60,5 @@ public interface UserService {
     User changeUser(int id, User user);
 
 
-
+    boolean judUserForSectionMaster(int userId, String sectionName);
 }

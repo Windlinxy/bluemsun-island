@@ -31,6 +31,7 @@
         <result property="sectionId" column="section_id" jdbcType="INTEGER"/>
         <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="status" column="post_status" jdbcType="VARCHAR"/>
         <result property="sectionImageUrl" column="section_image_url" jdbcType="VARCHAR"/>
         <result property="sectionName" column="section_name" jdbcType="VARCHAR"/>
     </resultMap>
@@ -43,7 +44,7 @@
     </sql>
 
     <sql id="Post_Column_List">
-        post_id,post_date,title,
+        post_id,post_date,title,post_status,
     user_id,content,access_number,
     star_number,comment_number,
     like_number,tb.section_id,username,
@@ -119,14 +120,11 @@
             <if test="title != null">
                 title = #{title},
             </if>
-            <if test="userId != null">
-                user_id = #{userId},
-            </if>
             <if test="content != null">
                 content = #{content},
             </if>
             <if test="status != null">
-                content = #{status},
+                post_status = #{status},
             </if>
             <if test="accessNumber != null">
                 access_number = #{accessNumber},
@@ -139,9 +137,6 @@
             </if>
             <if test="likeNumber != null">
                 like_number = #{likeNumber},
-            </if>
-            <if test="sectionId != null">
-                section_id = #{sectionIdR},
             </if>
         </set>
         where post_id = #{postId}
@@ -191,7 +186,7 @@
         INNER JOIN tb_post tb on tb.user_id = tb_user.id
         INNER JOIN tb_section sec on tb.section_id = sec.section_id
         where tb.section_id = #{sectionId}
-        order by tb.post_date desc
+        order by tb.post_status desc,tb.post_date desc
         limit #{startIndex},#{pageSize};
     </select>
 

@@ -14,10 +14,28 @@
         <result property="commentStatus" column="comment_status" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="CommentResultMap" type="com.bluemsun.island.dto.CommentResult">
+        <id property="id" column="comment_id" jdbcType="INTEGER"/>
+        <result property="date" column="comment_date" jdbcType="TIMESTAMP"/>
+        <result property="postId" column="comment_post_id" jdbcType="INTEGER"/>
+        <result property="userName" column="username" jdbcType="VARCHAR"/>
+        <result property="commenterId" column="comment_user_id" jdbcType="INTEGER"/>
+        <result property="userPortrait" column="image_url" jdbcType="VARCHAR"/>
+        <result property="content" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="likeNumber" column="comment_like_number" jdbcType="INTEGER"/>
+        <result property="status" column="comment_status" jdbcType="INTEGER"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         comment_id,comment_date,comment_post_id,
         comment_user_id,comment_content,comment_like_number,
         comment_status
+    </sql>
+
+    <sql id="Comment_Column_List">
+        comment_id,comment_date,comment_post_id,
+        comment_user_id,comment_content,comment_like_number,
+        comment_status,username,image_url
     </sql>
 
     <select id="selectById" parameterType="int" resultMap="BaseResultMap">
@@ -61,9 +79,9 @@
         where comment_id = #{commentId}
     </update>
 
-    <select id="selectByPostId" parameterType="int" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
-        from tb_comment where comment_post_id = #{postId}
+    <select id="selectByPostId" parameterType="int" resultMap="CommentResultMap">
+        select <include refid="Comment_Column_List"/>
+        from tb_user INNER JOIN tb_comment on tb_user.id = tb_comment.comment_user_id where comment_post_id = #{postId}
         limit #{startIndex},#{pageSize};
     </select>
 

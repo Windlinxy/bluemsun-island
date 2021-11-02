@@ -2,6 +2,7 @@ package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.PostDao;
 import com.bluemsun.island.dao.SectionDao;
+import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,16 @@ public class PostServiceImpl implements PostService {
         if (operationJudCode == 1) {
             operationJudCode = sectionDao.updateSectionPostNumber(post.getSectionId());
         }
+        return operationJudCode;
+    }
+    @Override
+    public PostResult getPost(int postId){
+        return postDao.queryPostById(postId);
+    }
+
+    @Override
+    public int changePost(Post post) {
+        operationJudCode = postDao.updatePostById(post);
         return operationJudCode;
     }
 }

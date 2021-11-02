@@ -69,6 +69,11 @@ public class Post {
     public Post() {
     }
 
+    public Post(int postId, int status) {
+        this.postId = postId;
+        this.status = status;
+    }
+
     public int getPostId() {
         return postId;
     }

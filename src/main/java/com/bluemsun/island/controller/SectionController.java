@@ -5,10 +5,7 @@ import com.bluemsun.island.entity.Audit;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.enums.ReturnCode;
-import com.bluemsun.island.service.AuditService;
-import com.bluemsun.island.service.FileService;
-import com.bluemsun.island.service.PageService;
-import com.bluemsun.island.service.SectionService;
+import com.bluemsun.island.service.*;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.RedisUtil;
 import com.bluemsun.island.util.ResponseUtil;
@@ -38,6 +35,8 @@ public class SectionController {
     private PageService pageService;
     @Autowired
     private AuditService auditService;
+    @Autowired
+    private UserService userService;
 
     /**
      *上传版图
@@ -141,10 +140,15 @@ public class SectionController {
      *  id获取板块
      **/
     @GetMapping("/sections/:{secId}")
-    public Map<String, Object> getSection(@PathVariable("secId") int sectionId) {
-        Map<String, Object> map = new HashMap<>(5);
+    public Map<String, Object> getSection(HttpServletRequest request,@PathVariable("secId") int sectionId) {
+        Map<String, Object> map = new HashMap<>(7);
         Section section = sectionService.getSection(sectionId);
         if (section != null) {
+            if(userService.judUserForSectionMaster(JwtUtil.getUserId(request.getHeader("Authorization")),section.getSectionName())){
+                map.put("master",1);
+            }else {
+                map.put("master",0);
+            }
             ResponseUtil.returnSuccess(map);
             map.put("section", section);
         } else {

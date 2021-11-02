@@ -1,8 +1,13 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.*;
+import com.bluemsun.island.dto.CommentResult;
 import com.bluemsun.island.dto.PostResult;
-import com.bluemsun.island.entity.*;
+import com.bluemsun.island.dto.ReplyResult;
+import com.bluemsun.island.entity.Audit;
+import com.bluemsun.island.entity.Page;
+import com.bluemsun.island.entity.Section;
+import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +30,8 @@ public class PageServiceImpl implements PageService {
     private AuditDao auditDao;
     @Autowired
     private CommentDao commentDao;
+    @Autowired
+    private ReplyDao replyDao;
 
     @Override
     public Page<User> getUsers(int curPage, int pageSize, String name) {
@@ -109,11 +116,21 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
-    public Page<Comment> getComment(int curPage, int pageSize, int postId) {
+    public Page<CommentResult> getComments(int curPage, int pageSize, int postId) {
         int totalResult = commentDao.getAllByPostIdCount(postId);
-        Page<Comment> page = new Page<>(curPage, pageSize, totalResult);
-        List<Comment> list;
+        Page<CommentResult> page = new Page<>(curPage, pageSize, totalResult);
+        List<CommentResult> list;
         list = commentDao.queryAllByPostId(page.getStartIndex(),pageSize,postId);
+        page.setList(list);
+        return page;
+    }
+
+    @Override
+    public Page<ReplyResult> getReplies(int curPage, int pageSize, int commentId) {
+        int totalResult = replyDao.getAllByCommentIdCount(commentId);
+        Page<ReplyResult> page = new Page<>(curPage, pageSize, totalResult);
+        List<ReplyResult> list;
+        list = replyDao.queryAllByCommentId(page.getStartIndex(),pageSize,commentId);
         page.setList(list);
         return page;
     }

@@ -1,6 +1,7 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.UserDao;
+import com.bluemsun.island.dao.UserForSectionDao;
 import com.bluemsun.island.entity.User;
 import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.JwtUtil;
@@ -8,7 +9,6 @@ import com.bluemsun.island.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
-import java.util.Date;
 
 /**
  * 用户服务接口实现类
@@ -22,10 +22,11 @@ public class UserServiceImpl implements UserService {
     private int operationJudCode = 0;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserForSectionDao userForSectionDao;
 
     @Override
     public int addUser(User user) {
-        user.setBirthday(new Date());
         operationJudCode = userDao.insertUser(user);
         return operationJudCode;
     }
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setId(id);
         operationJudCode = userDao.updateUser(user);
         User userInCache = RedisUtil.getUser(id);
-        if (operationJudCode == 1 && user.getStatus()==0) {
+        if (operationJudCode == 1 && user.getStatus() == 0) {
 
             //使用反射更新缓存中用户数据
             Field[] fields = user.getClass().getDeclaredFields();
@@ -82,11 +83,19 @@ public class UserServiceImpl implements UserService {
             }
             RedisUtil.setUser(id, userInCache);
             return userInCache;
-        }else {
+        } else {
             return null;
         }
     }
 
+    public boolean judUserForSectionMaster(int userId, String sectionName) {
+        int jud = userForSectionDao.getUserForSectionNameCount(userId, sectionName);
+        if (jud == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 }

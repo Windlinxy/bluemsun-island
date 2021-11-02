@@ -124,4 +124,19 @@ public class PostDao extends SqlSessionDaoSupport {
         }
         return count;
     }
+
+    public int updatePostById(Post post){
+        try {
+            int rowsAffected = getMapper(PostMapper.class).updateByIdSelective(post);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+            throw new RuntimeException(e);
+        }
+        return operationCode;
+    }
 }

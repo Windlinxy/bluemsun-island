@@ -88,6 +88,20 @@ public class PostController {
         return map;
     }
 
+    @GetMapping("/posts/{postId}")
+    public Map<String, Object> getAllPosts(
+            @PathVariable("postId") int postId) {
+        Map<String, Object> map = new HashMap<>(5);
+        PostResult postResult = postService.getPost(postId);
+        if(postResult !=null){
+            ResponseUtil.returnSuccess(map);
+            map.put("post",postResult);
+        }else {
+            ResponseUtil.returnFailed(map);
+        }
+        return map;
+    }
+
     @GetMapping( "/hotposts")
     public Map<String, Object> getHotPosts(
             @RequestParam("cur") int currentPage,
@@ -103,4 +117,22 @@ public class PostController {
         }
         return map;
     }
+
+    @PatchMapping("/posts/:{postId}/{sta}")
+    public Map<String,Object> changePostStatus(@PathVariable("postId")int id,@PathVariable("sta")int status){
+        Map<String,Object> map = new HashMap<>();
+        jud = postService.changePost(new Post(id,status));
+        if(jud== ReturnCode.OP_SUCCESS){
+            ResponseUtil.returnSuccess(map);
+        }else {
+            ResponseUtil.returnFailed(map);
+        }
+        return map;
+    }
+
+//    @PatchMapping("/posts/:{postId}/thumbs-up")
+//    public Map<String,Object> giveLive(){
+//        Map<String,Object> map = new HashMap<>(5);
+//
+//    }
 }

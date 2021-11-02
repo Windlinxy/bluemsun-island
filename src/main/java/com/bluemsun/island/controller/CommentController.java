@@ -1,11 +1,15 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.dto.CommentResult;
 import com.bluemsun.island.dto.JsonResult;
+import com.bluemsun.island.dto.ReplyResult;
 import com.bluemsun.island.entity.Comment;
 import com.bluemsun.island.entity.Page;
+import com.bluemsun.island.entity.Reply;
 import com.bluemsun.island.enums.ReturnCode;
 import com.bluemsun.island.service.CommentService;
 import com.bluemsun.island.service.PageService;
+import com.bluemsun.island.service.ReplyService;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,8 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private PageService pageService;
+    @Autowired
+    private ReplyService replyService;
 
     @PostMapping("/:{postId}/comments")
     public JsonResult<Comment> addComment(@PathVariable("postId") int postId, HttpServletRequest request, @RequestBody Comment comment){
@@ -51,11 +57,43 @@ public class CommentController {
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize){
         Map<String,Object> map = new HashMap<>(5);
-        Page<Comment> page;
+        Page<CommentResult> page;
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getComment(currentPage, pageSize,postId);
+            page = pageService.getComments(currentPage, pageSize,postId);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @PostMapping("/:{commentId}/replies/:{repliedUserId}")
+    public JsonResult<Reply> addReply(@PathVariable("commentId") int commentId,@PathVariable("repliedUserId") int repliedUserId, HttpServletRequest request, @RequestBody Reply reply){
+        Map<String,Object> map = new HashMap<>(5);
+        int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
+        reply.setReplyUserId(userId);
+        reply.setRepliedCommentId(commentId);
+        reply.setRepliedId(repliedUserId);
+        jud = replyService.addReply(reply);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            return new JsonResult<Reply>().ok(reply);
+        } else{
+            return new JsonResult<Reply>().fail();
+        }
+    }
+
+    @GetMapping("/:{commentId}/replies")
+    public Map<String,Object> getReplies(
+            @PathVariable("commentId")int commentId,
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize){
+        Map<String,Object> map = new HashMap<>(5);
+        Page<ReplyResult> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getReplies(currentPage, pageSize,commentId);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }

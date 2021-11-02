@@ -48,7 +48,6 @@ public class CORSFilter implements Filter {
                         "User-Agent," +
                         "Cache-Control," +
                         "Cookie," +
-
                         "DNT," +
                         "X-Requested-With," +
                         "X-Mx-ReqToken," +

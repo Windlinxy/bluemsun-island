@@ -5,56 +5,105 @@
 <mapper namespace="com.bluemsun.island.dao.mapper.ReplyMapper">
 
     <resultMap id="BaseResultMap" type="com.bluemsun.island.entity.Reply">
-            <id property="replyId" column="reply_id" jdbcType="INTEGER"/>
-            <result property="replyDate" column="reply_date" jdbcType="TIMESTAMP"/>
-            <result property="replyedId" column="replyed_id" jdbcType="INTEGER"/>
-            <result property="replyUserId" column="reply_user_id" jdbcType="INTEGER"/>
-            <result property="replyContent" column="reply_content" jdbcType="VARCHAR"/>
-            <result property="replyStatus" column="reply_status" jdbcType="INTEGER"/>
-            <result property="replyLikeNumber" column="reply_like_number" jdbcType="INTEGER"/>
+        <id property="replyId" column="reply_id" jdbcType="INTEGER"/>
+        <result property="replyDate" column="reply_date" jdbcType="TIMESTAMP"/>
+        <result property="repliedCommentId" column="replied_comment_id" jdbcType="INTEGER"/>
+        <result property="repliedId" column="replied_id" jdbcType="INTEGER"/>
+        <result property="replyUserId" column="reply_user_id" jdbcType="INTEGER"/>
+        <result property="replyContent" column="reply_content" jdbcType="VARCHAR"/>
+        <result property="replyStatus" column="reply_status" jdbcType="INTEGER"/>
+        <result property="replyLikeNumber" column="reply_like_number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="ReplyResultMap" type="com.bluemsun.island.dto.ReplyResult">
+        <id property="replyId" column="reply_id" jdbcType="INTEGER"/>
+        <result property="replyDate" column="reply_date" jdbcType="TIMESTAMP"/>
+        <result property="repliedCommentId" column="replied_comment_id" jdbcType="INTEGER"/>
+        <result property="repliedId" column="replied_id" jdbcType="INTEGER"/>
+        <result property="replyUserId" column="reply_user_id" jdbcType="INTEGER"/>
+        <result property="replyContent" column="reply_content" jdbcType="VARCHAR"/>
+        <result property="replyStatus" column="reply_status" jdbcType="INTEGER"/>
+        <result property="replyLikeNumber" column="reply_like_number" jdbcType="INTEGER"/>
+        <result property="replier" column="replier" jdbcType="VARCHAR"/>
+        <result property="replierPortrait" column="replier_portrait" jdbcType="VARCHAR"/>
+        <result property="beReplier" column="replieder" jdbcType="VARCHAR"/>
+        <result property="beReplierPortrait" column="replieder_portrait" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        reply_id,reply_date,replyed_id,
+        reply_id,reply_date,replied_id,replied_comment_id,
         reply_user_id,reply_content,reply_status,
         reply_like_number
     </sql>
 
+    <sql id="Reply_Column_List">
+        reply_id,reply_date,replied_id,
+        replied_comment_id,reply_user_id,reply_content,
+        reply_status,reply_like_number,
+        tb1.username as replier,
+        tb1.image_url as replier_portrait,
+        tb2.username as replieder,
+        tb2.image_url as replieder_portrait
+    </sql>
+
     <select id="searchById" parameterType="int" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from tb_reply
-        where  reply_id = #{replyId}
+        where reply_id = #{replyId}
     </select>
 
     <delete id="deleteById" parameterType="int">
-        delete from tb_reply
-        where  reply_id = #{replyId}
+        delete
+        from tb_reply
+        where reply_id = #{replyId}
     </delete>
 
     <insert id="insert" parameterType="Reply">
         insert into tb_reply
-        ( replyed_id,reply_user_id,reply_content)
-        values (#{replyedId},#{replyUserId},#{replyContent})
+            (replied_comment_id, replied_id, reply_user_id, reply_content)
+        values (#{repliedCommentId}, #{repliedId}, #{replyUserId}, #{replyContent})
     </insert>
 
     <update id="updateByIdSelective" parameterType="com.bluemsun.island.entity.Reply">
         update tb_reply
         <set>
-                <if test="replyedId != null">
-                    replyed_id = #{replyedId,jdbcType=INTEGER},
-                </if>
-                <if test="replyUserId != null">
-                    reply_user_id = #{replyUserId},
-                </if>
-                <if test="replyStatus != null">
-                    reply_status = #{replyStatus},
-                </if>
-                <if test="replyLikeNumber != null">
-                    reply_like_number = #{replyLikeNumber},
-                </if>
+            <if test="replyedId != null">
+                replied_id = #{repliedId},
+            </if>
+            <if test="replyUserId != null">
+                reply_user_id = #{replyUserId},
+            </if>
+            <if test="replyStatus != null">
+                reply_status = #{replyStatus},
+            </if>
+            <if test="replyLikeNumber != null">
+                reply_like_number = #{replyLikeNumber},
+            </if>
         </set>
-        where   reply_id = #{replyId,jdbcType=INTEGER} 
+        where reply_id = #{replyId,jdbcType=INTEGER}
     </update>
+
+    <select id="selectByCommentId" parameterType="int" resultMap="ReplyResultMap">
+        select
+        <include refid="Reply_Column_List"/>
+        from tb_user tb1
+        INNER JOIN
+        tb_reply on tb1.id = tb_reply.reply_user_id
+        INNER JOIN
+        tb_user tb2 on tb2.id = tb_reply.replied_id
+        where replied_comment_id = #{commentId}
+        limit #{startIndex},#{pageSize};
+    </select>
+
+    <select id="getCountByCommentIdCount" resultType="java.lang.Integer">
+        select COUNT(*)
+        from tb_user tb1
+                 INNER JOIN
+             tb_reply on tb1.id = tb_reply.reply_user_id
+                 INNER JOIN
+             tb_user tb2 on tb2.id = tb_reply.replied_id
+        where replied_comment_id = #{commentId}
+    </select>
 
 </mapper>

@@ -21,6 +21,13 @@
         where  master_id = #{masterId}
     </select>
 
+    <select id="selectByUserIdForSectionName" parameterType="com.bluemsun.island.dto.MasterForSection" resultType="int">
+        select
+        COUNT(*)
+        from tb_master_for_section
+        where  master_id = #{masterId} and master_section_name = #{masterSectionName}
+    </select>
+
     <delete id="deleteByUserId" parameterType="int">
         delete from tb_master_for_section
         where  master_id = #{masterId}

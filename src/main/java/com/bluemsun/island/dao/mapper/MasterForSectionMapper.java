@@ -6,6 +6,8 @@ public interface MasterForSectionMapper {
 
     int deleteByUserId(int masterId);
 
+    int selectByUserIdForSectionName(MasterForSection record);
+
     int insert(MasterForSection record);
 
     MasterForSection selectByUserId(int masterId);

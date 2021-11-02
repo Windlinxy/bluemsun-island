@@ -1,5 +1,6 @@
 package com.bluemsun.island.dao.mapper;
 
+import com.bluemsun.island.dto.CommentResult;
 import com.bluemsun.island.entity.Comment;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,7 +16,7 @@ public interface CommentMapper {
 
     int deleteById(int id);
 
-    List<Comment> selectByPostId(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("postId")int postId);
+    List<CommentResult> selectByPostId(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("postId")int postId);
 
     int getCountByPostIdCount(int postId);
 }
