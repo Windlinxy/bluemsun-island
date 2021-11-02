@@ -99,4 +99,24 @@ public class CommentController {
         }
         return map;
     }
+
+    @DeleteMapping("/comments/{id}")
+    public JsonResult<Object> deleteComment(@PathVariable("id")int commentId){
+        jud = commentService.deleteIt(commentId);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            return new JsonResult<>().ok();
+        } else {
+            return new JsonResult<>().fail();
+        }
+    }
+
+    @DeleteMapping("/replies/{id}")
+    public JsonResult<Object> deleteReply(@PathVariable("id")int replyId){
+        jud = replyService.deleteIt(replyId);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            return new JsonResult<>().ok();
+        } else {
+            return new JsonResult<>().fail();
+        }
+    }
 }

@@ -16,8 +16,15 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentDao commentDao;
 
+    @Override
     public int addComment(Comment comment){
         operationJudCode  =commentDao.insertComment(comment);
+        return operationJudCode;
+    }
+
+    @Override
+    public int deleteIt(int id){
+        operationJudCode = commentDao.deleteById(id);
         return operationJudCode;
     }
 }

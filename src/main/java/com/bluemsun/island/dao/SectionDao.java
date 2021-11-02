@@ -32,7 +32,6 @@ public class SectionDao extends SqlSessionDaoSupport {
         } catch (Exception e) {
             operationCode = ReturnCode.OP_FAILED;
         }
-
         return operationCode;
     }
     /**

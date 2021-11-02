@@ -1,5 +1,6 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.dto.JsonResult;
 import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Post;
@@ -135,4 +136,14 @@ public class PostController {
 //        Map<String,Object> map = new HashMap<>(5);
 //
 //    }
+
+    @DeleteMapping("/posts/{postId}")
+    public JsonResult<Object> deletePosts(@PathVariable("postId")int postId){
+        jud = postService.deletePost(postId);
+        if (jud == ReturnCode.OP_SUCCESS) {
+           return new JsonResult<>().ok();
+        } else {
+            return new JsonResult<>().fail();
+        }
+    }
 }

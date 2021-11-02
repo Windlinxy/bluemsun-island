@@ -10,4 +10,6 @@ import com.bluemsun.island.entity.Reply;
  **/
 public interface ReplyService {
     int addReply(Reply reply);
+    int deleteIt(int id);
+
 }

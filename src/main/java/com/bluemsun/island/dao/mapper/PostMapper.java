@@ -26,7 +26,7 @@ public interface PostMapper {
 
     int updateById(Post record);
 
-    Post selectById(Long id);
+    Post selectById(long id);
 
     int getAllCount();
 

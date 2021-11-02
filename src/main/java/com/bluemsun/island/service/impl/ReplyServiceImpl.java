@@ -21,4 +21,10 @@ public class ReplyServiceImpl implements ReplyService {
         operationJudCode = replyDao.insertReply(reply);
         return operationJudCode;
     }
+
+    @Override
+    public int deleteIt(int id){
+        operationJudCode = replyDao.deleteById(id);
+        return operationJudCode;
+    }
 }

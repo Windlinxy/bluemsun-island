@@ -20,6 +20,7 @@ public class RedisUtil {
 
     private static final String AUTH = "windlinxy";
     private static final JedisPool POOL;
+    private static final int KEY_EXPIRE = 3600;
 
     static {
         JedisPoolConfig config = new JedisPoolConfig();
@@ -85,9 +86,9 @@ public class RedisUtil {
     public static void setUser(int id, Object obj) {
         Jedis jedis = getJedis();
         Gson gson = new Gson();
-        String key = "user"+id;
+        String key = "users:"+id;
         jedis.set(key, gson.toJson(obj));
-        jedis.expire(key,3600);
+        jedis.expire(key,KEY_EXPIRE);
         close(jedis);
     }
 
@@ -128,7 +129,7 @@ public class RedisUtil {
      **/
     public static User getUser(int userId) {
         Gson gson = new Gson();
-        return gson.fromJson(getString("user" + userId), User.class);
+        return gson.fromJson(getString("users:" + userId), User.class);
     }
 
     /**

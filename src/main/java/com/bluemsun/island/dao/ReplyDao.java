@@ -53,4 +53,18 @@ public class ReplyDao extends SqlSessionDaoSupport {
         }
         return count;
     }
+
+    public int deleteById(int id){
+        try {
+            int rowsAffected = getMapper(ReplyMapper.class).deleteById(id);
+            if (rowsAffected == 1) {
+                operationCode = ReturnCode.OP_SUCCESS;
+            } else {
+                operationCode = ReturnCode.OP_FAILED;
+            }
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_FAILED;
+        }
+        return operationCode;
+    }
 }

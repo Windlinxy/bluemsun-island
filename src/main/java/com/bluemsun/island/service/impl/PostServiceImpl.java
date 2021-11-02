@@ -39,4 +39,10 @@ public class PostServiceImpl implements PostService {
         operationJudCode = postDao.updatePostById(post);
         return operationJudCode;
     }
+
+    @Override
+    public int deletePost(int postId) {
+        operationJudCode = postDao.deletePost(postId);
+        return operationJudCode;
+    }
 }

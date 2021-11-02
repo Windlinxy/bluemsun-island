@@ -22,4 +22,6 @@ public interface PostService {
     PostResult getPost(int postId);
 
     int changePost(Post post);
+
+    int deletePost(int postId);
 }

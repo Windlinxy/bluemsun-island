@@ -41,6 +41,21 @@ public class PostDao extends SqlSessionDaoSupport {
         return operationCode;
     }
 
+    public int deletePost(int postId){
+        try {
+            getMapper(PostMapper.class).deleteById(postId);
+            operationCode = ReturnCode.OP_SUCCESS;
+        } catch (DuplicateKeyException e) {
+            operationCode = ReturnCode.OP_FAILED;
+        } catch (Exception e) {
+            operationCode = ReturnCode.OP_UNKNOWN_ERROR;
+            throw new RuntimeException(e);
+        }
+        return operationCode;
+    }
+
+
+
     /**
      * 查找所有帖子
      *

@@ -51,14 +51,14 @@
     image_url,sec.section_name,sec.section_image_url
     </sql>
 
-    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from tb_post
         where post_id = #{postId}
     </select>
 
-    <delete id="deleteById" parameterType="java.lang.Long">
+    <delete id="deleteById" parameterType="int">
         delete
         from tb_post
         where post_id = #{postId}

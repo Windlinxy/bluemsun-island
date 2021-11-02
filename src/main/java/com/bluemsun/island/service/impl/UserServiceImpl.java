@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public boolean judUserForSectionMaster(int userId, String sectionName) {
         int jud = userForSectionDao.getUserForSectionNameCount(userId, sectionName);
         if (jud == 1) {

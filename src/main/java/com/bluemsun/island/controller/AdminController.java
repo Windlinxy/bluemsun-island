@@ -1,5 +1,6 @@
 package com.bluemsun.island.controller;
 
+import com.bluemsun.island.dto.JsonResult;
 import com.bluemsun.island.entity.Audit;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.User;
@@ -195,4 +196,15 @@ public class AdminController {
         }
         return map;
     }
+
+    @DeleteMapping("/sections/{sectionId}")
+    public JsonResult<Object> deletePosts(@PathVariable("sectionId")int sectionId){
+        jud = adminService.deleteSection(sectionId);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            return new JsonResult<>().ok();
+        } else {
+            return new JsonResult<>().fail();
+        }
+    }
+
 }
