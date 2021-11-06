@@ -18,6 +18,9 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public int addReply(Reply reply) {
+        if(reply.getReplyContent()==null){
+            return 0;
+        }
         operationJudCode = replyDao.insertReply(reply);
         return operationJudCode;
     }

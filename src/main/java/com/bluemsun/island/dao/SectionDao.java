@@ -57,7 +57,7 @@ public class SectionDao extends SqlSessionDaoSupport {
         return operationCode;
     }
 
-    public int updateSectionPostNumber(Section section) {
+    public int updateSection(Section section) {
         try {
             int rowsAffected = getMapper(SectionMapper.class).updateSelective(section);
             if (rowsAffected == 1) {
@@ -72,9 +72,14 @@ public class SectionDao extends SqlSessionDaoSupport {
         return operationCode;
     }
 
-    public int updateSectionPostNumber(int sectionId) {
+    public int updateSection(int sectionId,boolean jud) {
         try {
-            int rowsAffected = getMapper(SectionMapper.class).postNumberAdd(sectionId);
+            int rowsAffected;
+            if(jud){
+                rowsAffected = getMapper(SectionMapper.class).postNumberAdd(sectionId);
+            }else {
+                rowsAffected = getMapper(SectionMapper.class).postNumberDel(sectionId);
+            }
             if (rowsAffected == 1) {
                 operationCode = ReturnCode.OP_SUCCESS;
             } else {

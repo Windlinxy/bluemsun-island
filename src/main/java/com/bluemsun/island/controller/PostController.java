@@ -2,6 +2,7 @@ package com.bluemsun.island.controller;
 
 import com.bluemsun.island.dto.JsonResult;
 import com.bluemsun.island.dto.PostResult;
+import com.bluemsun.island.dto.UserLikePost;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Post;
 import com.bluemsun.island.enums.ReturnCode;
@@ -91,10 +92,21 @@ public class PostController {
 
     @GetMapping("/posts/{postId}")
     public Map<String, Object> getAllPosts(
-            @PathVariable("postId") int postId) {
+            @PathVariable("postId") int postId,HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(5);
         PostResult postResult = postService.getPost(postId);
         if(postResult !=null){
+            int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
+            if(userId == postResult.getUserId()){
+                map.put("master",1);
+            }else {
+                map.put("master",0);
+            }
+            if(postService.isLike(new UserLikePost(userId,postId))){
+                map.put("like",1);
+            }else {
+                map.put("like",0);
+            }
             ResponseUtil.returnSuccess(map);
             map.put("post",postResult);
         }else {
@@ -137,13 +149,51 @@ public class PostController {
 //
 //    }
 
-    @DeleteMapping("/posts/{postId}")
-    public JsonResult<Object> deletePosts(@PathVariable("postId")int postId){
-        jud = postService.deletePost(postId);
+    @DeleteMapping("/{sectionId}/posts/{postId}")
+    public JsonResult<Object> deletePosts(@PathVariable("sectionId")int sectionId,@PathVariable("postId")int postId){
+        jud = postService.deletePost(postId,sectionId);
         if (jud == ReturnCode.OP_SUCCESS) {
            return new JsonResult<>().ok();
         } else {
             return new JsonResult<>().fail();
         }
     }
+
+    @GetMapping("/posts/title/:{key}")
+    public Map<String, Object> getAllPosts(@PathVariable("key")String keyword,
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize) {
+        Map<String, Object> map = new HashMap<>(5);
+        System.out.println(currentPage + "===" + pageSize);
+        Page<PostResult> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getPosts(currentPage, pageSize,keyword);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;
+    }
+
+    @PatchMapping("/{postId}/likes/{likeSta}")
+    public Map<String,Object> userLikePost(
+            HttpServletRequest request,
+            @PathVariable("postId")int postId,
+            @PathVariable("likeSta") boolean likeJud
+    ){
+        Map<String, Object> map = new HashMap<>(5);
+        int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
+        jud = postService.userLikeIt(userId,postId,likeJud);
+        if (jud == ReturnCode.OP_SUCCESS) {
+            ResponseUtil.returnSuccess(map);
+        } else if (jud == ReturnCode.OP_FAILED) {
+            ResponseUtil.returnFailed(map);
+        } else if (jud == ReturnCode.OP_UNKNOWN_ERROR) {
+            ResponseUtil.returnUnknownError(map);
+        }
+        return map;
+    }
+
+
 }

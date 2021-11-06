@@ -45,8 +45,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="TbReply" />
-                  <option name="tableName" value="tb_reply" />
+                  <option name="className" value="TbUserLikePost" />
+                  <option name="tableName" value="tb_user_like_post" />
                 </TableUIInfo>
               </list>
             </option>

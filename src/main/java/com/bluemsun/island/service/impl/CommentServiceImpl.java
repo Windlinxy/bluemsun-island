@@ -1,6 +1,7 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.dao.CommentDao;
+import com.bluemsun.island.dao.PostDao;
 import com.bluemsun.island.entity.Comment;
 import com.bluemsun.island.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,15 @@ public class CommentServiceImpl implements CommentService {
     private int operationJudCode;
     @Autowired
     CommentDao commentDao;
+    @Autowired
+    PostDao postDao;
 
     @Override
     public int addComment(Comment comment){
         operationJudCode  =commentDao.insertComment(comment);
+        if(operationJudCode == 1){
+            postDao.postCommentNumberAdd(comment.getCommentPostId(),true);
+        }
         return operationJudCode;
     }
 

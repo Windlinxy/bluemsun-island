@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluemsun.island.dao.mapper.UserLikePostMapper">
+
+    <resultMap id="BaseResultMap" type="com.bluemsun.island.dto.UserLikePost">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="postId" column="post_id" jdbcType="INTEGER"/>
+            <result property="focusTime" column="focus_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,post_id,
+        focus_time
+    </sql>
+
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user_like_post
+        where  id = #{id}
+    </select>
+
+    <select id="getCountByUserIdAndPostId" resultType="java.lang.Integer">
+        select COUNT(*)
+        from tb_user_like_post
+        where  user_id = #{userId} and post_id = #{postId}
+    </select>
+
+    <delete id="deleteByUserIdAndPostId" parameterType="int">
+        delete from tb_user_like_post
+        where  user_id = #{userId} and post_id = #{postId}
+    </delete>
+
+    <insert id="insert"  parameterType="com.bluemsun.island.dto.UserLikePost">
+        insert into tb_user_like_post
+        ( user_id,post_id)
+        values (#{userId},#{postId})
+    </insert>
+</mapper>

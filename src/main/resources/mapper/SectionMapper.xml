@@ -72,6 +72,12 @@
         where section_id = #{sectionId};
     </update>
 
+    <update id="postNumberDel" parameterType="int">
+        update tb_section
+        set post_number = post_number -1
+        where section_id = #{sectionId};
+    </update>
+
     <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -110,15 +116,8 @@
         select
         <include refid="Base_Column_List"/>
         from tb_section
-        where LOCATE (#{sectionName},section_name) > 0 and section_status = 0
+        where LOCATE (#{sectionName},section_name) > 0
         order by section_id desc
-        limit #{startIndex},#{pageSize};
-    </select>
-
-    <select id="selectByUser" parameterType="int" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_section
         limit #{startIndex},#{pageSize};
     </select>
 
@@ -127,4 +126,11 @@
         from tb_section
         where LOCATE(#{sectionName}, section_name) > 0
     </select>
+
+    <select id="selectByUser" parameterType="int" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_section
+    limit #{startIndex},#{pageSize};
+</select>
 </mapper>

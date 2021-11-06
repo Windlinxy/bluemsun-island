@@ -24,6 +24,8 @@ public interface SectionMapper {
 
     int postNumberAdd(int sectionId);
 
+    int postNumberDel(int sectionId);
+
     List<Section> selectAll(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 
     int getAllCount();

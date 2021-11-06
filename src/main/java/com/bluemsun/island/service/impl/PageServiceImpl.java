@@ -81,6 +81,21 @@ public class PageServiceImpl implements PageService {
         return page;
     }
 
+    @Override
+    public Page<PostResult> getPosts(int curPage, int pageSize, String keyword) {
+        Page<PostResult> page;
+        int totalResult;
+        if (keyword == null || keyword.isEmpty()) {
+            totalResult = postDao.getAllPostsCount();
+            page = new Page<>(curPage, pageSize, totalResult);
+            page.setList(postDao.queryPosts(page.getStartIndex(), pageSize));
+        } else {
+            totalResult = postDao.getPostCountByTitle(keyword);
+            page = new Page<>(curPage, pageSize, totalResult);
+            page.setList(postDao.queryPostByName(page.getStartIndex(), pageSize, keyword));
+        }
+        return page;
+    }
 
     @Override
     public Page<Section> getSections(int curPage, int pageSize, String sectionName) {

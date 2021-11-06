@@ -58,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int changeSectionStatus(int sectionId, int status){
         Section section = new Section(sectionId,status);
-        operationJudCode = sectionDao.updateSectionPostNumber(section);
+        operationJudCode = sectionDao.updateSection(section);
         return operationJudCode;
     }
 

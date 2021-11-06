@@ -46,6 +46,7 @@ public interface PageService {
      * @return Page<Section>
      * @date 0:29 2021/10/24
      **/
+    Page<PostResult> getPosts(int curPage, int pageSize, String keyword);
 
     Page<Section> getHotSections(int curPage, int pageSize);
 

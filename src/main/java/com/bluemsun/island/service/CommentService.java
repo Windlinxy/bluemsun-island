@@ -10,5 +10,6 @@ import com.bluemsun.island.entity.Comment;
  **/
 public interface CommentService {
     int addComment(Comment comment);
+
     int deleteIt(int id);
 }

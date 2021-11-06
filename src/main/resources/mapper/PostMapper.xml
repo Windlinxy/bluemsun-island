@@ -51,9 +51,9 @@
     image_url,sec.section_name,sec.section_image_url
     </sql>
 
-    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+    <select id="selectById" parameterType="int" resultMap="PostResultMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Post_Column_List"/>
         from tb_post
         where post_id = #{postId}
     </select>
@@ -141,8 +141,7 @@
         </set>
         where post_id = #{postId}
     </update>
-
-
+    
     <update id="updateById" parameterType="Post">
         update tb_post
         set post_date      = #{postDate},
@@ -155,6 +154,30 @@
             comment_number = #{commentNumber},
             like_number    = #{likeNumber},
             section_id     = #{sectionId}
+        where post_id = #{postId}
+    </update>
+
+    <update id="commentNumberAdd" parameterType="int">
+        update tb_post
+        set comment_number = comment_number + 1
+        where post_id = #{postId}
+    </update>
+
+    <update id="commentNumberDel" parameterType="int">
+        update tb_post
+        set comment_number = comment_number - 1
+        where post_id = #{postId}
+    </update>
+
+    <update id="likeNumberAdd" parameterType="int">
+        update tb_post
+        set like_number = like_number + 1
+        where post_id = #{postId}
+    </update>
+
+    <update id="likeNumberDel" parameterType="int">
+        update tb_post
+        set like_number = like_number - 1
         where post_id = #{postId}
     </update>
 
@@ -220,5 +243,19 @@
         limit #{startIndex},#{pageSize};
     </select>
 
+    <select id="selectByPostTitle" resultMap="PostResultMap">
+        select
+        <include refid="Post_Column_List"/>
+        from tb_post
+        where LOCATE (#{postTitle},title) > 0
+        order by post_id desc
+        limit #{startIndex},#{pageSize};
+    </select>
+
+    <select id="getCountByPostTitle" parameterType="string" resultType="java.lang.Integer">
+        select COUNT(*)
+        from tb_post
+        where LOCATE(#{postTitle}, title) > 0
+    </select>
 
 </mapper>

@@ -49,7 +49,7 @@ public class UserController {
             user.setPassword(null);
             user.setPhoneNumber(null);
             return new JsonResult<User>().ok(user);
-        } else{
+        } else {
             return new JsonResult<User>().fail();
         }
     }
@@ -98,12 +98,12 @@ public class UserController {
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
-        projectServerPath = projectServerPath.replace("bluemsun_island/","");
+        //projectServerPath = projectServerPath.replace("bluemsun_island/", "");
         jud = userService.changeImageUrl(request.getHeader("Authorization"), projectServerPath);
-        if(jud==ReturnCode.OP_SUCCESS){
+        if (jud == ReturnCode.OP_SUCCESS) {
             map.put("status", ReturnCode.SUCCESS.getCode());
             map.put("imageUrl", projectServerPath);
-        }else {
+        } else {
             ResponseUtil.returnFailed(map);
         }
         return map;
@@ -112,8 +112,8 @@ public class UserController {
     /**
      * 获取用户信息
      *
-     * @date 19:25 2021/10/23
      * @param request 请求
+     * @date 19:25 2021/10/23
      **/
     @GetMapping("/user")
     public Map<String, Object> getUserInfo(HttpServletRequest request) {

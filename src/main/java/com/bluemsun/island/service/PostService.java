@@ -1,6 +1,7 @@
 package com.bluemsun.island.service;
 
 import com.bluemsun.island.dto.PostResult;
+import com.bluemsun.island.dto.UserLikePost;
 import com.bluemsun.island.entity.Post;
 
 /**
@@ -23,5 +24,11 @@ public interface PostService {
 
     int changePost(Post post);
 
-    int deletePost(int postId);
+    int deletePost(int postId,int sectionId);
+
+    void testTime();
+
+    int userLikeIt(int userId,int postId,boolean jud);
+
+    boolean isLike(UserLikePost it);
 }

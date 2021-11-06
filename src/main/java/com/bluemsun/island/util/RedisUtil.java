@@ -6,8 +6,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.util.Set;
-
 /**
  * redis工具类
  *
@@ -56,13 +54,6 @@ public class RedisUtil {
         }
     }
 
-    public static void test() {
-        Jedis jedis = getJedis();
-        jedis.set("addr", "北京");
-        System.out.println(jedis.get("addr"));
-        close(jedis);
-    }
-
     /**
      * 设置键值对
      *
@@ -103,7 +94,32 @@ public class RedisUtil {
         Jedis jedis = getJedis();
         Gson gson = new Gson();
         jedis.set(key, gson.toJson(obj));
+        jedis.expire(key,KEY_EXPIRE);
         close(jedis);
+    }
+
+    public static <T> T getObject(String key, Class<T> cls){
+        Jedis jedis = getJedis();
+        Gson gson = new Gson();
+        close(jedis);
+        return gson.fromJson(jedis.get(key),cls);
+    }
+
+    public static void setObject(int id, Object obj) {
+        String key = obj.getClass().getSimpleName() +":"+id;
+        Jedis jedis = getJedis();
+        Gson gson = new Gson();
+        jedis.set(key, gson.toJson(obj));
+        jedis.expire(key,KEY_EXPIRE);
+        close(jedis);
+    }
+
+    public static <T> T getObject(int id, Class<T> cls){
+        String key = cls.getSimpleName()+":"+id;
+        Jedis jedis = getJedis();
+        Gson gson = new Gson();
+        close(jedis);
+        return gson.fromJson(jedis.get(key),cls);
     }
 
     /**
@@ -129,34 +145,20 @@ public class RedisUtil {
      **/
     public static User getUser(int userId) {
         Gson gson = new Gson();
-        return gson.fromJson(getString("users:" + userId), User.class);
+        return  gson.fromJson(getString("users:" + userId), User.class);
     }
 
-    /**
-     * 添加集合（无序）
-     *
-     * @param key     集合名
-     * @param members 成员（多个）
-     * @return long
-     * @date 19:07 2021/10/15
-     **/
-    public static long addSet(String key, String... members) {
+    public static void pfAdd(String key,String ...members){
         Jedis jedis = getJedis();
-        long reply = jedis.sadd(key, members);
+        jedis.pfadd(key,members);
         close(jedis);
-        return reply;
     }
 
-    /**
-     * @param key 获得有序集合成员
-     * @return java.lang.String
-     * @date 19:05 2021/10/15
-     **/
-    public static String getZ(String key) {
+    public static int pfCount(String key){
         Jedis jedis = getJedis();
-        Set<String> set = jedis.smembers(key);
+        int count = (int)jedis.pfcount(key);
         close(jedis);
-        return set.toString();
+        return count;
     }
 }
 

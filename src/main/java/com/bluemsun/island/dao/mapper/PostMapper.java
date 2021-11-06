@@ -26,7 +26,15 @@ public interface PostMapper {
 
     int updateById(Post record);
 
-    Post selectById(long id);
+    int commentNumberAdd(int postId);
+
+    int commentNumberDel(int postId);
+
+    int likeNumberAdd(int postId);
+
+    int likeNumberDel(int postId);
+
+    PostResult selectById(long id);
 
     int getAllCount();
 
@@ -42,4 +50,7 @@ public interface PostMapper {
 
     List<PostResult> selectAllHot(@Param("startIndex") int startIndex, @Param("pageSize")int pageSize);
 
+    List<PostResult> selectByPostTitle(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("postTitle") String postTitle);
+
+    int getCountByPostTitle(String postTitle);
 }

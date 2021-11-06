@@ -63,8 +63,8 @@ public class FileServiceImpl implements FileService {
         System.out.println("存储永久路径：" + permanentFileParts);
 
         try {
-            //file.transferTo(new File(fileParts));
-            file.transferTo(new File(permanentFileParts));
+            file.transferTo(new File(fileParts));
+            //file.transferTo(new File(permanentFileParts));
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException();

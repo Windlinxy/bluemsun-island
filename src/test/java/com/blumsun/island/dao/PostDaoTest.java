@@ -17,6 +17,6 @@ public class PostDaoTest {
     public void testGetOne(){
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/application.xml");
         PostDao postDao = context.getBean("postDao", PostDao.class);
-        System.out.println(postDao.queryPostById(1));
+        System.out.println(postDao.searchPostById(1));
     }
 }
