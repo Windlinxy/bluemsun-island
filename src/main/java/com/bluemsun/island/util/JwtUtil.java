@@ -20,7 +20,7 @@ public class JwtUtil {
     /**
      * 密钥
      */
-    private static final String SECRET = "asurplus_secret";
+    private static final String SECRET = "windlin";
 
     /**
      * 过期时间（单位：秒）

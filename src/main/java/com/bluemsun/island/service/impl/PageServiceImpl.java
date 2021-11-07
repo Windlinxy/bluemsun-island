@@ -32,6 +32,8 @@ public class PageServiceImpl implements PageService {
     private CommentDao commentDao;
     @Autowired
     private ReplyDao replyDao;
+    @Autowired
+    private UserForSectionDao userForSectionDao;
 
     @Override
     public Page<User> getUsers(int curPage, int pageSize, String name) {
@@ -150,5 +152,13 @@ public class PageServiceImpl implements PageService {
         return page;
     }
 
-
+    @Override
+    public Page<Section> getMasterSections(int curPage, int pageSize, int userId){
+        int totalResult = userForSectionDao.getUsersCount(userId);
+        Page<Section> page = new Page<>(curPage, pageSize, totalResult);
+        List<Section> list;
+        list = userForSectionDao.getSections(page.getStartIndex(),pageSize,userId);
+        page.setList(list);
+        return page;
+    }
 }

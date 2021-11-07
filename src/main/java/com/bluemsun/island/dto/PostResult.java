@@ -11,7 +11,7 @@ import java.util.Date;
  * @author: Windlinxy
  * @create: 2021-10-24 21:29
  **/
-public class PostResult {
+public class PostResult{
     private int postId;
 
     /**

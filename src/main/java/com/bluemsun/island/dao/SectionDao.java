@@ -76,15 +76,11 @@ public class SectionDao extends SqlSessionDaoSupport {
         try {
             int rowsAffected;
             if(jud){
-                rowsAffected = getMapper(SectionMapper.class).postNumberAdd(sectionId);
+                getMapper(SectionMapper.class).postNumberAdd(sectionId);
             }else {
-                rowsAffected = getMapper(SectionMapper.class).postNumberDel(sectionId);
+                getMapper(SectionMapper.class).postNumberDel(sectionId);
             }
-            if (rowsAffected == 1) {
-                operationCode = ReturnCode.OP_SUCCESS;
-            } else {
-                operationCode = ReturnCode.OP_FAILED;
-            }
+            operationCode=ReturnCode.OP_SUCCESS;
         } catch (Exception e) {
             operationCode = ReturnCode.OP_FAILED;
             throw new RuntimeException(e);

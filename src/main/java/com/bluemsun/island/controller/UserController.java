@@ -44,6 +44,7 @@ public class UserController {
      **/
     @PostMapping(value = "/users", consumes = "application/json")
     public JsonResult<User> register(@RequestBody User user) {
+        user.setImageUrl("http://windlinxy.top:8080/images/test.jpg");
         jud = userService.addUser(user);
         if (jud == ReturnCode.OP_SUCCESS) {
             user.setPassword(null);

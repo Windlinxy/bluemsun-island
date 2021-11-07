@@ -2,9 +2,12 @@ package com.bluemsun.island.dao;
 
 import com.bluemsun.island.dao.mapper.MasterForSectionMapper;
 import com.bluemsun.island.dto.MasterForSection;
+import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.enums.ReturnCode;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.dao.DuplicateKeyException;
+
+import java.util.List;
 
 /**
  * @program: BulemsunIsland
@@ -37,7 +40,7 @@ public class UserForSectionDao extends SqlSessionDaoSupport {
     }
 
     public int getUserForSectionNameCount(int userId, String sectionName) {
-        int count=0;
+        int count;
         try {
             count = getMapper(MasterForSectionMapper.class).selectByUserIdForSectionName(new MasterForSection(userId, sectionName));
         } catch (Exception e) {
@@ -46,4 +49,23 @@ public class UserForSectionDao extends SqlSessionDaoSupport {
         return count;
     }
 
+    public int getUsersCount(int userId) {
+        int count;
+        try {
+            count = getMapper(MasterForSectionMapper.class).getCountbyUserId(userId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
+    public List<Section> getSections(int startIndex, int pageSize,int userId){
+        List<Section> list;
+        try {
+            list = getMapper(MasterForSectionMapper.class).selectByUserId(startIndex, pageSize, userId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
 }

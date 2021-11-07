@@ -71,4 +71,14 @@ public class CommentDao extends SqlSessionDaoSupport {
         }
         return operationCode;
     }
+
+    public Comment searchComment(int id){
+        Comment comment;
+        try {
+            comment = getMapper(CommentMapper.class).selectById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return comment;
+    }
 }

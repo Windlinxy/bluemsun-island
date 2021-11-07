@@ -94,9 +94,9 @@ public class PostController {
     public Map<String, Object> getAllPosts(
             @PathVariable("postId") int postId,HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(5);
-        PostResult postResult = postService.getPost(postId);
+        int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
+        PostResult postResult = postService.getPost(postId,userId);
         if(postResult !=null){
-            int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
             if(userId == postResult.getUserId()){
                 map.put("master",1);
             }else {
@@ -152,7 +152,9 @@ public class PostController {
     @DeleteMapping("/{sectionId}/posts/{postId}")
     public JsonResult<Object> deletePosts(@PathVariable("sectionId")int sectionId,@PathVariable("postId")int postId){
         jud = postService.deletePost(postId,sectionId);
+        System.out.println("==========="+jud+"====================================\n\n");
         if (jud == ReturnCode.OP_SUCCESS) {
+
            return new JsonResult<>().ok();
         } else {
             return new JsonResult<>().fail();

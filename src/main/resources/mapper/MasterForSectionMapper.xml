@@ -10,22 +10,42 @@
             <result property="masterSectionName" column="master_section_name" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="SectionResultMap" type="com.bluemsun.island.entity.Section">
+        <id property="sectionId" column="section_id" jdbcType="INTEGER"/>
+        <result property="sectionName" column="section_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="sectionStatus" column="section_status" jdbcType="INTEGER"/>
+        <result property="focusNumber" column="focus_number" jdbcType="INTEGER"/>
+        <result property="postNumber" column="post_number" jdbcType="INTEGER"/>
+        <result property="imageUrl" column="section_image_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,master_id,master_section_id
     </sql>
 
-    <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from tb_master_for_section
-        where  master_id = #{masterId}
-    </select>
 
     <select id="selectByUserIdForSectionName" parameterType="com.bluemsun.island.dto.MasterForSection" resultType="int">
         select
         COUNT(*)
         from tb_master_for_section
         where  master_id = #{masterId} and master_section_name = #{masterSectionName}
+    </select>
+
+    <select id="getCountbyUserId" resultType="int">
+        select COUNT(*)
+        from tb_master_for_section tmfs
+        INNER JOIN tb_section  on tmfs.master_section_name = tb_section.section_name
+        where tmfs.master_id = #{id}
+    </select>
+
+    <select id="selectByUserId" resultMap="SectionResultMap">
+        select *
+        from tb_master_for_section tmfs
+                 INNER JOIN tb_section  on tmfs.master_section_name = tb_section.section_name
+        where tmfs.master_id = #{id}
+        limit #{startIndex},#{pageSize};
     </select>
 
     <delete id="deleteByUserId" parameterType="int">

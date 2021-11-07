@@ -2,9 +2,9 @@ package com.bluemsun.island.util;
 
 import com.bluemsun.island.entity.User;
 import com.google.gson.Gson;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.*;
+
+import java.util.List;
 
 /**
  * redis工具类
@@ -159,6 +159,22 @@ public class RedisUtil {
         int count = (int)jedis.pfcount(key);
         close(jedis);
         return count;
+    }
+
+    public static List<String> scanPost(){
+        Jedis jedis = getJedis();
+        ScanParams scanParams = new ScanParams();
+        scanParams.match("PostResult:*");
+        ScanResult<String> result = jedis.scan("0",scanParams);
+        List<String> postKeys = result.getResult();
+        close(jedis);
+        return postKeys;
+    }
+
+    public void expire(String key,int time){
+        Jedis jedis = getJedis();
+        jedis.expire(key,time);
+        close(jedis);
     }
 }
 

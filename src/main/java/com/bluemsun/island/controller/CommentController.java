@@ -42,7 +42,6 @@ public class CommentController {
         int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
         comment.setCommentUserId(userId);
         comment.setCommentPostId(postId);
-        System.out.println(comment);
         jud = commentService.addComment(comment);
         if (jud == ReturnCode.OP_SUCCESS) {
             return new JsonResult<Comment>().ok(comment);
@@ -119,4 +118,6 @@ public class CommentController {
             return new JsonResult<>().fail();
         }
     }
+
+
 }

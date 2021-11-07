@@ -10,6 +10,8 @@ import com.bluemsun.island.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.List;
+
 /**
  * @program: BulemsunIsland
  * @description: 帖子服务接口实现类
@@ -34,17 +36,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResult getPost(int postId) {
+    public PostResult getPost(int postId,int userId) {
+        PostResult postResult;
         PostResult postInCache = RedisUtil.getObject(postId, PostResult.class);
         if (postInCache != null) {
-            return postInCache;
+            RedisUtil.pfAdd("PostAccess:"+postId,userId+"");
+            postInCache.setAccessNumber(RedisUtil.pfCount("PostAccess:"+postId));
+            RedisUtil.setObject(postId,postInCache);
+            postResult = postInCache;
         } else {
             PostResult postInDatabase = postDao.searchPostById(postId);
             if (postInDatabase != null) {
-                RedisUtil.setObject(postId, postInDatabase);
+                RedisUtil.pfAdd("PostAccess:"+postId,userId+"");
+                postInDatabase.setAccessNumber(RedisUtil.pfCount("PostAccess:"+postId));
+                RedisUtil.setObject(postId,postInDatabase);
             }
-            return postInDatabase;
+             postResult = postInDatabase;
         }
+        return postResult;
     }
 
     @Override
@@ -57,17 +66,26 @@ public class PostServiceImpl implements PostService {
     @Override
     public int deletePost(int postId, int sectionId) {
         operationJudCode = postDao.deletePost(postId, sectionId);
+        System.out.println(operationJudCode+"====================================\n\n");
         if (operationJudCode == 1) {
-            operationJudCode = sectionDao.updateSection(postId, false);
+           sectionDao.updateSection(postId, false);
         }
         return operationJudCode;
     }
 
-    @Override
+
     @Scheduled(cron = "0 */1 * * * ? ")
-    public void testTime() {
-        System.out.println(1);
+    public void updateAccessNumberInDatabaseFromCache(){
+        List<String> postKeys = RedisUtil.scanPost();
+        for (String postKey : postKeys) {
+            PostResult postInCache = RedisUtil.getObject(postKey, PostResult.class);
+            Post post = new Post();
+            post.setPostId(postInCache.getPostId());
+            post.setAccessNumber(RedisUtil.pfCount("PostAccess:"+post.getPostId()));
+            postDao.updatePostById(post);
+        }
     }
+
 
     @Override
     public int userLikeIt(int userId, int postId, boolean jud) {
@@ -75,10 +93,10 @@ public class PostServiceImpl implements PostService {
         if (jud) {
             if (!isLike(userLikePost)) {
                 operationJudCode = postDao.insertLikePost(userLikePost);
-                PostResult postInCache = RedisUtil.getObject("PostResult:" + postId, PostResult.class);
+                PostResult postInCache = RedisUtil.getObject(postId, PostResult.class);
                 if (postInCache != null) {
                     postInCache.setLikeNumber(postInCache.getLikeNumber() + 1);
-                    RedisUtil.setObject("PostResult:" + postId, postInCache);
+                    RedisUtil.setObject(postId, postInCache);
                 }
             } else {
                 return 0;
@@ -86,10 +104,10 @@ public class PostServiceImpl implements PostService {
         } else {
             if (isLike(userLikePost)) {
                 operationJudCode = postDao.deletePostLike(userLikePost);
-                PostResult postInCache = RedisUtil.getObject("PostResult:" + postId, PostResult.class);
+                PostResult postInCache = RedisUtil.getObject(postId, PostResult.class);
                 if (postInCache != null) {
                     postInCache.setLikeNumber(postInCache.getLikeNumber() - 1);
-                    RedisUtil.setObject("PostResult:" + postId, postInCache);
+                    RedisUtil.setObject(postId, postInCache);
                 }
             } else {
                 return 0;

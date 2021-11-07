@@ -20,13 +20,12 @@ public interface PostService {
      **/
     int addPost(Post post);
 
-    PostResult getPost(int postId);
+    PostResult getPost(int postId,int userId);
 
     int changePost(Post post);
 
     int deletePost(int postId,int sectionId);
 
-    void testTime();
 
     int userLikeIt(int userId,int postId,boolean jud);
 

@@ -218,5 +218,20 @@ public class SectionController {
         return map;
     }
 
-
+    @GetMapping("/master_sections")
+    public Map<String,Object> getMySection(
+            @RequestParam("cur") int currentPage,
+            @RequestParam("size") int pageSize,
+            HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>(5);
+        int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
+        Page<Section> page;
+        if (currentPage < 1 || pageSize < 1) {
+            ResponseUtil.returnFailed(map);
+        } else {
+            page = pageService.getMasterSections(currentPage, pageSize, userId);
+            ResponseUtil.returnSuccess(map);
+            map.put("page", page);
+        }
+        return map;    }
 }

@@ -74,6 +74,8 @@ public class Post {
         this.status = status;
     }
 
+
+
     public int getPostId() {
         return postId;
     }

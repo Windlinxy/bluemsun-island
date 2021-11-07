@@ -58,4 +58,6 @@ public interface PageService {
 
     Page<ReplyResult> getReplies(int curPage, int pageSize, int commentId);
 
+    Page<Section> getMasterSections(int curPage, int pageSize,int userId);
+
 }
