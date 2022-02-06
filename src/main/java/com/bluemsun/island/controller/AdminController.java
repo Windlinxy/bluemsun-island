@@ -9,9 +9,9 @@ import com.bluemsun.island.service.AdminService;
 import com.bluemsun.island.service.AuditService;
 import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.util.ResponseUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,12 +27,15 @@ import java.util.Map;
 )
 public class AdminController {
     private int jud = 0;
-    @Autowired
+    @Resource
     private PageService pageService;
-    @Autowired
+    @Resource
     private AdminService adminService;
-    @Autowired
+    @Resource
     private AuditService auditService;
+
+    public AdminController() {
+    }
 
     /**
      * 获取用户列表

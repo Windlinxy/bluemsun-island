@@ -27,19 +27,44 @@ import java.util.Map;
 @RequestMapping(produces = "application/json")
 public class SectionController {
     private int jud;
-    @Autowired
+
     private SectionService sectionService;
-    @Autowired
+
     private FileService fileService;
-    @Autowired
+
     private PageService pageService;
-    @Autowired
+
     private AuditService auditService;
-    @Autowired
+    
     private UserService userService;
 
+    @Autowired
+    public void setSectionService(SectionService sectionService) {
+        this.sectionService = sectionService;
+    }
+
+    @Autowired
+    public void setFileService(FileService fileService) {
+        this.fileService = fileService;
+    }
+
+    @Autowired
+    public void setPageService(PageService pageService) {
+        this.pageService = pageService;
+    }
+
+    @Autowired
+    public void setAuditService(AuditService auditService) {
+        this.auditService = auditService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     /**
-     *上传版图
+     * 上传版图
      **/
     @PostMapping(value = "/sections/portraits", consumes = "multipart/form-data")
     public Map<String, Object> uploadHeadPortrait(
@@ -53,7 +78,7 @@ public class SectionController {
         String projectServerPath = request.getScheme() + "://" + request.getServerName() + ":"
                 + request.getServerPort() + request.getContextPath() + "/" + folderString + "/"
                 + filename;
-        projectServerPath = projectServerPath.replace("bluemsun_island/","");
+        projectServerPath = projectServerPath.replace("bluemsun_island/", "");
         ResponseUtil.returnSuccess(map);
         map.put("imageUrl", projectServerPath);
         return map;
@@ -75,7 +100,7 @@ public class SectionController {
     }
 
     /**
-     *申请成为版主
+     * 申请成为版主
      **/
     @PostMapping(value = "/sections/audit", consumes = "application/json")
     public Map<String, Object> beSectionMaster(
@@ -99,7 +124,7 @@ public class SectionController {
     }
 
     /**
-     *获取所有板块
+     * 获取所有板块
      **/
     @GetMapping("/sections")
     public Map<String, Object> getAllSections(
@@ -110,7 +135,7 @@ public class SectionController {
         if (currentPage < 1 || pageSize < 1) {
             ResponseUtil.returnFailed(map);
         } else {
-            page = pageService.getSections(currentPage, pageSize,null);
+            page = pageService.getSections(currentPage, pageSize, null);
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
@@ -118,7 +143,7 @@ public class SectionController {
     }
 
     /**
-     *热门板块
+     * 热门板块
      **/
     @GetMapping("/hotsections")
     public Map<String, Object> getAllHotSections(
@@ -137,17 +162,17 @@ public class SectionController {
     }
 
     /**
-     *  id获取板块
+     * id获取板块
      **/
     @GetMapping("/sections/:{secId}")
-    public Map<String, Object> getSection(HttpServletRequest request,@PathVariable("secId") int sectionId) {
+    public Map<String, Object> getSection(HttpServletRequest request, @PathVariable("secId") int sectionId) {
         Map<String, Object> map = new HashMap<>(7);
         Section section = sectionService.getSection(sectionId);
         if (section != null) {
-            if(userService.judUserForSectionMaster(JwtUtil.getUserId(request.getHeader("Authorization")),section.getSectionName())){
-                map.put("master",1);
-            }else {
-                map.put("master",0);
+            if (userService.judUserForSectionMaster(JwtUtil.getUserId(request.getHeader("Authorization")), section.getSectionName())) {
+                map.put("master", 1);
+            } else {
+                map.put("master", 0);
             }
             ResponseUtil.returnSuccess(map);
             map.put("section", section);
@@ -158,7 +183,7 @@ public class SectionController {
     }
 
     /**
-     *板块帖子
+     * 板块帖子
      **/
     @GetMapping("/sections/:{secId}/posts")
     public Map<String, Object> getPostInSection(
@@ -178,7 +203,7 @@ public class SectionController {
     }
 
     /**
-     *  板块内热门帖
+     * 板块内热门帖
      **/
     @GetMapping("/sections/:{secId}/hotposts")
     public Map<String, Object> getHotPostInSection(
@@ -198,7 +223,7 @@ public class SectionController {
     }
 
     /**
-     *搜索板块
+     * 搜索板块
      **/
     @GetMapping("/sections/{name}")
     public Map<String, Object> sectionList(
@@ -219,11 +244,11 @@ public class SectionController {
     }
 
     @GetMapping("/master_sections")
-    public Map<String,Object> getMySection(
+    public Map<String, Object> getMySection(
             @RequestParam("cur") int currentPage,
             @RequestParam("size") int pageSize,
-            HttpServletRequest request){
-        Map<String,Object> map = new HashMap<>(5);
+            HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>(5);
         int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
         Page<Section> page;
         if (currentPage < 1 || pageSize < 1) {
@@ -233,5 +258,6 @@ public class SectionController {
             ResponseUtil.returnSuccess(map);
             map.put("page", page);
         }
-        return map;    }
+        return map;
+    }
 }

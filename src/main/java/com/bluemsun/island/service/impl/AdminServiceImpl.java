@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService {
     private UserDao userDao;
     @Autowired
     private SectionDao sectionDao;
-@Override
+    @Override
     public int deleteUser(int userId){
         operationJudCode =  userDao.deleteUserById(userId);
         return operationJudCode;

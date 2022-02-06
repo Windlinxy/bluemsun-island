@@ -4,7 +4,10 @@ import org.junit.Test;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * @program: BulemsunIsland
@@ -25,6 +28,7 @@ public class ExtraTest {
         String test = "D:\\TomCat\\apache-tomcat-8.5.59\\webapps\\bluemsun_island\\images\\3a9e5ab9-bb1f.png";
         System.out.println(test.replace("\\bluemsun_island", ""));
         System.out.println();
+        ScheduledThreadPoolExecutor
     }
 
     @Test
@@ -53,9 +57,8 @@ public class ExtraTest {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        System.out.println(sdf.format(new Date())+"*********A任务每10秒执行一次进入测试");
+        List<Object> arrayList = new ArrayList<>();
     }
+
 }
 

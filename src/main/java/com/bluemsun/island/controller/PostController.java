@@ -11,10 +11,10 @@ import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.service.PostService;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.ResponseUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,11 +29,11 @@ import java.util.Map;
 @RequestMapping(produces = "application/json")
 public class PostController {
     private int jud = 0;
-    @Autowired
+    @Resource
     private FileService fileService;
-    @Autowired
+    @Resource
     private PostService postService;
-    @Autowired
+    @Resource
     private PageService pageService;
 
     @PostMapping(value = "/post/images", consumes = "multipart/form-data")

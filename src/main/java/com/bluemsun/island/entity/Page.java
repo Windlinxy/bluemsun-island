@@ -1,5 +1,7 @@
 package com.bluemsun.island.entity;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * @author: Windlinxy
  * @create: 2021-10-21 21:50
  **/
+@Data
 public class Page<T> {
     private String keyword;
     private int currentPage;
@@ -32,73 +35,5 @@ public class Page<T> {
         }
         //计算起始页号，（当前页号-1）*页面大小
         this.startIndex = currentPage * pageSize - pageSize;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public int getStartIndex() {
-        return startIndex;
-    }
-
-    public void setStartIndex(int startIndex) {
-        this.startIndex = startIndex;
-    }
-
-    public int getTotalRecord() {
-        return totalRecord;
-    }
-
-    public void setTotalRecord(int totalRecord) {
-        this.totalRecord = totalRecord;
-    }
-
-    public List<T> getList() {
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    @Override
-    public String toString() {
-        return "Page{" +
-                "currentPage=" + currentPage +
-                ", pageSize=" + pageSize +
-                ", totalRecord=" + totalRecord +
-                ", list=" + list +
-                ", totalPage=" + totalPage +
-                ", startIndex=" + startIndex +
-                '}';
     }
 }

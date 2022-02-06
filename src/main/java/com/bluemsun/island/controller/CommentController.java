@@ -12,9 +12,9 @@ import com.bluemsun.island.service.PageService;
 import com.bluemsun.island.service.ReplyService;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.ResponseUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,11 +29,11 @@ import java.util.Map;
 @RequestMapping(produces = "application/json")
 public class CommentController {
     private int jud = 0;
-    @Autowired
+    @Resource
     private CommentService commentService;
-    @Autowired
+    @Resource
     private PageService pageService;
-    @Autowired
+    @Resource
     private ReplyService replyService;
 
     @PostMapping("/:{postId}/comments")

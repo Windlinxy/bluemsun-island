@@ -1,6 +1,7 @@
 package com.bluemsun.island.dto;
 
 import com.bluemsun.island.entity.Section;
+import lombok.Data;
 
 /**
  * @program: BulemsunIsland
@@ -8,6 +9,7 @@ import com.bluemsun.island.entity.Section;
  * @author: Windlinxy
  * @create: 2021-10-25 10:03
  **/
+@Data
 public class ApplyForSectionMaster {
     private int userId;
     private Section section;
@@ -18,29 +20,5 @@ public class ApplyForSectionMaster {
     }
 
     public ApplyForSectionMaster() {
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public Section getSection() {
-        return section;
-    }
-
-    public void setSection(Section section) {
-        this.section = section;
-    }
-
-    @Override
-    public String toString() {
-        return "ApplyForSectionMaster{" +
-                "userId=" + userId +
-                ", section=" + section +
-                '}';
     }
 }
