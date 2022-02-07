@@ -17,7 +17,7 @@ public class RedisUtilTest {
     @Test
     public void testRedisSetObject() {
         RedisUtil.setObject(1, new Post(1, 2));
-        //System.out.println(RedisUtil.getObject("post:2",Post.class));
+        System.out.println(RedisUtil.getObject("post:2",Post.class));
     }
 
     @Test

@@ -2,7 +2,11 @@ package com.bluemsun.island.util;
 
 import com.bluemsun.island.entity.User;
 import com.google.gson.Gson;
-import redis.clients.jedis.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.params.ScanParams;
+import redis.clients.jedis.resps.ScanResult;
 
 import java.util.List;
 
@@ -26,8 +30,6 @@ public class RedisUtil {
         config.setMaxTotal(1024);
         //最大空闲实例数
         config.setMaxIdle(200);
-        //等连接池给连接的最大时间，毫秒，设成-1表示永远不超时
-        config.setMaxWaitMillis(10000);
         //borrow一个实例的时候，是否提前进行validate操作
         config.setTestOnBorrow(true);
 
