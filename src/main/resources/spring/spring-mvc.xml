@@ -82,8 +82,6 @@
         <property name="maxUploadSize" value="-1"/><!-- 最大文件，-1不限制 -->
     </bean>
 
-    <bean id="jsonResult" class="com.bluemsun.island.dto.JsonResult" />
-
     <bean id="userDao" class="com.bluemsun.island.dao.UserDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
@@ -114,13 +112,13 @@
     </bean>
 
 
-    <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl" lazy-init="true"/>
-    <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl" lazy-init="true"/>
-    <bean id="adminService" class="com.bluemsun.island.service.impl.AdminServiceImpl" lazy-init="true"/>
-    <bean id="pageService" class="com.bluemsun.island.service.impl.PageServiceImpl" lazy-init="true"/>
-    <bean id="replyService" class="com.bluemsun.island.service.impl.ReplyServiceImpl" lazy-init="true"/>
-    <bean id="commentService" class="com.bluemsun.island.service.impl.CommentServiceImpl" lazy-init="true"/>
-    <bean id="postService" class="com.bluemsun.island.service.impl.PostServiceImpl" lazy-init="true"/>
-    <bean id="sectionService" class="com.bluemsun.island.service.impl.SectionServiceImpl" lazy-init="true"/>
-    <bean id="auditService" class="com.bluemsun.island.service.impl.AuditServiceImpl" lazy-init="true"/>
+    <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl" />
+    <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl" />
+    <bean id="adminService" class="com.bluemsun.island.service.impl.AdminServiceImpl" />
+    <bean id="pageService" class="com.bluemsun.island.service.impl.PageServiceImpl" />
+    <bean id="replyService" class="com.bluemsun.island.service.impl.ReplyServiceImpl" />
+    <bean id="commentService" class="com.bluemsun.island.service.impl.CommentServiceImpl" />
+    <bean id="postService" class="com.bluemsun.island.service.impl.PostServiceImpl" />
+    <bean id="sectionService" class="com.bluemsun.island.service.impl.SectionServiceImpl" />
+    <bean id="auditService" class="com.bluemsun.island.service.impl.AuditServiceImpl"/>
 </beans>

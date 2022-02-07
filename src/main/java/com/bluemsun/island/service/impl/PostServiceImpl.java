@@ -74,6 +74,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
+    @Override
     @Scheduled(cron = "0 */1 * * * ? ")
     public void updateAccessNumberInDatabaseFromCache(){
         List<String> postKeys = RedisUtil.scanPost();

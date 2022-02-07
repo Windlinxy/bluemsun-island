@@ -12,14 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @create: 2021-10-23 19:52
  **/
 public class SectionServiceImpl implements SectionService{
-    private int operationJudCode;
     @Autowired
     private SectionDao sectionDao;
 
     @Override
     public int addSection(Section section){
-        operationJudCode = sectionDao.insertSection(section);
-        return operationJudCode;
+        return sectionDao.insertSection(section);
     }
 
     @Override

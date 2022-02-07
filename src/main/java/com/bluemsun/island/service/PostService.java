@@ -30,4 +30,6 @@ public interface PostService {
     int userLikeIt(int userId,int postId,boolean jud);
 
     boolean isLike(UserLikePost it);
+
+    void updateAccessNumberInDatabaseFromCache();
 }

@@ -1,6 +1,7 @@
 package com.bluemsun.island.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class LogCut {
-    @Pointcut("execution(* com.bluemsun.island.service..*.*(..))")
+    @Pointcut("execution(* com.bluemsun.island.service.impl.*.*(..))")
     public void cut() {}
+
+    @Before(value = "cut()")
+    public void beforeInvoke() {
+        System.out.println("============");
+    }
 }

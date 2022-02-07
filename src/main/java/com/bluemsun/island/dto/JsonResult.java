@@ -1,6 +1,8 @@
 package com.bluemsun.island.dto;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
+
 /**
  * @program: BulemsunIsland
  * @description: json返回
@@ -8,6 +10,7 @@ import lombok.Data;
  * @create: 2021-10-25 09:18
  **/
 @Data
+@Component
 public class JsonResult<T> {
 
 
