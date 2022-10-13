@@ -152,9 +152,7 @@ public class PostController {
     @DeleteMapping("/{sectionId}/posts/{postId}")
     public JsonResult<Object> deletePosts(@PathVariable("sectionId")int sectionId,@PathVariable("postId")int postId){
         jud = postService.deletePost(postId,sectionId);
-        System.out.println("==========="+jud+"====================================\n\n");
         if (jud == ReturnCode.OP_SUCCESS) {
-
            return new JsonResult<>().ok();
         } else {
             return new JsonResult<>().fail();
@@ -186,7 +184,7 @@ public class PostController {
     ){
         Map<String, Object> map = new HashMap<>(5);
         int userId = JwtUtil.getUserId(request.getHeader("Authorization"));
-        jud = postService.userLikeIt(userId,postId,likeJud);
+        jud = postService.userLikeItTx(userId,postId,likeJud);
         if (jud == ReturnCode.OP_SUCCESS) {
             ResponseUtil.returnSuccess(map);
         } else if (jud == ReturnCode.OP_FAILED) {

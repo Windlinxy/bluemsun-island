@@ -1,7 +1,8 @@
-package com.bluemsun.island.dao.mapper;
+package com.bluemsun.island.mapper;
 
 import com.bluemsun.island.dto.ReplyResult;
 import com.bluemsun.island.entity.Reply;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * @Entity generator.domain.TbReply
  */
+@Mapper
 public interface ReplyMapper {
 
     int deleteById(int id);

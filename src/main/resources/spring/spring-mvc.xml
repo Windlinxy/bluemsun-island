@@ -3,33 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-
-
-    <!-- 自动扫描包 -->
-    <context:component-scan base-package="com.bluemsun.island"/>
-
-    <!-- 配置Thymeleaf视图解析器 -->
-    <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
-        <property name="order" value="1"/>
-        <property name="characterEncoding" value="UTF-8"/>
-        <property name="templateEngine">
-            <bean class="org.thymeleaf.spring5.SpringTemplateEngine">
-                <property name="templateResolver">
-                    <bean class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
-
-                        <!-- 视图前缀 -->
-                        <property name="prefix" value="html/"/>
-
-                        <!-- 视图后缀 -->
-                        <property name="suffix" value=".html"/>
-                        <property name="templateMode" value="HTML5"/>
-                        <property name="characterEncoding" value="UTF-8"/>
-                    </bean>
-                </property>
-            </bean>
-        </property>
-    </bean>
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!--
        处理静态资源，例如html、js、css、jpg
@@ -37,6 +16,7 @@
       此时必须设置<mvc:annotation-driven/>解决问题
      -->
     <mvc:default-servlet-handler/>
+    <context:component-scan base-package="com.bluemsun.island.controller"/>
 
     <!-- 开启mvc注解驱动 -->
     <mvc:annotation-driven>
@@ -63,16 +43,38 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <!-- 配置Thymeleaf视图解析器 -->
+    <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="order" value="1"/>
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="templateEngine">
+            <bean class="org.thymeleaf.spring5.SpringTemplateEngine">
+                <property name="templateResolver">
+                    <bean class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+
+                        <!-- 视图前缀 -->
+                        <property name="prefix" value="html/"/>
+
+                        <!-- 视图后缀 -->
+                        <property name="suffix" value=".html"/>
+                        <property name="templateMode" value="HTML5"/>
+                        <property name="characterEncoding" value="UTF-8" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <!-- 配置拦截器 -->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <!-- mvc:exclude-mapping是另外一种拦截，它可以在你后来的测试中对某个页面进行不拦截，这样就不用在
-                LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) -->
-            <!--            <mvc:exclude-mapping path="/" />-->
-            <bean class="com.bluemsun.island.interceptor.AuthInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            <mvc:mapping path="/**"/>-->
+<!--            &lt;!&ndash; mvc:exclude-mapping是另外一种拦截，它可以在你后来的测试中对某个页面进行不拦截，这样就不用在-->
+<!--                LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) &ndash;&gt;-->
+<!--            &lt;!&ndash;            <mvc:exclude-mapping path="/" />&ndash;&gt;-->
+<!--            <bean class="com.bluemsun.island.interceptor.AuthInterceptor"/>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
 
     <!-- 文件上传 -->
     <bean id="multipartResolver"
@@ -81,36 +83,6 @@
         <property name="maxInMemorySize" value="102400"/><!-- 最大内存 10M -->
         <property name="maxUploadSize" value="-1"/><!-- 最大文件，-1不限制 -->
     </bean>
-
-    <bean id="userDao" class="com.bluemsun.island.dao.UserDao">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
-
-    <bean id="postDao" class="com.bluemsun.island.dao.PostDao">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
-    <bean id="sectionDao" class="com.bluemsun.island.dao.SectionDao">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
-    <bean id="auditDao" class="com.bluemsun.island.dao.AuditDao">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
-    <bean id="userForSectionDao" class="com.bluemsun.island.dao.UserForSectionDao">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
-    <bean id="commentDao" class="com.bluemsun.island.dao.CommentDao">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
-    <bean id="replyDao" class="com.bluemsun.island.dao.ReplyDao">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
-    </bean>
-
 
     <bean id="userService" class="com.bluemsun.island.service.impl.UserServiceImpl" />
     <bean id="fileService" class="com.bluemsun.island.service.impl.FileServiceImpl" />

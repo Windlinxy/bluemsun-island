@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bluemsun.island.dao.mapper.MasterForSectionMapper">
+<mapper namespace="com.bluemsun.island.mapper.MasterForSectionMapper">
 
     <resultMap id="BaseResultMap" type="com.bluemsun.island.dto.MasterForSection">
             <id property="id" column="id" jdbcType="INTEGER"/>

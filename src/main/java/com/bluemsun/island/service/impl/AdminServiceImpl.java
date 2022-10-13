@@ -1,12 +1,13 @@
 package com.bluemsun.island.service.impl;
 
-import com.bluemsun.island.dao.SectionDao;
-import com.bluemsun.island.dao.UserDao;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
+import com.bluemsun.island.mapper.SectionMapper;
+import com.bluemsun.island.mapper.UserMapper;
 import com.bluemsun.island.service.AdminService;
 import com.bluemsun.island.util.RedisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.Resource;
 
 /**
  * @program: BulemsunIsland
@@ -14,41 +15,42 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author: Windlinxy
  * @create: 2021-10-21 21:40
  **/
+
 public class AdminServiceImpl implements AdminService {
     private int operationJudCode = 0;
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private SectionDao sectionDao;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private SectionMapper sectionMapper;
+
     @Override
-    public int deleteUser(int userId){
-        operationJudCode =  userDao.deleteUserById(userId);
+    public int deleteUser(int userId) {
+        operationJudCode = userMapper.deleteById(userId);
         return operationJudCode;
     }
 
 
-
     @Override
-    public int changeUserStatus(int id,int status) {
+    public int changeUserStatus(int id, int status) {
         User user = new User();
         user.setId(id);
         user.setStatus(status);
-        operationJudCode = userDao.updateUser(user);
+        operationJudCode = userMapper.updateOneSelective(user);
         return operationJudCode;
     }
 
     @Override
-    public User getUserInfo(int userId){
+    public User getUserInfo(int userId) {
         User userAfter;
         User userInCache = RedisUtil.getUser(userId);
-        if(userInCache!=null){
+        if (userInCache != null) {
             userAfter = userInCache;
-        }else {
-            User userInDatabase = userDao.queryOneUser(userId);
-            if(userInDatabase != null){
+        } else {
+            User userInDatabase = userMapper.selectOneById(userId);
+            if (userInDatabase != null) {
                 userAfter = userInDatabase;
-                RedisUtil.setUser(userId,userInDatabase);
-            }else {
+                RedisUtil.setUser(userId, userInDatabase);
+            } else {
                 userAfter = null;
             }
         }
@@ -56,16 +58,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int changeSectionStatus(int sectionId, int status){
-        Section section = new Section(sectionId,status);
-        operationJudCode = sectionDao.updateSection(section);
+    public int changeSectionStatus(int sectionId, int status) {
+        Section section = new Section(sectionId, status);
+        operationJudCode = sectionMapper.updateSelective(section);
         return operationJudCode;
     }
 
 
     @Override
-    public int deleteSection(int sectionId){
-        operationJudCode = sectionDao.deleteById(sectionId);
+    public int deleteSection(int sectionId) {
+        operationJudCode = sectionMapper.deleteById(sectionId);
         return operationJudCode;
     }
 }

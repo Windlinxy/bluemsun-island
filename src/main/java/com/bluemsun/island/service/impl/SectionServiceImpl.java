@@ -1,9 +1,10 @@
 package com.bluemsun.island.service.impl;
 
-import com.bluemsun.island.dao.SectionDao;
 import com.bluemsun.island.entity.Section;
+import com.bluemsun.island.mapper.SectionMapper;
 import com.bluemsun.island.service.SectionService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.Resource;
 
 /**
  * @program: BulemsunIsland
@@ -11,21 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author: Windlinxy
  * @create: 2021-10-23 19:52
  **/
-public class SectionServiceImpl implements SectionService{
-    @Autowired
-    private SectionDao sectionDao;
+
+public class SectionServiceImpl implements SectionService {
+    @Resource
+    private SectionMapper sectionMapper;
 
     @Override
-    public int addSection(Section section){
-        return sectionDao.insertSection(section);
+    public int addSection(Section section) {
+        return sectionMapper.insert(section);
     }
 
     @Override
-    public Section getSection(int id){
-        Section section = sectionDao.queryOneById(id);
-        if(section ==null){
+    public Section getSection(int id) {
+        Section section = sectionMapper.selectOneById(id);
+        if (section == null) {
             return null;
-        }else {
+        } else {
             return section;
         }
     }

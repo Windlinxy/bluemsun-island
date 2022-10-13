@@ -1,7 +1,8 @@
-package com.bluemsun.island.dao.mapper;
+package com.bluemsun.island.mapper;
 
 import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.entity.Post;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author: Windlinxy
  * @create: 2021-10-21 21:23
  **/
+@Mapper
 public interface PostMapper {
 
     int deleteById(int id);

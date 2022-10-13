@@ -1,15 +1,17 @@
 package com.bluemsun.island.service.impl;
 
-import com.bluemsun.island.dao.PostDao;
-import com.bluemsun.island.dao.SectionDao;
 import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.dto.UserLikePost;
 import com.bluemsun.island.entity.Post;
+import com.bluemsun.island.enums.ReturnCode;
+import com.bluemsun.island.mapper.PostMapper;
+import com.bluemsun.island.mapper.SectionMapper;
+import com.bluemsun.island.mapper.UserLikePostMapper;
 import com.bluemsun.island.service.PostService;
 import com.bluemsun.island.util.RedisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,82 +20,82 @@ import java.util.List;
  * @author: Windlinxy
  * @create: 2021-10-22 18:33
  **/
+
 public class PostServiceImpl implements PostService {
-    private int operationJudCode = 0;
-    @Autowired
-    private PostDao postDao;
-    @Autowired
-    private SectionDao sectionDao;
+    @Resource
+    private PostMapper postMapper;
+    @Resource
+    private SectionMapper sectionMapper;
+    @Resource
+    private UserLikePostMapper userLikePostMapper;
 
     @Override
     public int addPost(Post post) {
         System.out.println(post);
-        operationJudCode = postDao.insertPost(post);
-        if (operationJudCode == 1) {
-            operationJudCode = sectionDao.updateSection(post.getSectionId(), true);
+        if (postMapper.insert(post) == 1) {
+            sectionMapper.postNumberAdd(post.getSectionId());
         }
-        return operationJudCode;
+        return ReturnCode.OP_SUCCESS;
     }
 
     @Override
-    public PostResult getPost(int postId,int userId) {
+    public PostResult getPost(int postId, int userId) {
         PostResult postResult;
         PostResult postInCache = RedisUtil.getObject(postId, PostResult.class);
         if (postInCache != null) {
-            RedisUtil.pfAdd("PostAccess:"+postId,userId+"");
-            postInCache.setAccessNumber(RedisUtil.pfCount("PostAccess:"+postId));
-            RedisUtil.setObject(postId,postInCache);
+            RedisUtil.pfAdd("PostAccess:" + postId, userId + "");
+            postInCache.setAccessNumber(RedisUtil.pfCount("PostAccess:" + postId));
+            RedisUtil.setObject(postId, postInCache);
             postResult = postInCache;
         } else {
-            PostResult postInDatabase = postDao.searchPostById(postId);
+            PostResult postInDatabase = postMapper.selectOneById(postId);
             if (postInDatabase != null) {
-                RedisUtil.pfAdd("PostAccess:"+postId,userId+"");
-                postInDatabase.setAccessNumber(RedisUtil.pfCount("PostAccess:"+postId));
-                RedisUtil.setObject(postId,postInDatabase);
+                RedisUtil.pfAdd("PostAccess:" + postId, userId + "");
+                postInDatabase.setAccessNumber(RedisUtil.pfCount("PostAccess:" + postId));
+                RedisUtil.setObject(postId, postInDatabase);
             }
-             postResult = postInDatabase;
+            postResult = postInDatabase;
         }
         return postResult;
     }
 
     @Override
     public int changePost(Post post) {
-        operationJudCode = postDao.updatePostById(post);
-        return operationJudCode;
+        postMapper.updateByIdSelective(post);
+        return ReturnCode.OP_SUCCESS;
     }
 
 
     @Override
     public int deletePost(int postId, int sectionId) {
-        operationJudCode = postDao.deletePost(postId, sectionId);
-        System.out.println(operationJudCode+"====================================\n\n");
-        if (operationJudCode == 1) {
-           sectionDao.updateSection(postId, false);
+        if (postMapper.deleteById(postId) == 1 && sectionMapper.postNumberDel(sectionId) == 1) {
+            sectionMapper.postNumberDel(sectionId);
         }
-        return operationJudCode;
+        return ReturnCode.OP_SUCCESS;
     }
 
 
     @Override
     @Scheduled(cron = "0 */1 * * * ? ")
-    public void updateAccessNumberInDatabaseFromCache(){
+    public void updateAccessNumberInDatabaseFromCache() {
         List<String> postKeys = RedisUtil.scanPost();
         for (String postKey : postKeys) {
             PostResult postInCache = RedisUtil.getObject(postKey, PostResult.class);
             Post post = new Post();
             post.setPostId(postInCache.getPostId());
-            post.setAccessNumber(RedisUtil.pfCount("PostAccess:"+post.getPostId()));
-            postDao.updatePostById(post);
+            post.setAccessNumber(RedisUtil.pfCount("PostAccess:" + post.getPostId()));
+            postMapper.updateByIdSelective(post);
         }
     }
 
 
     @Override
-    public int userLikeIt(int userId, int postId, boolean jud) {
+    public int userLikeItTx(int userId, int postId, boolean jud) {
         UserLikePost userLikePost = new UserLikePost(userId, postId);
         if (jud) {
             if (!isLike(userLikePost)) {
-                operationJudCode = postDao.insertLikePost(userLikePost);
+                userLikePostMapper.insert(userLikePost);
+                postMapper.likeNumberAdd(userLikePost.getPostId());
                 PostResult postInCache = RedisUtil.getObject(postId, PostResult.class);
                 if (postInCache != null) {
                     postInCache.setLikeNumber(postInCache.getLikeNumber() + 1);
@@ -104,7 +106,8 @@ public class PostServiceImpl implements PostService {
             }
         } else {
             if (isLike(userLikePost)) {
-                operationJudCode = postDao.deletePostLike(userLikePost);
+                userLikePostMapper.deleteByUserIdAndPostId(userLikePost);
+                postMapper.likeNumberDel(userLikePost.getPostId());
                 PostResult postInCache = RedisUtil.getObject(postId, PostResult.class);
                 if (postInCache != null) {
                     postInCache.setLikeNumber(postInCache.getLikeNumber() - 1);
@@ -114,12 +117,12 @@ public class PostServiceImpl implements PostService {
                 return 0;
             }
         }
-        return operationJudCode;
+        return ReturnCode.OP_SUCCESS;
     }
 
     @Override
     public boolean isLike(UserLikePost it) {
-        return postDao.searchLikePost(it);
+        return 1 == userLikePostMapper.getCountByUserIdAndPostId(it);
     }
 
 }

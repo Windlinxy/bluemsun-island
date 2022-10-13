@@ -1,6 +1,7 @@
-package com.bluemsun.island.dao.mapper;
+package com.bluemsun.island.mapper;
 
 import com.bluemsun.island.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author: Windlinxy
  * @create: 2021-10-09 17:23
  **/
+@Mapper
 public interface UserMapper {
     /**
      * 插入用户

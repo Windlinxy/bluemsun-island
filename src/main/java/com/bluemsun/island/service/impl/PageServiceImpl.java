@@ -1,6 +1,5 @@
 package com.bluemsun.island.service.impl;
 
-import com.bluemsun.island.dao.*;
 import com.bluemsun.island.dto.CommentResult;
 import com.bluemsun.island.dto.PostResult;
 import com.bluemsun.island.dto.ReplyResult;
@@ -8,9 +7,10 @@ import com.bluemsun.island.entity.Audit;
 import com.bluemsun.island.entity.Page;
 import com.bluemsun.island.entity.Section;
 import com.bluemsun.island.entity.User;
+import com.bluemsun.island.mapper.*;
 import com.bluemsun.island.service.PageService;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,51 +19,52 @@ import java.util.List;
  * @author: Windlinxy
  * @create: 2021-10-21 21:43
  **/
+
 public class PageServiceImpl implements PageService {
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private PostDao postDao;
-    @Autowired
-    private SectionDao sectionDao;
-    @Autowired
-    private AuditDao auditDao;
-    @Autowired
-    private CommentDao commentDao;
-    @Autowired
-    private ReplyDao replyDao;
-    @Autowired
-    private UserForSectionDao userForSectionDao;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private PostMapper postMapper;
+    @Resource
+    private SectionMapper sectionMapper;
+    @Resource
+    private AuditMapper auditMapper;
+    @Resource
+    private CommentMapper commentMapper;
+    @Resource
+    private ReplyMapper replyMapper;
+    @Resource
+    private MasterForSectionMapper masterForSectionMapper;
 
     @Override
     public Page<User> getUsers(int curPage, int pageSize, String name) {
         Page<User> page;
         int totalResult;
         if (name == null || name.isEmpty()) {
-            totalResult = userDao.getAllUsersCount();
+            totalResult = userMapper.getAllCount();
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(userDao.queryAllUsers(page.getStartIndex(), pageSize));
+            page.setList(userMapper.selectAll(page.getStartIndex(), pageSize));
         } else {
-            totalResult = userDao.getUsersCountByName(name);
+            totalResult = userMapper.getCountByUserName(name);
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(userDao.queryUsersByName(page.getStartIndex(), pageSize, name));
+            page.setList(userMapper.selectByUserName(page.getStartIndex(), pageSize, name));
         }
         return page;
     }
 
     @Override
     public Page<PostResult> getPosts(int curPage, int pageSize) {
-        int totalResult = postDao.getAllPostsCount();
+        int totalResult = postMapper.getAllCount();
         Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(postDao.queryPosts(page.getStartIndex(), pageSize));
+        page.setList(postMapper.selectAll(page.getStartIndex(), pageSize));
         return page;
     }
 
     @Override
     public Page<PostResult> getPosts(int curPage, int pageSize, int sectionId) {
-        int totalResult = postDao.getPostsBySectionIdCount(sectionId);
+        int totalResult = postMapper.getAllCountBySectionId(sectionId);
         Page<PostResult> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(postDao.queryPosts(page.getStartIndex(), pageSize, sectionId));
+        page.setList(postMapper.selectAllBySectionIdDate(page.getStartIndex(), pageSize, sectionId));
         return page;
     }
 
@@ -72,13 +73,13 @@ public class PageServiceImpl implements PageService {
         Page<PostResult> page;
         int totalResult;
         if (sectionId != 0) {
-            totalResult = postDao.getAllPostsCount();
+            totalResult = postMapper.getAllCount();
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(postDao.queryHotPosts(page.getStartIndex(), pageSize, sectionId));
+            page.setList(postMapper.selectAllBySectionIdHot(page.getStartIndex(), pageSize, sectionId));
         } else {
-            totalResult = postDao.getAllPostsCount();
+            totalResult = postMapper.getAllCount();
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(postDao.queryHotPosts(page.getStartIndex(), pageSize));
+            page.setList(postMapper.selectAllHot(page.getStartIndex(), pageSize));
         }
         return page;
     }
@@ -88,13 +89,13 @@ public class PageServiceImpl implements PageService {
         Page<PostResult> page;
         int totalResult;
         if (keyword == null || keyword.isEmpty()) {
-            totalResult = postDao.getAllPostsCount();
+            totalResult = postMapper.getAllCount();
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(postDao.queryPosts(page.getStartIndex(), pageSize));
+            page.setList(postMapper.selectAll(page.getStartIndex(), pageSize));
         } else {
-            totalResult = postDao.getPostCountByTitle(keyword);
+            totalResult = postMapper.getCountByPostTitle(keyword);
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(postDao.queryPostByName(page.getStartIndex(), pageSize, keyword));
+            page.setList(postMapper.selectByPostTitle(page.getStartIndex(), pageSize, keyword));
         }
         return page;
     }
@@ -104,60 +105,60 @@ public class PageServiceImpl implements PageService {
         Page<Section> page;
         int totalResult;
         if (sectionName == null || sectionName.isEmpty()) {
-            totalResult = sectionDao.getAllSectionsCount();
+            totalResult = sectionMapper.getAllCount();
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(sectionDao.queryAllSections(page.getStartIndex(), pageSize));
+            page.setList(sectionMapper.selectAll(page.getStartIndex(), pageSize));
 
         } else {
-            totalResult = sectionDao.getSectionCountByName(sectionName);
+            totalResult = sectionMapper.getCountBySectionName(sectionName);
             page = new Page<>(curPage, pageSize, totalResult);
-            page.setList(sectionDao.querySectionsByName(page.getStartIndex(), pageSize, sectionName));
+            page.setList(sectionMapper.selectBySectionName(page.getStartIndex(), pageSize, sectionName));
         }
         return page;
     }
 
     @Override
     public Page<Section> getHotSections(int curPage, int pageSize) {
-        int totalResult = sectionDao.getAllSectionsCount();
+        int totalResult = sectionMapper.getAllCount();
         Page<Section> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(sectionDao.queryAllHotSections(page.getStartIndex(), pageSize));
+        page.setList(sectionMapper.selectAllHot(page.getStartIndex(), pageSize));
         return page;
     }
 
     @Override
     public Page<Audit> getAudits(int curPage, int pageSize) {
-        int totalResult = auditDao.getAllAuditsCount();
+        int totalResult = auditMapper.getAllCount();
         Page<Audit> page = new Page<>(curPage, pageSize, totalResult);
-        page.setList(auditDao.queryAllAudits(page.getStartIndex(), pageSize));
+        page.setList(auditMapper.selectAll(page.getStartIndex(), pageSize));
         return page;
     }
 
     @Override
     public Page<CommentResult> getComments(int curPage, int pageSize, int postId) {
-        int totalResult = commentDao.getAllByPostIdCount(postId);
+        int totalResult = commentMapper.getCountByPostIdCount(postId);
         Page<CommentResult> page = new Page<>(curPage, pageSize, totalResult);
         List<CommentResult> list;
-        list = commentDao.queryAllByPostId(page.getStartIndex(),pageSize,postId);
+        list = commentMapper.selectByPostId(page.getStartIndex(), pageSize, postId);
         page.setList(list);
         return page;
     }
 
     @Override
     public Page<ReplyResult> getReplies(int curPage, int pageSize, int commentId) {
-        int totalResult = replyDao.getAllByCommentIdCount(commentId);
+        int totalResult = replyMapper.getCountByCommentIdCount(commentId);
         Page<ReplyResult> page = new Page<>(curPage, pageSize, totalResult);
         List<ReplyResult> list;
-        list = replyDao.queryAllByCommentId(page.getStartIndex(),pageSize,commentId);
+        list = replyMapper.selectByCommentId(page.getStartIndex(), pageSize, commentId);
         page.setList(list);
         return page;
     }
 
     @Override
-    public Page<Section> getMasterSections(int curPage, int pageSize, int userId){
-        int totalResult = userForSectionDao.getUsersCount(userId);
+    public Page<Section> getMasterSections(int curPage, int pageSize, int userId) {
+        int totalResult = masterForSectionMapper.getCountbyUserId(userId);
         Page<Section> page = new Page<>(curPage, pageSize, totalResult);
         List<Section> list;
-        list = userForSectionDao.getSections(page.getStartIndex(),pageSize,userId);
+        list = masterForSectionMapper.selectByUserId(page.getStartIndex(), pageSize, userId);
         page.setList(list);
         return page;
     }

@@ -1,10 +1,11 @@
-package com.bluemsun.island.dao.mapper;
+package com.bluemsun.island.mapper;
 
 import com.bluemsun.island.entity.Section;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
+@Mapper
 public interface SectionMapper {
 
     int deleteById(int id);

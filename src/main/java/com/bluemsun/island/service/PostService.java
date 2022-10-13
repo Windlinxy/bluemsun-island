@@ -27,7 +27,7 @@ public interface PostService {
     int deletePost(int postId,int sectionId);
 
 
-    int userLikeIt(int userId,int postId,boolean jud);
+    int userLikeItTx(int userId, int postId, boolean jud);
 
     boolean isLike(UserLikePost it);
 

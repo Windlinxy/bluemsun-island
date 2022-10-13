@@ -2,10 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       https://www.springframework.org/schema/context/spring-context.xsd">
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
     <context:property-placeholder location="classpath:jdbc-druid-config.properties"/>
 
     <!-- 数据源 -->
@@ -56,12 +63,34 @@
     </bean>
 
 
-
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--注入SqlSessionFactory-->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出需要扫描的Dao接口-->
-        <property name="basePackage" value="com.bluemsun.island.dao"/>
+        <property name="basePackage" value="com.bluemsun.island.mapper"/>
     </bean>
+
+
+    <!-- spring提供的事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/><!--事务管理和操作都是对同一数据源-->
+    </bean>
+
+    <!-- 事务配合AOP使用 -->
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <!-- method相当于一个过滤器，对被切中的所有方法中,只有以Tx结尾的方法才开启事务回滚功能 -->
+            <tx:method name="*Tx"/>
+            <tx:method name="*Post*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 事务通知spring已经写好（异常回滚） -->
+    <aop:config><!-- 所有业务层的方法都被这个事务通知通知到 -->
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.bluemsun.island.service.impl.*.service.impl.*.*(..))"/>
+    </aop:config>
+
+    <!--开启事务注解-->
+    <tx:annotation-driven/>
 
 </beans>

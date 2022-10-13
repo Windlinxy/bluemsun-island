@@ -37,10 +37,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         //boolean judRole = "/users".equals(uri)&&
         if (jud) {
             return true;
-
         //进行拦截，true放行，false则为未登录
         } else if (!JwtUtil.verify(token)) {
-
             returnCode(ReturnCode.ERROR_NO_LOGIN, response);
             return false;
         } else {

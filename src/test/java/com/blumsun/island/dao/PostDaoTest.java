@@ -1,10 +1,5 @@
 package com.blumsun.island.dao;
 
-import com.bluemsun.island.dao.PostDao;
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 /**
  * @program: BulemsunIsland
  * @description: postDao测试类
@@ -13,10 +8,4 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  **/
 public class PostDaoTest {
 
-    @Test
-    public void testGetOne(){
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/application.xml");
-        PostDao postDao = context.getBean("postDao", PostDao.class);
-        System.out.println(postDao.searchPostById(1));
-    }
 }

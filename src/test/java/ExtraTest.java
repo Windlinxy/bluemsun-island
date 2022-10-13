@@ -1,5 +1,6 @@
 import com.bluemsun.island.util.RedisUtil;
 import org.junit.Test;
+import org.python.util.PythonInterpreter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -58,6 +59,10 @@ public class ExtraTest {
         List<Object> arrayList = new ArrayList<>();
     }
 
-
+    @Test
+    public void javaForPy() {
+        PythonInterpreter interpreter = new PythonInterpreter();
+        interpreter.execfile("src/test/resources/SGD.py");
+    }
 }
 

@@ -1,13 +1,14 @@
 package com.bluemsun.island.service.impl;
 
-import com.bluemsun.island.dao.UserDao;
-import com.bluemsun.island.dao.UserForSectionDao;
+import com.bluemsun.island.dto.MasterForSection;
 import com.bluemsun.island.entity.User;
+import com.bluemsun.island.mapper.MasterForSectionMapper;
+import com.bluemsun.island.mapper.UserMapper;
 import com.bluemsun.island.service.UserService;
 import com.bluemsun.island.util.JwtUtil;
 import com.bluemsun.island.util.RedisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Field;
 
 /**
@@ -18,23 +19,24 @@ import java.lang.reflect.Field;
  * @author: Windlinxy
  * @create: 2021-10-05 11:32
  **/
+
 public class UserServiceImpl implements UserService {
     private int operationJudCode = 0;
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private UserForSectionDao userForSectionDao;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private MasterForSectionMapper masterForSectionMapper;
 
     @Override
     public int addUser(User user) {
-        operationJudCode = userDao.insertUser(user);
+        operationJudCode = userMapper.insert(user);
         return operationJudCode;
     }
 
     @Override
     public User isUser(User user) {
         User userInDatabase;
-        userInDatabase = userDao.queryOneUser(user);
+        userInDatabase = userMapper.selectOneByPhoneNumberAndPassword(user);
         if (userInDatabase != null) {
             //将用户信息写进缓存
             RedisUtil.setUser(userInDatabase.getId(), userInDatabase);
@@ -51,7 +53,7 @@ public class UserServiceImpl implements UserService {
         User userInCache = RedisUtil.getUser(id);
         userInCache.setImageUrl(imageUrl);
         RedisUtil.setUser(id, userInCache);
-        operationJudCode = userDao.updateImageUrl(userInCache);
+        operationJudCode = userMapper.updateImageUrl(userInCache);
         return operationJudCode;
     }
 
@@ -63,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User changeUser(int id, User user) {
         user.setId(id);
-        operationJudCode = userDao.updateUser(user);
+        operationJudCode = userMapper.updateOneSelective(user);
         User userInCache = RedisUtil.getUser(id);
         if (operationJudCode == 1 && user.getStatus() == 0) {
 
@@ -90,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean judUserForSectionMaster(int userId, String sectionName) {
-        int jud = userForSectionDao.getUserForSectionNameCount(userId, sectionName);
+        int jud = masterForSectionMapper.selectByUserIdForSectionName(new MasterForSection(userId, sectionName));
         return jud == 1;
     }
 

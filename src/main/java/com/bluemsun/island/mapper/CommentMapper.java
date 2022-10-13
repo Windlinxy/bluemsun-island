@@ -1,11 +1,12 @@
-package com.bluemsun.island.dao.mapper;
+package com.bluemsun.island.mapper;
 
 import com.bluemsun.island.dto.CommentResult;
 import com.bluemsun.island.entity.Comment;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
+@Mapper
 public interface CommentMapper {
 
     Comment selectById(int id);
