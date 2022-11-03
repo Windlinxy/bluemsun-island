@@ -1,6 +1,7 @@
 package com.bluemsun.island.service.impl;
 
 import com.bluemsun.island.service.FileService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * @author: Windlinxy
  * @create: 2021-10-20 17:44
  **/
-
+@Slf4j
 public class FileServiceImpl implements FileService {
     @Override
     public String fileStore(MultipartFile file, String serverPath) {
@@ -42,10 +43,10 @@ public class FileServiceImpl implements FileService {
         // 随机的生成uuid，作为文件名的一部分。 加上刚才获取到的后缀作为最终文件名。
         String uuid = UUID.randomUUID() + "";
         String filename = uuid.substring(0, 13) + suffix;
-        System.out.println("-------------------------------------");
-        System.out.println("文件名： " + filename);
-        System.out.println("文件绝对路径： " + serverPath);
-        System.out.println("______________________________________");
+//        System.out.println("-------------------------------------");
+//        System.out.println("文件名： " + filename);
+//        System.out.println("文件绝对路径： " + serverPath);
+//        System.out.println("______________________________________");
 
         //处理windows与linux路径'\''/'问题
         if (serverPath.contains(separator)) {
@@ -60,8 +61,9 @@ public class FileServiceImpl implements FileService {
         } else {
             permanentFileParts = "";
         }
-        System.out.println("存储路径：" + fileParts);
+        System.out.println();
         System.out.println("存储永久路径：" + permanentFileParts);
+        log.info("存储路径：" + fileParts);
 
         try {
             //file.transferTo(new File(fileParts));
